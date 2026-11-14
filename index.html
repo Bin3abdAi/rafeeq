@@ -74,7 +74,7 @@ label{display:block;font-weight:700;margin:16px 0 6px}
 .modal .msg{font-size:1.5em;font-weight:800;margin:10px 0 18px}
 .show{position:fixed;inset:0;background:#fff;z-index:60;display:none;flex-direction:column;justify-content:center;padding:24px;text-align:center}
 .show.on{display:flex}
-.show .t{font-size:2.3em;font-weight:800;line-height:1.4;direction:ltr}
+.show .t{font-size:2.3em;font-weight:800;line-height:1.5;direction:ltr;font-family:'Tajawal','Noto Sans Thai',system-ui,sans-serif}
 .show .s{font-size:1.1em;color:#555;margin-top:20px}
 .gear{display:block;margin:28px auto 0;background:transparent;color:#777;font-size:.85em;text-decoration:underline}
 .small{font-size:.85em;color:#555}
@@ -117,8 +117,8 @@ label{display:block;font-weight:700;margin:16px 0 6px}
 <section id="translate" class="screen">
   <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">المترجم</h2></div>
   <div class="row">
+    <button class="pill" id="langTh" onclick="setTarget('th')">🇹🇭 تايلندي</button>
     <button class="pill" id="langEn" onclick="setTarget('en')">🇬🇧 إنجليزي</button>
-    <button class="pill" id="langTl" onclick="setTarget('tl')">🇵🇭 فلبيني</button>
   </div>
   <button class="mic" id="meMic" style="background:var(--green);min-height:150px;margin-top:10px" onclick="micTap('me')"><span class="ic">🗣️</span><span class="lb">أنا أتكلّم (عربي)</span></button>
   <button class="mic" id="themMic" style="background:var(--blue);min-height:150px;margin-top:14px" onclick="micTap('them')"><span class="ic">👂</span><span class="lb">هو يتكلّم</span></button>
@@ -201,7 +201,7 @@ label{display:block;font-weight:700;margin:16px 0 6px}
   <input id="sAsst" placeholder="رفيقك">
 
   <label>معلومات تساعد المساعد (اختياري)</label>
-  <textarea id="sAbout" rows="3" placeholder="مثلاً: مسافر للفلبين، يحب التاريخ، ما يحب المشي الطويل، ساكن في فندق ..."></textarea>
+  <textarea id="sAbout" rows="3" placeholder="مثلاً: مسافر لبانكوك، يحب التاريخ، ما يحب المشي الطويل، ساكن في فندق ..."></textarea>
 
   <label>صوت المساعد</label>
   <select id="sVoice">
@@ -274,7 +274,7 @@ const S = {
   get(k,d){try{const v=localStorage.getItem('rf_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
   set(k,v){try{localStorage.setItem('rf_'+k,JSON.stringify(v))}catch(e){}}
 };
-let cfg = Object.assign({key:'',name:'',asst:'رفيقك',about:'',voice:'onyx',reciter:'ar.alafasy',method:'auto',city:'Jeddah',country:'SA',fs:1.1,target:'en'}, S.get('cfg',{}));
+let cfg = Object.assign({key:'',name:'',asst:'رفيقك',about:'',voice:'onyx',reciter:'ar.alafasy',method:'auto',city:'Jeddah',country:'SA',fs:1.1,target:'th'}, S.get('cfg',{}));
 let meds = S.get('meds', []);   // [{name, times:['08:00'], note}]
 const $ = id => document.getElementById(id);
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -319,7 +319,7 @@ function playBuffer(ab){
 function browserSpeak(text, lang){
   try{
     const u=new SpeechSynthesisUtterance(text);
-    u.lang = lang==='ar'?'ar-SA':(lang==='tl'?'fil-PH':'en-US'); u.rate=.85;
+    u.lang = ({ar:'ar-SA',th:'th-TH',en:'en-US'})[lang]||'en-US'; u.rate=.85;
     speechSynthesis.cancel(); speechSynthesis.speak(u);
   }catch(e){}
 }
@@ -346,7 +346,7 @@ function setMicUI(which, mode){
   b.classList.remove('rec','busy'); const lb=b.querySelector('.lb');
   if(mode==='rec'){b.classList.add('rec'); lb.textContent='أسمعك... اضغط لما تخلص';}
   else if(mode==='busy'){b.classList.add('busy'); lb.textContent='لحظة... ⏳';}
-  else lb.textContent = which==='them' ? 'هو يتكلّم ('+(cfg.target==='tl'?'فلبيني':'إنجليزي')+')' : MIC_LABEL[which];
+  else lb.textContent = which==='them' ? 'هو يتكلّم ('+(LANGS[cfg.target]||LANGS.en).short+')' : MIC_LABEL[which];
 }
 function pickMime(){
   const c=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/aac'];
@@ -455,16 +455,17 @@ async function handleTalk(blob){
 }
 
 /* ============ المترجم ============ */
-const LANGS={ en:{ar:'الإنجليزية', name:'English'}, tl:{ar:'الفلبينية (تاغالوغ)', name:'Filipino (Tagalog)'} };
+const LANGS={ th:{ar:'التايلندية', short:'تايلندي', name:'Thai (use the polite male particle ครับ)'}, en:{ar:'الإنجليزية', short:'إنجليزي', name:'English'} };
 function setTarget(t){
+  if(!LANGS[t]) t='th';
   cfg.target=t; S.set('cfg',cfg);
-  $('langEn').classList.toggle('sel',t==='en'); $('langTl').classList.toggle('sel',t==='tl');
+  $('langEn').classList.toggle('sel',t==='en'); $('langTh').classList.toggle('sel',t==='th');
   setMicUI('them','idle'); renderPhrases();
 }
 async function translateText(text, to){
   const sys = to==='ar'
     ? 'You are a translator. Translate the user text into simple, clear Saudi-friendly Arabic. Output only the translation, nothing else.'
-    : `You are a translator for an elderly Saudi tourist in the Philippines. Translate the Arabic text into polite, simple ${LANGS[to].name}. Output only the translation, nothing else.`;
+    : `You are a translator for an elderly Saudi tourist in Bangkok, Thailand. Translate the Arabic text into polite, simple ${LANGS[to].name}. Output only the translation, nothing else.`;
   return chat([{role:'system',content:sys},{role:'user',content:text}], .2);
 }
 function trCard(srcLabel, src, dstLabel, dst, dstLang){
@@ -494,23 +495,24 @@ async function handleThem(blob){
   await speak(ar,'ar');
 }
 const PHRASES=[
-  ['وين الحمام؟','Where is the restroom, please?','Nasaan po ang CR?'],
-  ['كم السعر؟','How much is this?','Magkano po ito?'],
-  ['أبغى أكل حلال','I would like halal food, please.','Gusto ko po ng halal na pagkain.'],
-  ['وين أقرب مسجد؟','Where is the nearest mosque?','Saan po ang pinakamalapit na mosque?'],
-  ['ودّني للفندق','Please take me to my hotel.','Pakihatid po ako sa hotel ko.'],
-  ['ما أفهم، تكلم ببطء','I don\'t understand. Please speak slowly.','Hindi ko po maintindihan. Pakibagal po.'],
-  ['أحتاج مساعدة','I need help, please.','Kailangan ko po ng tulong.'],
-  ['اتصل بالإسعاف','Please call an ambulance!','Pakitawag po ng ambulansya!'],
-  ['ما آكل لحم خنزير','I do not eat pork.','Hindi po ako kumakain ng baboy.'],
-  ['شكراً جزيلاً','Thank you very much.','Maraming salamat po.']
+  ['وين الحمام؟','Where is the restroom, please?','ห้องน้ำอยู่ที่ไหนครับ'],
+  ['كم السعر؟','How much is this?','ราคาเท่าไหร่ครับ'],
+  ['أبغى أكل حلال','I would like halal food, please.','ผมต้องการอาหารฮาลาลครับ'],
+  ['وين أقرب مسجد؟','Where is the nearest mosque?','มัสยิดที่ใกล้ที่สุดอยู่ที่ไหนครับ'],
+  ['ودّني للفندق','Please take me to my hotel.','ช่วยพาผมไปที่โรงแรมหน่อยครับ'],
+  ['شغّل العداد','Please use the meter.','เปิดมิเตอร์ด้วยครับ'],
+  ['ما أفهم، تكلم ببطء','I don\'t understand. Please speak slowly.','ผมไม่เข้าใจ ช่วยพูดช้าๆ หน่อยครับ'],
+  ['أحتاج مساعدة','I need help, please.','ผมต้องการความช่วยเหลือครับ'],
+  ['اتصل بالإسعاف','Please call an ambulance!','ช่วยเรียกรถพยาบาลด่วนครับ'],
+  ['ما آكل لحم خنزير','I do not eat pork.','ผมไม่กินหมูครับ'],
+  ['شكراً جزيلاً','Thank you very much.','ขอบคุณมากครับ']
 ];
 function renderPhrases(){
-  const i = cfg.target==='tl'?2:1;
+  const i = cfg.target==='th'?2:1;
   $('phrases').innerHTML = PHRASES.map((p,k)=>`<button class="pill" onclick="sayPhrase(${k})">${esc(p[0])}<div class="small" style="direction:ltr;text-align:left">${esc(p[i])}</div></button>`).join('');
 }
 function sayPhrase(k){
-  const p=PHRASES[k], t=cfg.target==='tl'?p[2]:p[1];
+  const p=PHRASES[k], t=cfg.target==='th'?p[2]:p[1];
   showBig(t,p[0]); speak(t,cfg.target);
 }
 function showBig(t,s){ $('showT').textContent=t; $('showS').textContent=s||''; $('showBox').classList.add('on'); }
@@ -520,13 +522,15 @@ function hideShow(){ $('showBox').classList.remove('on'); }
 let guideHist = S.get('guide', []);
 let lastPos = S.get('pos', null);
 function sysGuide(){
-  return `أنت مرشد سياحي خبير ودليل استعلامات لرجل سعودي كبير في السن${cfg.name?(' نناديه "'+cfg.name+'"'):''} مسافر للفلبين (وتقدر تساعده في أي بلد يكون فيه).
-- اعرف الأماكن السياحية، المطاعم الحلال، المساجد، المواصلات (Grab والتاكسي)، الأسعار التقريبية بالبيسو مع ما يعادلها بالريال، العادات، الطقس المعتاد، ونصائح السلامة والاحتيال على السياح.
+  return `أنت مرشد سياحي خبير ودليل استعلامات لرجل سعودي كبير في السن${cfg.name?(' نناديه "'+cfg.name+'"'):''} مسافر إلى تايلاند، مدينة بانكوك (وتقدر تساعده في أي بلد يكون فيه).
+- اعرف الأماكن السياحية، المطاعم الحلال، المساجد، المواصلات (Grab والتاكسي والتوك توك وقطار BTS وMRT)، الأسعار التقريبية بالبات التايلندي مع ما يعادلها بالريال، العادات، الطقس المعتاد، ونصائح السلامة والاحتيال على السياح.
 - كبير في السن: اقترح أماكن مريحة وقليلة المشي، ونبّه على الحر والرطوبة وشرب الماء.
 - رد بلهجة سعودية بسيطة، قصير وواضح (3 إلى 6 جمل)، بدون قوائم طويلة ولا رموز، لأنه يُقرأ بالصوت.
 - إذا ذكرت مكان اكتب اسمه بالإنجليزي بين قوسين عشان يوريه للسواق.
 - كن صريح: الأسعار والمواعيد تقريبية وقد تتغير، ولا تخترع أماكن غير موجودة.
-- رقم الطوارئ في الفلبين 911.
+- أرقام الطوارئ في تايلاند: الشرطة السياحية 1155 (يتكلمون إنجليزي)، الإسعاف 1669، الشرطة 191.
+- نبّه على احتيال التوك توك والتاكسي بدون عداد (يطلب meter أو يستخدم Grab)، وعلى احترام المعابد والعائلة المالكة.
+- من المناطق المعروفة بالأكل الحلال في بانكوك: سوكومفيت سوي 3/1 (Sukhumvit Soi 3/1).
 ${lastPos?('موقعه التقريبي الحالي: خط عرض '+lastPos.lat.toFixed(3)+'، خط طول '+lastPos.lng.toFixed(3)+'. استخدمه لتعرف المدينة.'):''}
 ${cfg.about?('معلومات عنه: '+cfg.about):''}
 ${nowContext()}`;
@@ -833,7 +837,7 @@ function exportICS(){
 }
 
 /* ============ تشغيل ============ */
-setTarget(cfg.target||'en');
+setTarget(cfg.target||'th');
 renderTalk(); renderGuide(); renderQuran(); renderHome();
 loadPrayer(false);
 setInterval(tick, 20000); setTimeout(tick, 1500);
