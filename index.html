@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="رفيقك">
+<meta name="theme-color" content="#0f5132">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="icon" href="icon-512.png">
+<title>رفيقك</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fs:1;
+  --bg:#fbf7ef; --card:#ffffff; --ink:#111; --muted:#444;
+  --green:#0f5132; --blue:#0b4f8a; --gold:#8a5a00; --teal:#0d6e6e;
+  --purple:#5b2a86; --red:#a4161a; --orange:#b34700;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Tajawal',system-ui,sans-serif;font-size:calc(22px * var(--fs));line-height:1.6}
+body{padding:env(safe-area-inset-top) 14px calc(env(safe-area-inset-bottom) + 20px)}
+button{font-family:inherit;font-size:1em;cursor:pointer;border:0}
+input,textarea,select{font-family:inherit;font-size:.9em;width:100%;padding:12px;border:2px solid #999;border-radius:12px;background:#fff;color:#111}
+label{display:block;font-weight:700;margin:16px 0 6px}
+.screen{display:none;padding-top:10px;padding-bottom:30px}
+.screen.on{display:block}
+.top{display:flex;align-items:center;gap:10px;margin:6px 0 16px}
+.back{background:#222;color:#fff;border-radius:16px;padding:12px 20px;font-weight:800;font-size:1.05em}
+.title{font-size:1.4em;font-weight:800;margin:0}
+.hello{font-size:1.5em;font-weight:800;margin:8px 0 0}
+.clock{font-size:2.6em;font-weight:800;line-height:1.1;margin:4px 0}
+.date{color:var(--muted);font-size:1em}
+.info{background:var(--card);border:3px solid #ddd;border-radius:20px;padding:14px 16px;margin:12px 0;font-size:1.05em;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.tile{border-radius:24px;color:#fff;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-weight:800;font-size:1.15em;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.tile .ic{font-size:2.6em;line-height:1}
+.tile:active{transform:translateY(3px);box-shadow:none}
+.wide{grid-column:1 / -1}
+.big{width:100%;border-radius:22px;padding:20px;font-weight:800;font-size:1.2em;color:#fff;margin:10px 0;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.big:active{transform:translateY(3px);box-shadow:none}
+.mic{width:100%;min-height:190px;padding:18px;border-radius:30px;color:#fff;font-size:1.35em;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+.mic .ic{font-size:3em;line-height:1}
+.mic.rec{background:var(--red)!important;animation:pulse 1.2s infinite}
+.mic.busy{background:#666!important}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(164,22,26,.6)}100%{box-shadow:0 0 0 24px rgba(164,22,26,0)}}
+.bubble{background:#fff;border:3px solid #ddd;border-radius:20px;padding:14px 16px;margin:12px 0;font-size:1.1em;white-space:pre-wrap}
+.bubble.me{border-color:#9bc6a8;background:#eef8f1}
+.bubble.ai{border-color:#9fc0e2;background:#eef5fc}
+.hint{color:var(--muted);font-size:.9em;text-align:center;margin:8px 0}
+.row{display:flex;gap:10px}
+.row > *{flex:1}
+.pill{background:#fff;border:3px solid #bbb;border-radius:18px;padding:14px;font-weight:800;color:#111;margin:6px 0;text-align:right;width:100%}
+.pill.sel{border-color:var(--blue);background:#e8f1fb}
+.pt{display:flex;justify-content:space-between;align-items:center;background:#fff;border:3px solid #ddd;border-radius:18px;padding:14px 18px;margin:10px 0;font-size:1.25em;font-weight:800}
+.pt.next{border-color:var(--gold);background:#fff4d6}
+.med{background:#fff;border:3px solid #ddd;border-radius:20px;padding:14px 16px;margin:12px 0}
+.med.done{border-color:#4caf50;background:#eefaef}
+.med .n{font-size:1.25em;font-weight:800}
+.med button{margin-top:10px}
+.dhikr{background:#fff;border:3px solid #ddd;border-radius:22px;padding:20px;font-size:1.35em;line-height:2;margin:12px 0;text-align:center}
+.count{font-size:2.2em;font-weight:800;text-align:center}
+.list button{display:block}
+.qbar{position:sticky;bottom:0;background:var(--green);color:#fff;border-radius:22px;padding:12px;margin-top:14px;text-align:center}
+.qbar .nm{font-size:1.3em;font-weight:800}
+.qbar .row button{background:#fff;color:var(--green);border-radius:16px;padding:14px;font-size:1.4em;font-weight:800}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.overlay.on{display:flex}
+.modal{background:#fff;border-radius:26px;padding:26px;width:100%;max-width:520px;text-align:center}
+.modal .ic{font-size:4em}
+.modal .msg{font-size:1.5em;font-weight:800;margin:10px 0 18px}
+.show{position:fixed;inset:0;background:#fff;z-index:60;display:none;flex-direction:column;justify-content:center;padding:24px;text-align:center}
+.show.on{display:flex}
+.show .t{font-size:2.3em;font-weight:800;line-height:1.4;direction:ltr}
+.show .s{font-size:1.1em;color:#555;margin-top:20px}
+.gear{display:block;margin:28px auto 0;background:transparent;color:#777;font-size:.85em;text-decoration:underline}
+.small{font-size:.85em;color:#555}
+.medrow{border:2px dashed #aaa;border-radius:14px;padding:10px;margin:10px 0}
+.err{background:#fde8e8;border:3px solid var(--red);color:#7a0d10;border-radius:18px;padding:12px;margin:10px 0;font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- ===================== الرئيسية ===================== -->
+<section id="home" class="screen on">
+  <p class="hello" id="hello">هلا والله</p>
+  <div class="clock" id="clock">--:--</div>
+  <div class="date" id="today"></div>
+  <div class="info" id="homePrayer">🕌 جاري تجهيز أوقات الصلاة...</div>
+  <div class="info" id="homeMed" style="display:none"></div>
+
+  <div class="grid">
+    <button class="tile wide" style="background:var(--green);min-height:170px" onclick="go('talk')"><span class="ic">🎙️</span>كلّمني</button>
+    <button class="tile" style="background:var(--blue)" onclick="go('translate')"><span class="ic">🌍</span>المترجم</button>
+    <button class="tile" style="background:var(--orange)" onclick="go('guide')"><span class="ic">🧭</span>المرشد السياحي</button>
+    <button class="tile" style="background:var(--gold)" onclick="go('prayer')"><span class="ic">🕌</span>الصلاة</button>
+    <button class="tile" style="background:var(--teal)" onclick="go('quran')"><span class="ic">📖</span>القرآن</button>
+    <button class="tile" style="background:var(--purple)" onclick="go('athkar')"><span class="ic">📿</span>الأذكار</button>
+    <button class="tile" style="background:var(--red)" onclick="go('meds')"><span class="ic">💊</span>أدويتي</button>
+  </div>
+  <button class="gear" onclick="go('settings')">⚙️ الإعدادات (للي ركّب التطبيق)</button>
+</section>
+
+<!-- ===================== كلّمني ===================== -->
+<section id="talk" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">كلّمني</h2></div>
+  <button class="mic" id="talkMic" style="background:var(--green)" onclick="micTap('talk')"><span class="ic">🎙️</span><span class="lb">اضغط وتكلّم</span></button>
+  <p class="hint">اضغط مرة وتكلّم، ولما تخلص اضغط مرة ثانية</p>
+  <div id="talkLog"></div>
+  <button class="big" style="background:#555" onclick="clearTalk()">🧹 محادثة جديدة</button>
+</section>
+
+<!-- ===================== المترجم ===================== -->
+<section id="translate" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">المترجم</h2></div>
+  <div class="row">
+    <button class="pill" id="langEn" onclick="setTarget('en')">🇬🇧 إنجليزي</button>
+    <button class="pill" id="langTl" onclick="setTarget('tl')">🇵🇭 فلبيني</button>
+  </div>
+  <button class="mic" id="meMic" style="background:var(--green);min-height:150px;margin-top:10px" onclick="micTap('me')"><span class="ic">🗣️</span><span class="lb">أنا أتكلّم (عربي)</span></button>
+  <button class="mic" id="themMic" style="background:var(--blue);min-height:150px;margin-top:14px" onclick="micTap('them')"><span class="ic">👂</span><span class="lb">هو يتكلّم</span></button>
+  <div id="trOut"></div>
+  <h3>جمل جاهزة</h3>
+  <div id="phrases" class="list"></div>
+</section>
+
+<!-- ===================== المرشد السياحي ===================== -->
+<section id="guide" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">المرشد السياحي</h2></div>
+  <button class="mic" id="guideMic" style="background:var(--orange)" onclick="micTap('guide')"><span class="ic">🧭</span><span class="lb">اسألني عن أي مكان</span></button>
+  <p class="hint">مثلاً: وين أقرب مسجد؟ وش أزور اليوم؟ كم أعطي التاكسي؟</p>
+  <div id="guideQuick" class="list"></div>
+  <div id="guideLog"></div>
+</section>
+
+<!-- ===================== الصلاة ===================== -->
+<section id="prayer" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">أوقات الصلاة</h2></div>
+  <div class="info" id="prayerHead">...</div>
+  <div id="prayerList"></div>
+  <button class="big" style="background:var(--gold)" onclick="loadPrayer(true)">🔄 تحديث حسب مكاني</button>
+</section>
+
+<!-- ===================== القرآن ===================== -->
+<section id="quran" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">القرآن الكريم</h2></div>
+  <div id="qFav" class="list"></div>
+  <h3>كل السور</h3>
+  <div id="qAll" class="list"></div>
+  <div class="qbar" id="qbar" style="display:none">
+    <div class="nm" id="qName"></div>
+    <div class="small" style="color:#e6f2ea" id="qState"></div>
+    <div class="row" style="margin-top:10px">
+      <button onclick="qNext(-1)">⏮</button>
+      <button id="qPlayBtn" onclick="qToggle()">⏸</button>
+      <button onclick="qNext(1)">⏭</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== الأذكار ===================== -->
+<section id="athkar" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">الأذكار</h2></div>
+  <div class="row">
+    <button class="pill" id="azM" onclick="openAthkar('m')">🌅 الصباح</button>
+    <button class="pill" id="azE" onclick="openAthkar('e')">🌙 المساء</button>
+  </div>
+  <div class="small" id="azProg" style="text-align:center;margin-top:8px"></div>
+  <div class="dhikr" id="azText"></div>
+  <div class="count" id="azCount"></div>
+  <button class="big" style="background:var(--purple);min-height:110px" onclick="azTap()">👆 اضغط مع كل مرة</button>
+  <div class="row">
+    <button class="big" style="background:#555" onclick="azMove(-1)">السابق</button>
+    <button class="big" style="background:#555" onclick="azMove(1)">التالي</button>
+  </div>
+  <button class="big" style="background:var(--teal)" onclick="speak(AZ[azSet][azI].t,'ar')">🔊 اقرأه لي</button>
+</section>
+
+<!-- ===================== الأدوية ===================== -->
+<section id="meds" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">أدويتي اليوم</h2></div>
+  <div id="medList"></div>
+</section>
+
+<!-- ===================== الإعدادات ===================== -->
+<section id="settings" class="screen">
+  <div class="top"><button class="back" onclick="go('home')">→ رجوع</button><h2 class="title">الإعدادات</h2></div>
+  <p class="small">هذي الصفحة للي ركّب التطبيق. كل شي يتحفظ على هذا الجوال فقط.</p>
+
+  <label>مفتاح OpenAI (API Key)</label>
+  <input id="sKey" type="password" placeholder="sk-..." autocomplete="off">
+  <p class="small">ضع حد صرف شهري للمفتاح من لوحة OpenAI للأمان.</p>
+
+  <label>وش أناديه؟ (مثلاً: أبو محمد)</label>
+  <input id="sName" placeholder="أبو محمد">
+
+  <label>اسم المساعد</label>
+  <input id="sAsst" placeholder="رفيقك">
+
+  <label>معلومات تساعد المساعد (اختياري)</label>
+  <textarea id="sAbout" rows="3" placeholder="مثلاً: مسافر للفلبين، يحب التاريخ، ما يحب المشي الطويل، ساكن في فندق ..."></textarea>
+
+  <label>صوت المساعد</label>
+  <select id="sVoice">
+    <option value="onyx">رجالي هادئ (onyx)</option>
+    <option value="ash">رجالي (ash)</option>
+    <option value="sage">ناعم (sage)</option>
+    <option value="alloy">متوسط (alloy)</option>
+  </select>
+
+  <label>القارئ</label>
+  <select id="sReciter">
+    <option value="ar.alafasy">مشاري العفاسي</option>
+    <option value="ar.husary">محمود خليل الحصري</option>
+  </select>
+
+  <label>طريقة حساب الصلاة</label>
+  <select id="sMethod">
+    <option value="auto">تلقائي (أم القرى في السعودية، رابطة العالم الإسلامي خارجها)</option>
+    <option value="4">أم القرى</option>
+    <option value="3">رابطة العالم الإسلامي</option>
+  </select>
+
+  <label>مدينة احتياطية (إذا ما سمح بالموقع)</label>
+  <div class="row"><input id="sCity" placeholder="Jeddah"><input id="sCountry" placeholder="SA"></div>
+
+  <label>حجم الخط</label>
+  <div class="row">
+    <button class="big" style="background:#555" onclick="fontStep(-.1)">أ −</button>
+    <button class="big" style="background:#555" onclick="fontStep(.1)">أ +</button>
+  </div>
+
+  <h3 style="margin-top:26px">💊 الأدوية</h3>
+  <p class="small">الأوقات بصيغة 24 ساعة ومفصولة بفاصلة، مثل: 08:00, 20:00</p>
+  <div id="medEdit"></div>
+  <button class="big" style="background:var(--teal)" onclick="addMedRow()">➕ إضافة دواء</button>
+
+  <button class="big" style="background:var(--green)" onclick="saveSettings()">💾 حفظ</button>
+  <button class="big" style="background:var(--blue)" onclick="exportICS()">📅 أضف تذكيرات الأدوية لتقويم الجوال</button>
+  <p class="small">التذكير داخل التطبيق يشتغل والتطبيق مفتوح. عشان يرن حتى لو التطبيق مقفل، اضغط زر التقويم وافتح الملف وأضفه.</p>
+  <div id="sMsg"></div>
+</section>
+
+<!-- نافذة التنبيه -->
+<div class="overlay" id="alertBox">
+  <div class="modal">
+    <div class="ic" id="alIc">🔔</div>
+    <div class="msg" id="alMsg"></div>
+    <button class="big" id="alOk" style="background:var(--green)">تمام ✅</button>
+    <button class="big" id="alLater" style="background:#666;display:none">ذكّرني بعد ربع ساعة</button>
+  </div>
+</div>
+
+<!-- عرض النص كبير للشخص الثاني -->
+<div class="show" id="showBox" onclick="hideShow()">
+  <div class="t" id="showT"></div>
+  <div class="s" id="showS"></div>
+  <div class="hint" style="margin-top:30px">اضغط بأي مكان للرجوع</div>
+</div>
+
+<audio id="qAudio" preload="none"></audio>
+
+<script>
+/* ============ إعدادات عامة (تقدر تغيرها) ============ */
+const MODEL_CHAT = 'gpt-4o-mini';
+const MODEL_STT  = 'whisper-1';
+const MODEL_TTS  = 'gpt-4o-mini-tts';
+
+/* ============ التخزين ============ */
+const S = {
+  get(k,d){try{const v=localStorage.getItem('rf_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem('rf_'+k,JSON.stringify(v))}catch(e){}}
+};
+let cfg = Object.assign({key:'',name:'',asst:'رفيقك',about:'',voice:'onyx',reciter:'ar.alafasy',method:'auto',city:'Jeddah',country:'SA',fs:1.1,target:'en'}, S.get('cfg',{}));
+let meds = S.get('meds', []);   // [{name, times:['08:00'], note}]
+const $ = id => document.getElementById(id);
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function applyFont(){document.documentElement.style.setProperty('--fs',cfg.fs)}
+applyFont();
+
+/* ============ التنقل ============ */
+let cur='home';
+function go(id){
+  if(micState.active) cancelMic();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  $(id).classList.add('on'); cur=id; window.scrollTo(0,0);
+  if(id==='prayer') renderPrayer();
+  if(id==='meds') renderMeds();
+  if(id==='settings') fillSettings();
+  if(id==='athkar') openAthkar(azSet||autoAzSet());
+  if(id==='home') renderHome();
+}
+
+/* ============ الصوت (تشغيل) ============ */
+let actx=null, curSrc=null;
+function getCtx(){
+  if(!actx){const C=window.AudioContext||window.webkitAudioContext; if(!C) return null; actx=new C();}
+  if(actx.state==='suspended') actx.resume();
+  return actx;
+}
+document.addEventListener('pointerdown',()=>{try{getCtx()}catch(e){}},true);
+function stopSpeech(){
+  try{ if(curSrc){curSrc.onended=null;curSrc.stop();} }catch(e){} curSrc=null;
+  try{ speechSynthesis.cancel(); }catch(e){}
+}
+function playBuffer(ab){
+  return new Promise((resolve)=>{
+    const ctx=getCtx(); if(!ctx){resolve(false);return;}
+    ctx.decodeAudioData(ab, buf=>{
+      stopSpeech();
+      const src=ctx.createBufferSource(); src.buffer=buf; src.connect(ctx.destination);
+      curSrc=src; src.onended=()=>resolve(true); src.start(0);
+    }, ()=>resolve(false));
+  });
+}
+function browserSpeak(text, lang){
+  try{
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang = lang==='ar'?'ar-SA':(lang==='tl'?'fil-PH':'en-US'); u.rate=.85;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+async function speak(text, lang='ar'){
+  if(!text) return;
+  if(cfg.key){
+    try{
+      const r=await fetch('https://api.openai.com/v1/audio/speech',{method:'POST',
+        headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},
+        body:JSON.stringify({model:MODEL_TTS, voice:cfg.voice, input:text.slice(0,3500), response_format:'mp3',
+          instructions: lang==='ar' ? 'تكلّم بالعربي بلهجة سعودية هادئة، ببطء ووضوح، كأنك تكلم رجل كبير في السن تحترمه.' : 'Speak slowly, clearly and politely.'})});
+      if(r.ok){ const ok=await playBuffer(await r.arrayBuffer()); if(ok) return; }
+    }catch(e){}
+  }
+  browserSpeak(text, lang);
+}
+
+/* ============ المايك والتسجيل ============ */
+const micState={active:null, rec:null, stream:null, chunks:[], timer:null};
+const MIC_IDS={talk:'talkMic', me:'meMic', them:'themMic', guide:'guideMic'};
+const MIC_LABEL={talk:'اضغط وتكلّم', me:'أنا أتكلّم (عربي)', them:'هو يتكلّم', guide:'اسألني عن أي مكان'};
+function setMicUI(which, mode){
+  const b=$(MIC_IDS[which]); if(!b) return;
+  b.classList.remove('rec','busy'); const lb=b.querySelector('.lb');
+  if(mode==='rec'){b.classList.add('rec'); lb.textContent='أسمعك... اضغط لما تخلص';}
+  else if(mode==='busy'){b.classList.add('busy'); lb.textContent='لحظة... ⏳';}
+  else lb.textContent = which==='them' ? 'هو يتكلّم ('+(cfg.target==='tl'?'فلبيني':'إنجليزي')+')' : MIC_LABEL[which];
+}
+function pickMime(){
+  const c=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/aac'];
+  if(!window.MediaRecorder||!MediaRecorder.isTypeSupported) return '';
+  for(const m of c) if(MediaRecorder.isTypeSupported(m)) return m;
+  return '';
+}
+let busy=false;
+async function micTap(which){
+  if(busy) return;
+  stopSpeech();
+  if(micState.active===which){ finishMic(); return; }
+  if(micState.active) cancelMic();
+  if(!cfg.key){ showAlert('⚙️','المساعد يحتاج إعداد من ابنك أول (المفتاح).'); return; }
+  try{
+    micState.stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){ showAlert('🎙️','ما قدرت أفتح المايك. اسمح للتطبيق باستخدام المايكروفون.'); return; }
+  const mime=pickMime();
+  micState.rec=new MediaRecorder(micState.stream, mime?{mimeType:mime}:undefined);
+  micState.chunks=[]; micState.active=which;
+  micState.rec.ondataavailable=e=>{if(e.data&&e.data.size) micState.chunks.push(e.data)};
+  micState.rec.start();
+  setMicUI(which,'rec');
+  micState.timer=setTimeout(()=>{ if(micState.active===which) finishMic(); }, 60000);
+}
+function releaseMic(){
+  clearTimeout(micState.timer);
+  try{micState.stream&&micState.stream.getTracks().forEach(t=>t.stop())}catch(e){}
+  micState.stream=null; micState.rec=null; micState.active=null;
+}
+function cancelMic(){
+  const w=micState.active;
+  try{ if(micState.rec){micState.rec.onstop=null; micState.rec.stop();} }catch(e){}
+  releaseMic(); if(w) setMicUI(w,'idle');
+}
+function finishMic(){
+  const which=micState.active, rec=micState.rec;
+  if(!rec) return;
+  rec.onstop=async ()=>{
+    const type=rec.mimeType||'audio/webm';
+    const blob=new Blob(micState.chunks,{type});
+    releaseMic();
+    busy=true; setMicUI(which,'busy');
+    try{ await HANDLERS[which](blob); }
+    catch(e){ showErr(which, e.message||String(e)); }
+    busy=false; setMicUI(which,'idle');
+  };
+  rec.stop();
+}
+function showErr(which, msg){
+  const box = which==='talk'?$('talkLog'): which==='guide'?$('guideLog'):$('trOut');
+  box.insertAdjacentHTML('afterbegin','<div class="err">صار خطأ بسيط، جرّب مرة ثانية.<br><span class="small">'+esc(msg)+'</span></div>');
+}
+
+/* ============ OpenAI ============ */
+async function transcribe(blob, lang){
+  if(blob.size<1500) throw new Error('التسجيل قصير جداً');
+  const t=blob.type;
+  const ext = (t.includes('mp4')||t.includes('aac'))?'m4a':(t.includes('ogg')?'ogg':'webm');
+  const fd=new FormData();
+  fd.append('file', blob, 'voice.'+ext);
+  fd.append('model', MODEL_STT);
+  if(lang) fd.append('language', lang);
+  const r=await fetch('https://api.openai.com/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key},body:fd});
+  if(!r.ok) throw new Error('Whisper '+r.status+': '+(await r.text()).slice(0,160));
+  const j=await r.json(); return (j.text||'').trim();
+}
+async function chat(messages, temp=.6){
+  const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',
+    headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},
+    body:JSON.stringify({model:MODEL_CHAT, messages, temperature:temp})});
+  if(!r.ok) throw new Error('Chat '+r.status+': '+(await r.text()).slice(0,160));
+  const j=await r.json(); return (j.choices?.[0]?.message?.content||'').trim();
+}
+function nowContext(){
+  const d=new Date();
+  return 'الوقت الآن عند المستخدم: '+d.toLocaleString('ar-SA-u-nu-latn')+' (المنطقة الزمنية '+Intl.DateTimeFormat().resolvedOptions().timeZone+').';
+}
+
+/* ============ كلّمني ============ */
+let talkHist = S.get('talk', []);
+function sysTalk(){
+  return `أنت "${cfg.asst||'رفيقك'}"، مساعد شخصي صوتي أهداه ابن لأبيه. تكلّم رجلاً كبيراً في السن${cfg.name?(' نناديه "'+cfg.name+'"'):''}.
+- تكلّم بلهجة سعودية بسيطة ومحترمة ودافئة، وناديه باسمه أحياناً.
+- ردودك قصيرة: جملتين إلى أربع، لأنها تُقرأ عليه بالصوت. بدون قوائم ولا رموز ولا إيموجي.
+- إذا ما فهمت، اسأله سؤال واحد بسيط.
+- في الأمور الطبية لا تشخّص ولا تغيّر جرعات، وانصحه بلطف يكلم طبيبه أو عياله. وفي الحالات الطارئة قل له يتصل بالإسعاف فوراً.
+- في الفتوى أعطه المعروف باختصار وانصحه يسأل أهل العلم في المسائل الدقيقة.
+- لا تخترع معلومات. إذا ما تعرف قل ما أعرف.
+${cfg.about?('معلومات عنه: '+cfg.about):''}
+${nowContext()}`;
+}
+function renderTalk(){
+  $('talkLog').innerHTML = talkHist.slice().reverse().map(m=>
+    `<div class="bubble ${m.role==='user'?'me':'ai'}">${m.role==='user'?'🧓 ':'🤖 '}${esc(m.content)}</div>`).join('') ||
+    `<div class="hint">اسألني أي شي: الأخبار، الطقس، قصة، نصيحة، أو سوالف 🌿</div>`;
+}
+function clearTalk(){ talkHist=[]; S.set('talk',talkHist); renderTalk(); }
+async function handleTalk(blob){
+  const text=await transcribe(blob,'ar');
+  if(!text) throw new Error('ما سمعت شي');
+  talkHist.push({role:'user',content:text}); renderTalk();
+  const reply=await chat([{role:'system',content:sysTalk()}, ...talkHist.slice(-12)]);
+  talkHist.push({role:'assistant',content:reply}); talkHist=talkHist.slice(-30); S.set('talk',talkHist); renderTalk();
+  await speak(reply,'ar');
+}
+
+/* ============ المترجم ============ */
+const LANGS={ en:{ar:'الإنجليزية', name:'English'}, tl:{ar:'الفلبينية (تاغالوغ)', name:'Filipino (Tagalog)'} };
+function setTarget(t){
+  cfg.target=t; S.set('cfg',cfg);
+  $('langEn').classList.toggle('sel',t==='en'); $('langTl').classList.toggle('sel',t==='tl');
+  setMicUI('them','idle'); renderPhrases();
+}
+async function translateText(text, to){
+  const sys = to==='ar'
+    ? 'You are a translator. Translate the user text into simple, clear Saudi-friendly Arabic. Output only the translation, nothing else.'
+    : `You are a translator for an elderly Saudi tourist in the Philippines. Translate the Arabic text into polite, simple ${LANGS[to].name}. Output only the translation, nothing else.`;
+  return chat([{role:'system',content:sys},{role:'user',content:text}], .2);
+}
+function trCard(srcLabel, src, dstLabel, dst, dstLang){
+  const id='tr'+Date.now();
+  $('trOut').insertAdjacentHTML('afterbegin',
+    `<div class="bubble ${dstLang==='ar'?'ai':'me'}" id="${id}">
+      <div class="small">${esc(srcLabel)}: ${esc(src)}</div>
+      <div style="font-size:1.35em;font-weight:800;margin-top:6px;${dstLang!=='ar'?'direction:ltr;text-align:left':''}">${esc(dst)}</div>
+      <div class="row" style="margin-top:10px">
+        <button class="big" style="background:var(--teal);font-size:1em;padding:12px" data-say>🔊 أعد</button>
+        ${dstLang!=='ar'?'<button class="big" style="background:#333;font-size:1em;padding:12px" data-show>🔍 كبّر له</button>':''}
+      </div></div>`);
+  const el=$(id);
+  el.querySelector('[data-say]').onclick=()=>speak(dst,dstLang);
+  const sh=el.querySelector('[data-show]'); if(sh) sh.onclick=()=>showBig(dst, src);
+}
+async function handleMe(blob){
+  const ar=await transcribe(blob,'ar'); if(!ar) throw new Error('ما سمعت شي');
+  const out=await translateText(ar, cfg.target);
+  trCard('قلت', ar, LANGS[cfg.target].ar, out, cfg.target);
+  await speak(out, cfg.target);
+}
+async function handleThem(blob){
+  const src=await transcribe(blob,''); if(!src) throw new Error('ما سمعت شي');
+  const ar=await translateText(src,'ar');
+  trCard('قال', src, 'بالعربي', ar, 'ar');
+  await speak(ar,'ar');
+}
+const PHRASES=[
+  ['وين الحمام؟','Where is the restroom, please?','Nasaan po ang CR?'],
+  ['كم السعر؟','How much is this?','Magkano po ito?'],
+  ['أبغى أكل حلال','I would like halal food, please.','Gusto ko po ng halal na pagkain.'],
+  ['وين أقرب مسجد؟','Where is the nearest mosque?','Saan po ang pinakamalapit na mosque?'],
+  ['ودّني للفندق','Please take me to my hotel.','Pakihatid po ako sa hotel ko.'],
+  ['ما أفهم، تكلم ببطء','I don\'t understand. Please speak slowly.','Hindi ko po maintindihan. Pakibagal po.'],
+  ['أحتاج مساعدة','I need help, please.','Kailangan ko po ng tulong.'],
+  ['اتصل بالإسعاف','Please call an ambulance!','Pakitawag po ng ambulansya!'],
+  ['ما آكل لحم خنزير','I do not eat pork.','Hindi po ako kumakain ng baboy.'],
+  ['شكراً جزيلاً','Thank you very much.','Maraming salamat po.']
+];
+function renderPhrases(){
+  const i = cfg.target==='tl'?2:1;
+  $('phrases').innerHTML = PHRASES.map((p,k)=>`<button class="pill" onclick="sayPhrase(${k})">${esc(p[0])}<div class="small" style="direction:ltr;text-align:left">${esc(p[i])}</div></button>`).join('');
+}
+function sayPhrase(k){
+  const p=PHRASES[k], t=cfg.target==='tl'?p[2]:p[1];
+  showBig(t,p[0]); speak(t,cfg.target);
+}
+function showBig(t,s){ $('showT').textContent=t; $('showS').textContent=s||''; $('showBox').classList.add('on'); }
+function hideShow(){ $('showBox').classList.remove('on'); }
+
+/* ============ المرشد السياحي ============ */
+let guideHist = S.get('guide', []);
+let lastPos = S.get('pos', null);
+function sysGuide(){
+  return `أنت مرشد سياحي خبير ودليل استعلامات لرجل سعودي كبير في السن${cfg.name?(' نناديه "'+cfg.name+'"'):''} مسافر للفلبين (وتقدر تساعده في أي بلد يكون فيه).
+- اعرف الأماكن السياحية، المطاعم الحلال، المساجد، المواصلات (Grab والتاكسي)، الأسعار التقريبية بالبيسو مع ما يعادلها بالريال، العادات، الطقس المعتاد، ونصائح السلامة والاحتيال على السياح.
+- كبير في السن: اقترح أماكن مريحة وقليلة المشي، ونبّه على الحر والرطوبة وشرب الماء.
+- رد بلهجة سعودية بسيطة، قصير وواضح (3 إلى 6 جمل)، بدون قوائم طويلة ولا رموز، لأنه يُقرأ بالصوت.
+- إذا ذكرت مكان اكتب اسمه بالإنجليزي بين قوسين عشان يوريه للسواق.
+- كن صريح: الأسعار والمواعيد تقريبية وقد تتغير، ولا تخترع أماكن غير موجودة.
+- رقم الطوارئ في الفلبين 911.
+${lastPos?('موقعه التقريبي الحالي: خط عرض '+lastPos.lat.toFixed(3)+'، خط طول '+lastPos.lng.toFixed(3)+'. استخدمه لتعرف المدينة.'):''}
+${cfg.about?('معلومات عنه: '+cfg.about):''}
+${nowContext()}`;
+}
+const GUIDE_Q=['وش أزور اليوم قريب مني؟','أبغى مطعم حلال قريب','وين أقرب مسجد؟','كم المفروض أدفع للتاكسي؟','وش أنتبه له كسائح؟'];
+function renderGuide(){
+  $('guideQuick').innerHTML = GUIDE_Q.map((q,i)=>`<button class="pill" onclick="askGuide(GUIDE_Q[${i}])">❓ ${esc(q)}</button>`).join('');
+  $('guideLog').innerHTML = guideHist.slice().reverse().map(m=>
+    `<div class="bubble ${m.role==='user'?'me':'ai'}">${m.role==='user'?'🧓 ':'🧭 '}${esc(m.content)}</div>`).join('');
+}
+async function askGuide(q){
+  if(busy) return;
+  if(!cfg.key){ showAlert('⚙️','المرشد يحتاج إعداد من ابنك أول (المفتاح).'); return; }
+  busy=true; setMicUI('guide','busy');
+  try{
+    guideHist.push({role:'user',content:q}); renderGuide();
+    const a=await chat([{role:'system',content:sysGuide()}, ...guideHist.slice(-10)]);
+    guideHist.push({role:'assistant',content:a}); guideHist=guideHist.slice(-30); S.set('guide',guideHist); renderGuide();
+    busy=false; setMicUI('guide','idle');
+    await speak(a,'ar');
+  }catch(e){ busy=false; setMicUI('guide','idle'); showErr('guide', e.message); }
+}
+async function handleGuide(blob){
+  const q=await transcribe(blob,'ar'); if(!q) throw new Error('ما سمعت شي');
+  guideHist.push({role:'user',content:q}); renderGuide();
+  const a=await chat([{role:'system',content:sysGuide()}, ...guideHist.slice(-10)]);
+  guideHist.push({role:'assistant',content:a}); guideHist=guideHist.slice(-30); S.set('guide',guideHist); renderGuide();
+  await speak(a,'ar');
+}
+const HANDLERS={talk:handleTalk, me:handleMe, them:handleThem, guide:handleGuide};
+
+/* ============ أوقات الصلاة ============ */
+const PNAMES=[['Fajr','الفجر'],['Sunrise','الشروق'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']];
+let prayer = S.get('prayer', null); // {day, timings, hijri, place}
+function dayKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fmt12(hhmm){
+  let [h,m]=hhmm.split(':').map(Number); const s=h<12?'ص':'م'; h=h%12||12;
+  return h+':'+String(m).padStart(2,'0')+' '+s;
+}
+function getPos(){
+  return new Promise(res=>{
+    if(!navigator.geolocation) return res(null);
+    navigator.geolocation.getCurrentPosition(p=>res({lat:p.coords.latitude,lng:p.coords.longitude}),()=>res(null),{timeout:10000,maximumAge:3600000});
+  });
+}
+function methodFor(pos){
+  if(cfg.method!=='auto') return cfg.method;
+  if(pos && pos.lat>16 && pos.lat<32.5 && pos.lng>34.5 && pos.lng<55.7) return '4';
+  if(!pos && (cfg.country||'').toUpperCase()==='SA') return '4';
+  return '3';
+}
+async function loadPrayer(force){
+  if(!force && prayer && prayer.day===dayKey()){ renderPrayer(); renderHome(); return; }
+  const pos=await getPos();
+  if(pos){ lastPos=pos; S.set('pos',pos); }
+  const d=new Date(), ds=String(d.getDate()).padStart(2,'0')+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+d.getFullYear();
+  const m=methodFor(pos);
+  const url = pos
+    ? `https://api.aladhan.com/v1/timings/${ds}?latitude=${pos.lat}&longitude=${pos.lng}&method=${m}`
+    : `https://api.aladhan.com/v1/timingsByCity/${ds}?city=${encodeURIComponent(cfg.city||'Jeddah')}&country=${encodeURIComponent(cfg.country||'SA')}&method=${m}`;
+  try{
+    const r=await fetch(url); const j=await r.json();
+    const t=j.data.timings, h=j.data.date.hijri;
+    const timings={}; PNAMES.forEach(([k])=>timings[k]=String(t[k]).slice(0,5));
+    prayer={day:dayKey(), timings, hijri:`${h.day} ${h.month.ar} ${h.year}هـ`, place: pos?'حسب موقعك':(cfg.city||'')};
+    S.set('prayer',prayer);
+  }catch(e){
+    if(!prayer){ $('homePrayer').textContent='🕌 ما قدرت أجيب أوقات الصلاة (تأكد من الإنترنت)'; return; }
+  }
+  renderPrayer(); renderHome();
+}
+function nextPrayer(){
+  if(!prayer) return null;
+  const now=new Date(), mins=now.getHours()*60+now.getMinutes();
+  for(const [k,ar] of PNAMES){ if(k==='Sunrise') continue;
+    const [h,m]=prayer.timings[k].split(':').map(Number);
+    if(h*60+m>mins) return {k,ar,t:prayer.timings[k],left:h*60+m-mins};
+  }
+  const [h,m]=prayer.timings.Fajr.split(':').map(Number);
+  return {k:'Fajr',ar:'الفجر',t:prayer.timings.Fajr,left:24*60-mins+h*60+m};
+}
+function leftText(n){const h=Math.floor(n/60),m=n%60;return (h?h+' ساعة و ':'')+m+' دقيقة'}
+function renderPrayer(){
+  if(!prayer){ $('prayerHead').textContent='جاري التحميل...'; return; }
+  const n=nextPrayer();
+  $('prayerHead').innerHTML=`📅 ${esc(prayer.hijri)}<br>⏳ باقي على ${n.ar}: ${leftText(n.left)}`;
+  $('prayerList').innerHTML=PNAMES.map(([k,ar])=>`<div class="pt ${n.k===k?'next':''}"><span>${ar}</span><span>${fmt12(prayer.timings[k])}</span></div>`).join('');
+}
+
+/* ============ القرآن ============ */
+const SURAHS="الفاتحة،البقرة،آل عمران،النساء،المائدة،الأنعام،الأعراف،الأنفال،التوبة،يونس،هود،يوسف،الرعد،إبراهيم،الحجر،النحل،الإسراء،الكهف،مريم،طه،الأنبياء،الحج،المؤمنون،النور،الفرقان،الشعراء،النمل،القصص،العنكبوت،الروم،لقمان،السجدة،الأحزاب،سبأ،فاطر،يس،الصافات،ص،الزمر،غافر،فصلت،الشورى،الزخرف،الدخان،الجاثية،الأحقاف،محمد،الفتح،الحجرات،ق،الذاريات،الطور،النجم،القمر،الرحمن،الواقعة،الحديد،المجادلة،الحشر،الممتحنة،الصف،الجمعة،المنافقون،التغابن،الطلاق،التحريم،الملك،القلم،الحاقة،المعارج،نوح،الجن،المزمل،المدثر،القيامة،الإنسان،المرسلات،النبأ،النازعات،عبس،التكوير،الانفطار،المطففين،الانشقاق،البروج،الطارق،الأعلى،الغاشية،الفجر،البلد،الشمس،الليل،الضحى،الشرح،التين،العلق،القدر،البينة،الزلزلة،العاديات،القارعة،التكاثر,العصر،الهمزة،الفيل،قريش،الماعون،الكوثر،الكافرون،النصر،المسد،الإخلاص،الفلق،الناس".split(/[،,]/);
+const FAV=[1,18,36,55,56,67,2];
+let qCur=0, qTry=0;
+const qa=$('qAudio');
+function renderQuran(){
+  $('qFav').innerHTML='<h3 style="margin:0">⭐ المفضلة</h3>'+FAV.map(n=>`<button class="pill" onclick="qPlay(${n})">▶️ سورة ${SURAHS[n-1]}</button>`).join('');
+  $('qAll').innerHTML=SURAHS.map((s,i)=>`<button class="pill" onclick="qPlay(${i+1})">${i+1}. ${s}</button>`).join('');
+}
+function qUrl(n,br){ return `https://cdn.islamic.network/quran/audio-surah/${br}/${cfg.reciter}/${n}.mp3`; }
+function qPlay(n){
+  stopSpeech(); qCur=n; qTry=0;
+  qa.src=qUrl(n,128); qa.play().catch(()=>{});
+  $('qbar').style.display='block'; $('qName').textContent='سورة '+SURAHS[n-1]; $('qState').textContent='جاري التشغيل...'; $('qPlayBtn').textContent='⏸';
+  S.set('qLast',n);
+}
+qa.addEventListener('error',()=>{ if(qCur && qTry===0){ qTry=1; qa.src=qUrl(qCur,64); qa.play().catch(()=>{}); } else $('qState').textContent='ما اشتغلت، تأكد من الإنترنت'; });
+qa.addEventListener('playing',()=>{ $('qState').textContent='يُتلى الآن'; $('qPlayBtn').textContent='⏸'; });
+qa.addEventListener('pause',()=>{ $('qState').textContent='متوقف'; $('qPlayBtn').textContent='▶️'; });
+qa.addEventListener('ended',()=>{ if(qCur<114) qPlay(qCur+1); });
+function qToggle(){ if(qa.paused) qa.play().catch(()=>{}); else qa.pause(); }
+function qNext(d){ const n=Math.min(114,Math.max(1,qCur+d)); qPlay(n); }
+
+/* ============ الأذكار ============ */
+const COMMON_START=[
+  {t:'﴿اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾',n:1},
+  {t:'﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾',n:3},
+  {t:'﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾',n:3},
+  {t:'﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ﴾',n:3}
+];
+const COMMON_END=[
+  {t:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ',n:1},
+  {t:'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ',n:3},
+  {t:'رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا',n:3},
+  {t:'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ، عَلَيْهِ تَوَكَّلْتُ، وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ',n:7},
+  {t:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ',n:100}
+];
+const AZ={
+  m:[...COMMON_START,
+     {t:'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',n:1},
+     {t:'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ',n:1},
+     ...COMMON_END],
+  e:[...COMMON_START,
+     {t:'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ',n:1},
+     {t:'اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ',n:1},
+     {t:'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ',n:3},
+     ...COMMON_END]
+};
+let azSet=null, azI=0, azC=0;
+function autoAzSet(){ const h=new Date().getHours(); return (h>=3 && h<14)?'m':'e'; }
+function openAthkar(s){ azSet=s; azI=0; azC=0; $('azM').classList.toggle('sel',s==='m'); $('azE').classList.toggle('sel',s==='e'); renderAz(); }
+function renderAz(){
+  const d=AZ[azSet][azI];
+  $('azProg').textContent=`الذكر ${azI+1} من ${AZ[azSet].length}`;
+  $('azText').textContent=d.t;
+  $('azCount').textContent = azC>=d.n ? '✅ تم' : `${azC} / ${d.n}`;
+}
+function azTap(){
+  const d=AZ[azSet][azI]; azC++;
+  try{navigator.vibrate&&navigator.vibrate(40)}catch(e){}
+  if(azC>=d.n){ renderAz(); setTimeout(()=>{ if(azI<AZ[azSet].length-1){azI++;azC=0;renderAz();} else {$('azCount').textContent='🌿 تقبّل الله، خلصت الأذكار';} },700); }
+  else renderAz();
+}
+function azMove(d){ azI=Math.min(AZ[azSet].length-1,Math.max(0,azI+d)); azC=0; renderAz(); }
+
+/* ============ الأدوية ============ */
+let taken = S.get('taken', {}); // {'2026-11-13': {'0_08:00':true}}
+function todayDoses(){
+  const out=[];
+  meds.forEach((m,i)=> (m.times||[]).forEach(t=> out.push({i, t, key:i+'_'+t, name:m.name, note:m.note})));
+  return out.sort((a,b)=>a.t.localeCompare(b.t));
+}
+function isTaken(key){ return !!(taken[dayKey()]||{})[key]; }
+function markTaken(key){
+  const d=dayKey(); taken[d]=taken[d]||{}; taken[d][key]=true;
+  Object.keys(taken).forEach(k=>{ if(k<dayKey(new Date(Date.now()-7*864e5))) delete taken[k]; });
+  S.set('taken',taken); renderMeds(); renderHome();
+}
+function renderMeds(){
+  const L=todayDoses();
+  if(!L.length){ $('medList').innerHTML='<div class="info">ما فيه أدوية مضافة. ابنك يضيفها من الإعدادات.</div>'; return; }
+  $('medList').innerHTML=L.map(d=>{
+    const done=isTaken(d.key);
+    return `<div class="med ${done?'done':''}">
+      <div class="n">💊 ${esc(d.name)}</div>
+      <div>⏰ ${fmt12(d.t)} ${d.note?(' — '+esc(d.note)):''}</div>
+      ${done?'<div style="font-weight:800;color:#1b5e20">✅ أخذته</div>':`<button class="big" style="background:var(--green)" onclick="markTaken('${d.key}')">أخذته ✅</button>`}
+    </div>`;}).join('');
+}
+function nextDose(){
+  const now=new Date(), cur=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  return todayDoses().find(d=>!isTaken(d.key) && d.t>=cur) || todayDoses().find(d=>!isTaken(d.key));
+}
+
+/* ============ التنبيهات ============ */
+let alertQueue=[], alertOpen=false;
+function showAlert(ic,msg,opts={}){
+  alertQueue.push({ic,msg,opts}); if(!alertOpen) nextAlert();
+}
+function nextAlert(){
+  const a=alertQueue.shift(); if(!a){alertOpen=false;$('alertBox').classList.remove('on');return;}
+  alertOpen=true; $('alIc').textContent=a.ic; $('alMsg').textContent=a.msg;
+  $('alOk').textContent=a.opts.okText||'تمام ✅';
+  $('alOk').onclick=()=>{ a.opts.onOk&&a.opts.onOk(); nextAlert(); };
+  $('alLater').style.display=a.opts.onLater?'block':'none';
+  $('alLater').onclick=()=>{ a.opts.onLater&&a.opts.onLater(); nextAlert(); };
+  $('alertBox').classList.add('on');
+  if(a.opts.say) speak(a.opts.say,'ar');
+}
+function beep(){
+  try{ const ctx=getCtx(); if(!ctx) return; const o=ctx.createOscillator(), g=ctx.createGain();
+    o.frequency.value=880; o.connect(g); g.connect(ctx.destination); g.gain.value=.3; o.start();
+    setTimeout(()=>{o.frequency.value=660},300); setTimeout(()=>o.stop(),700); }catch(e){}
+}
+let fired = S.get('fired', {}); // keys fired today
+let snoozed = {}; // key -> timestamp
+function tick(){
+  const now=new Date(), hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const day=dayKey();
+  if(fired.day!==day) fired={day};
+  // أدوية
+  todayDoses().forEach(d=>{
+    const fk='m_'+d.key;
+    const due = (d.t===hm && !fired[fk]) || (snoozed[d.key] && Date.now()>=snoozed[d.key]);
+    if(due && !isTaken(d.key)){
+      fired[fk]=true; delete snoozed[d.key]; beep();
+      const nm = cfg.name?(' يا '+cfg.name):'';
+      showAlert('💊', `وقت دواء ${d.name}${d.note?(' — '+d.note):''}`, {
+        okText:'أخذته ✅', say:`الله يعطيك الصحة${nm}، حان وقت دواء ${d.name}`,
+        onOk:()=>markTaken(d.key), onLater:()=>{snoozed[d.key]=Date.now()+15*60000;}
+      });
+    }
+  });
+  // صلاة
+  if(prayer && prayer.day===day){
+    PNAMES.forEach(([k,ar])=>{ if(k==='Sunrise') return;
+      const fk='p_'+k;
+      if(prayer.timings[k]===hm && !fired[fk]){ fired[fk]=true; beep();
+        showAlert('🕌', `حان الآن وقت صلاة ${ar}`, {say:`حان الآن وقت صلاة ${ar}`}); }
+    });
+  } else if(!prayer || prayer.day!==day){ loadPrayer(false); }
+  S.set('fired',fired);
+  renderHome();
+}
+
+/* ============ الرئيسية ============ */
+function greet(){ const h=new Date().getHours(); return h<12?'صباح الخير':'مساء الخير'; }
+function renderHome(){
+  const now=new Date();
+  $('hello').textContent = greet()+(cfg.name?(' يا '+cfg.name):'')+' 🌿';
+  $('clock').textContent = fmt12(String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'));
+  let dt=''; try{ dt=now.toLocaleDateString('ar-SA-u-nu-latn',{weekday:'long',day:'numeric',month:'long'}); }catch(e){}
+  $('today').textContent = dt + (prayer&&prayer.day===dayKey()?(' — '+prayer.hijri):'');
+  const n=nextPrayer();
+  if(n) $('homePrayer').innerHTML=`🕌 الصلاة الجاية: <b>${n.ar}</b> الساعة ${fmt12(n.t)}<br><span class="small">باقي ${leftText(n.left)}</span>`;
+  const d=nextDose();
+  if(!cfg.key){ $('homeMed').style.display='block'; $('homeMed').innerHTML='⚙️ يحتاج إعداد: افتح الإعدادات تحت وحط المفتاح.'; }
+  else if(d){ $('homeMed').style.display='block'; $('homeMed').innerHTML=`💊 الدواء الجاي: <b>${esc(d.name)}</b> الساعة ${fmt12(d.t)}`; }
+  else $('homeMed').style.display='none';
+}
+
+/* ============ الإعدادات ============ */
+function fillSettings(){
+  $('sKey').value=cfg.key; $('sName').value=cfg.name; $('sAsst').value=cfg.asst; $('sAbout').value=cfg.about;
+  $('sVoice').value=cfg.voice; $('sReciter').value=cfg.reciter; $('sMethod').value=cfg.method;
+  $('sCity').value=cfg.city; $('sCountry').value=cfg.country;
+  $('medEdit').innerHTML=''; meds.forEach(m=>addMedRow(m)); if(!meds.length) addMedRow();
+  $('sMsg').innerHTML='';
+}
+function addMedRow(m={name:'',times:[],note:''}){
+  const div=document.createElement('div'); div.className='medrow';
+  div.innerHTML=`<input class="mN" placeholder="اسم الدواء" value="${esc(m.name)}">
+    <input class="mT" style="margin-top:8px;direction:ltr" placeholder="08:00, 20:00" value="${esc((m.times||[]).join(', '))}">
+    <input class="mO" style="margin-top:8px" placeholder="ملاحظة (بعد الأكل...)" value="${esc(m.note||'')}">
+    <button class="big" style="background:#777;font-size:.9em;padding:10px" onclick="this.parentNode.remove()">🗑 حذف</button>`;
+  $('medEdit').appendChild(div);
+}
+function normTime(s){
+  const m=s.trim().match(/^(\d{1,2})[:.](\d{2})$/); if(!m) return null;
+  const h=+m[1], mi=+m[2]; if(h>23||mi>59) return null;
+  return String(h).padStart(2,'0')+':'+String(mi).padStart(2,'0');
+}
+function saveSettings(){
+  cfg.key=$('sKey').value.trim(); cfg.name=$('sName').value.trim(); cfg.asst=$('sAsst').value.trim()||'رفيقك';
+  cfg.about=$('sAbout').value.trim(); cfg.voice=$('sVoice').value; cfg.reciter=$('sReciter').value;
+  const oldM=cfg.method, oldC=cfg.city+cfg.country;
+  cfg.method=$('sMethod').value; cfg.city=$('sCity').value.trim()||'Jeddah'; cfg.country=$('sCountry').value.trim()||'SA';
+  const bad=[];
+  meds=[...document.querySelectorAll('.medrow')].map(r=>{
+    const name=r.querySelector('.mN').value.trim();
+    const times=r.querySelector('.mT').value.split(/[,،]/).filter(x=>x.trim()).map(x=>{const t=normTime(x); if(!t) bad.push(x.trim()); return t;}).filter(Boolean);
+    return {name, times, note:r.querySelector('.mO').value.trim()};
+  }).filter(m=>m.name && m.times.length);
+  S.set('cfg',cfg); S.set('meds',meds); applyFont();
+  $('sMsg').innerHTML = bad.length
+    ? `<div class="err">انحفظ، بس هذي الأوقات غلط وتجاهلتها: ${esc(bad.join(' ، '))}</div>`
+    : '<div class="info">✅ تم الحفظ</div>';
+  if(oldM!==cfg.method || oldC!==cfg.city+cfg.country) loadPrayer(true);
+  setMicUI('them','idle');
+}
+function fontStep(d){ cfg.fs=Math.min(1.6,Math.max(.8,+(cfg.fs+d).toFixed(2))); applyFont(); S.set('cfg',cfg); }
+function exportICS(){
+  if(!meds.length){ $('sMsg').innerHTML='<div class="err">أضف الأدوية واحفظ أول.</div>'; return; }
+  const d=new Date(), ymd=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  let ics='BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Rafeeq//AR\r\nCALSCALE:GREGORIAN\r\n';
+  meds.forEach((m,i)=>m.times.forEach(t=>{
+    const hm=t.replace(':','');
+    ics+=`BEGIN:VEVENT\r\nUID:rafeeq-${i}-${hm}-${Date.now()}@rafeeq\r\nDTSTAMP:${stamp}\r\nDTSTART:${ymd}T${hm}00\r\nDURATION:PT10M\r\nRRULE:FREQ=DAILY\r\nSUMMARY:💊 ${m.name}${m.note?(' - '+m.note):''}\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:وقت دواء ${m.name}\r\nTRIGGER:PT0M\r\nEND:VALARM\r\nEND:VEVENT\r\n`;
+  }));
+  ics+='END:VCALENDAR\r\n';
+  const blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='adwiya.ics';
+  document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+}
+
+/* ============ تشغيل ============ */
+setTarget(cfg.target||'en');
+renderTalk(); renderGuide(); renderQuran(); renderHome();
+loadPrayer(false);
+setInterval(tick, 20000); setTimeout(tick, 1500);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) tick(); });
+</script>
+</body>
+</html>
