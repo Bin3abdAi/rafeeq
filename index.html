@@ -6,12 +6,12 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="رفيقك">
+<meta name="apple-mobile-web-app-title" content="خوي Bin3abdAi">
 <meta name="theme-color" content="#0f5132">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-512.png">
 <link rel="icon" href="icon-512.png">
-<title>رفيقك</title>
+<title>خوي Bin3abdAi</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -86,6 +86,7 @@ label{display:block;font-weight:700;margin:16px 0 6px}
 
 <!-- ===================== الرئيسية ===================== -->
 <section id="home" class="screen on">
+  <div style="font-weight:800;color:var(--green);font-size:.95em">🤝 خوي <span dir="ltr">Bin3abdAi</span></div>
   <p class="hello" id="hello">هلا والله</p>
   <div class="clock" id="clock">--:--</div>
   <div class="date" id="today"></div>
@@ -198,7 +199,7 @@ label{display:block;font-weight:700;margin:16px 0 6px}
   <input id="sName" placeholder="أبو محمد">
 
   <label>اسم المساعد</label>
-  <input id="sAsst" placeholder="رفيقك">
+  <input id="sAsst" placeholder="خوي">
 
   <label>معلومات تساعد المساعد (اختياري)</label>
   <textarea id="sAbout" rows="3" placeholder="مثلاً: مسافر لبانكوك، يحب التاريخ، ما يحب المشي الطويل، ساكن في فندق ..."></textarea>
@@ -274,7 +275,8 @@ const S = {
   get(k,d){try{const v=localStorage.getItem('rf_'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
   set(k,v){try{localStorage.setItem('rf_'+k,JSON.stringify(v))}catch(e){}}
 };
-let cfg = Object.assign({key:'',name:'',asst:'رفيقك',about:'',voice:'onyx',reciter:'ar.alafasy',method:'auto',city:'Jeddah',country:'SA',fs:1.1,target:'th'}, S.get('cfg',{}));
+let cfg = Object.assign({key:'',name:'',asst:'خوي',about:'',voice:'onyx',reciter:'ar.alafasy',method:'auto',city:'Jeddah',country:'SA',fs:1.1,target:'th'}, S.get('cfg',{}));
+if(cfg.asst==='رفيقك') cfg.asst='خوي';
 let meds = S.get('meds', []);   // [{name, times:['08:00'], note}]
 const $ = id => document.getElementById(id);
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -429,7 +431,7 @@ function nowContext(){
 /* ============ كلّمني ============ */
 let talkHist = S.get('talk', []);
 function sysTalk(){
-  return `أنت "${cfg.asst||'رفيقك'}"، مساعد شخصي صوتي أهداه ابن لأبيه. تكلّم رجلاً كبيراً في السن${cfg.name?(' نناديه "'+cfg.name+'"'):''}.
+  return `أنت "${cfg.asst||'خوي'}"، مساعد شخصي صوتي من تطوير Bin3abdAi، أهداه ابن لأبيه. إذا سُئلت عن اسمك قل: أنا خويك. تكلّم رجلاً كبيراً في السن${cfg.name?(' نناديه "'+cfg.name+'"'):''}.
 - تكلّم بلهجة سعودية بسيطة ومحترمة ودافئة، وناديه باسمه أحياناً.
 - ردودك قصيرة: جملتين إلى أربع، لأنها تُقرأ عليه بالصوت. بدون قوائم ولا رموز ولا إيموجي.
 - إذا ما فهمت، اسأله سؤال واحد بسيط.
@@ -803,7 +805,7 @@ function normTime(s){
   return String(h).padStart(2,'0')+':'+String(mi).padStart(2,'0');
 }
 function saveSettings(){
-  cfg.key=$('sKey').value.trim(); cfg.name=$('sName').value.trim(); cfg.asst=$('sAsst').value.trim()||'رفيقك';
+  cfg.key=$('sKey').value.trim(); cfg.name=$('sName').value.trim(); cfg.asst=$('sAsst').value.trim()||'خوي';
   cfg.about=$('sAbout').value.trim(); cfg.voice=$('sVoice').value; cfg.reciter=$('sReciter').value;
   const oldM=cfg.method, oldC=cfg.city+cfg.country;
   cfg.method=$('sMethod').value; cfg.city=$('sCity').value.trim()||'Jeddah'; cfg.country=$('sCountry').value.trim()||'SA';
