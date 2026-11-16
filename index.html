@@ -171,6 +171,13 @@ a{color:var(--accent)}
 #miniChar.on{display:grid;animation:fadeup .3s ease}
 #miniChar.talk{box-shadow:0 0 0 3px rgba(var(--accentRGB),.5),0 0 26px rgba(var(--accentRGB),.7)}
 #miniChar::before{display:none}
+.shareCard{position:relative;box-sizing:border-box;width:100%;margin:16px auto 6px;max-width:420px;padding:18px 16px 16px;border-radius:24px;text-align:center;overflow:hidden;
+ background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,var(--accent),#a78bfa,#f5c451,var(--accent)) border-box;border:1.5px solid transparent;box-shadow:0 0 30px rgba(var(--accentRGB),.18)}
+.shareCard::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent,rgba(var(--accentRGB),.12),transparent 30%);animation:sweep 9s linear infinite;pointer-events:none}
+.shareCard .hadith{position:relative;font-size:1.25em;font-weight:800;line-height:1.7;background:linear-gradient(90deg,#f5c451,#fde68a,#f5c451);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-theme="light"] .shareCard .hadith{background-image:linear-gradient(90deg,#a16207,#ca8a04,#a16207)}
+.shareCard .shareTxt{position:relative;font-size:.92em;opacity:.85;margin:6px 0 12px;line-height:1.7}
+.shareBtn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 6px 22px rgba(var(--accentRGB),.4)}
 /* radar splash */
 .radar{position:relative;width:230px;height:230px;display:grid;place-items:center;border-radius:50%;
  background:repeating-radial-gradient(circle,transparent 0 37px,rgba(var(--accentRGB),.22) 38px 39px),radial-gradient(circle,rgba(var(--accentRGB),.10),transparent 70%);
@@ -302,7 +309,12 @@ a{color:var(--accent)}
   </div>
 
   <div class="foot">
-    <div class="sig" style="font-family:ui-monospace,Menlo,monospace;letter-spacing:3px">Bin3abd<span style="color:var(--accent2)">Ai</span></div><div class="tag">نحلم ونحقق</div>
+    <div class="sig" onclick="devTap()" style="font-family:ui-monospace,Menlo,monospace;letter-spacing:3px">Bin3abd<span style="color:var(--accent2)">Ai</span></div><div class="tag">نحلم ونحقق</div>
+    <div class="shareCard">
+      <div class="hadith">«الدَّالُّ على الخيرِ كفاعلِه»</div>
+      <div class="shareTxt" data-t="share_line"></div>
+      <button class="shareBtn" onclick="shareApp()"><span>🤍</span><span data-t="share_btn"></span></button>
+    </div>
     <div class="links"><button onclick="go('privacy')" data-t="privacy"></button><button onclick="toggleTheme()" data-t="theme_btn"></button></div>
   </div>
 </section>
@@ -576,6 +588,7 @@ a{color:var(--accent)}
 
   <label><input type="checkbox" id="sRate" style="width:auto"> <span data-t="s_rate"></span></label>
   <button class="big alt" onclick="obStart()" data-t="s_trip_edit"></button>
+  <div id="studio"></div>
   <h3 style="margin-top:22px" data-t="s_transfer"></h3>
   <label><input type="checkbox" id="sExpKey" style="width:auto" checked> <span data-t="s_exp_key"></span></label>
   <button class="big alt" onclick="exportSettings()" data-t="s_export"></button>
@@ -806,7 +819,7 @@ fam_w_sos:'ضغط زر الطوارئ خلال آخر 12 ساعة!',fam_w_stale:
 fam_safety_note:'معلومات عامة من الذكاء الاصطناعي وليست تقييم أكيد للمنطقة.',fam_push_help:'عشان توصلك إشعارات «أنا بخير» والطوارئ على جوالك: نزّل تطبيق ntfy المجاني، واضغط الزر تحت واشترك.',fam_push_btn:'🔔 اشترك في إشعارات الوالد',
 g_qibla:'اضغط حدد القبلة، ولف بالجوال لين يصير أخضر.',g_tasbeeh:'اضغط الدائرة الكبيرة مع كل تسبيحة.',g_bargain:'اضغط الزر وقل وش تبي تشتري وكم يبي البياع.',
 onb_fam:'تبي أحد من أهلك يطمّن عليك؟',onb_fam_help:'اكتب اسم واحد من عيالك ورقمه، وأرسل له رابط يشوف فيه آخر مكان لك وقت ما التطبيق مفتوح، ويوصله تنبيه لما تضغط «أنا بخير» أو الطوارئ.',onb_fam_name:'الاسم (مثلاً: محمد)',onb_fam_ok:'أوافق أشارك موقعي معه',onb_fam_send:'أرسل له الرابط واتساب',family_word:'العائلة',m_famquick:'👨‍👩‍👦 أهلي يطمّنون علي',fam_quick_ask:'تبي تشارك موقعك مع أهلك؟ بيشوفون آخر مكان لك وقت ما التطبيق مفتوح.',fam_quick_ok:'✅ أوافق وأرسل الرابط',
-ob_hello:'هلا والله ومسهلا! أنا Bin3abdAi، خويك في السفر. بسألك كم سؤال سريع عشان أخدمك صح.',ob_tap_start:'اضغط هنا ونبدأ',ob_tap_why:'أحتاج ضغطتك عشان أقدر أتكلم معك بالصوت',
+ob_hello:'هلا والله ومسهلا! بسألك كم سؤال سريع عشان أخدمك صح.',ob_tap_start:'اضغط هنا ونبدأ',ob_tap_why:'أحتاج ضغطتك عشان أقدر أتكلم معك بالصوت',
 ob_lang_q:'أول شي، وش لغتك؟ تكلم بأي لغة وأنا أفهمك وأتكلم بلغتك.',ob_lang_why:'عشان أكلمك وأكتب لك بلغتك طول الوقت',ob_lang_speak:'تكلّم بلغتك وأنا أعرفها',ob_lang_search:'اضغط وابحث عن أي لغة بالصوت أو الكتابة',
 ob_name_q:'وش أسميك؟',ob_name_why:'عشان أناديك باسمك وأرحب فيك كل مرة',ob_say:'جاوب بصوتك',ob_listening:'أسمعك… اضغط لما تخلص',
 ob_type_q:'وش نوع سفرتك؟',ob_type_why:'عشان أرتب نصايحي وجدولك وميزانيتك على حسب سفرتك',tt_work:'سفر عمل',tt_work_s:'اقتصادي ومرتب',tt_tour:'سياحة',tt_tour_s:'أماكن ونزهات',tt_med:'علاج',tt_med_s:'مستشفيات وراحة',tt_res:'مقيم',tt_res_s:'ساكن في البلد',
@@ -814,7 +827,7 @@ ob_dest_q:'وين مسافر؟',ob_dest_q_res:'وين ساكن؟',ob_dest_why:'�
 ob_budget_q:'كم ميزانيتك للرحلة؟',ob_budget_q_res:'كم مصروفك الشهري؟',ob_budget_why_work:'سفر العمل يبي ترتيب، بقسم لك الميزانية وأقترح عليك الأوفر',ob_budget_why_tour:'بقسمها لك وأخلي جدولك واقتراحاتي في حدودها',ob_budget_why_med:'بخلي الأولوية للعلاج والراحة، وأوفر لك في الباقي',ob_budget_why_res:'بساعدك تنظم مصروفك وتوفر كل شهر',
 ob_amount:'المبلغ',ob_cur:'العملة',ob_days:'كم يوم',ob_done:'تمام يا {n}! كل شي جاهز، وأنا معك طول الرحلة.',ob_done_why:'تقدر تغيّر أي شي بعدين من الإعدادات',ob_go:'يلا نبدأ',
 b_title:'ميزانيتك',b_perday:'باليوم',b_stay:'🏨 السكن',b_move:'🚕 المواصلات',b_food:'🍽️ الأكل',b_emerg:'🆘 طوارئ',b_misc:'📦 متفرقات',b_fun:'🎡 أنشطة',b_shop:'🛍️ تسوق',b_treat:'🏥 العلاج',b_rent:'🏠 الإيجار',b_bills:'💡 فواتير',b_save:'💰 ادخار',s_trip_edit:'✈️ عدّل نوع السفر والوجهة والميزانية',
-m_quran_t:'القرآن',m_sos_t:'الطوارئ',q_label:'رصيد الذكاء اليوم',q_low:'تنبيه: رصيدك اليومي من الذكاء الاصطناعي قرب يخلص، باقي لك {n}. الأذان والأذكار والعداد شغالة دايم.',q_out:'خلص رصيدك اليومي من الذكاء الاصطناعي، ويتجدد بكرة إن شاء الله. الأذان والأذكار والمسبحة والقبلة وعداد التكسي شغالة عادي.',q_global:'الخدمة عليها ضغط كبير اليوم، جرّب بعد شوي. الأذان والأذكار والعداد شغالة عادي.',m_journey:'📊 رحلتي',m_plan:'🗓️ خطط يومي',j_week:'صلواتك آخر 7 أيام',j_timeline:'وش سويت',j_empty:'للحين ما فيه شي، كل ما تخلص شي يطلع هنا ✅',j_prayers:'الصلوات',j_athkar:'الأذكار',j_meds:'العلاج',
+m_quran_t:'القرآن',m_sos_t:'الطوارئ',share_line:'خوي رفيقك الذكي في السفر: يترجم، ويحسب التكسي، ويذكّرك بالصلاة والأذكار. شاركه مع من تحب، ولك أجر كل من ينتفع فيه بإذن الله 🌿',share_btn:'شارك الخير',share_msg:'🌿 جرّب «خوي» من Bin3abdAi، رفيقك الذكي في السفر: يترجم لك بصوتك، ويحسب لك التكسي، ويذكّرك بالصلاة والأذكار، وببلاش. «الدال على الخير كفاعله» 🤍',share_done:'شاركت التطبيق',st_title:'صوتي (للمطوّر)',st_tok_help:'اكتب رمز المطوّر عشان تسجّل الجمل الثابتة بصوتك، وتوصل لكل المستخدمين.',st_unlock:'🔓 فتح',st_help:'اضغط 🔴 وقل الجملة بصوتك (أقصى شي 10 ثواني)، واضغط ⏹️ لما تخلص. تنرفع على طول ويسمعها كل المستخدمين.',st_lock:'🔒 قفل استوديو الصوت',st_bad_tok:'رمز المطوّر غير صحيح',st_saved:'انحفظ صوتك',q_label:'رصيد الذكاء اليوم',q_low:'تنبيه: رصيدك اليومي من الذكاء الاصطناعي قرب يخلص، باقي لك {n}. الأذان والأذكار والعداد شغالة دايم.',q_out:'خلص رصيدك اليومي من الذكاء الاصطناعي، ويتجدد بكرة إن شاء الله. الأذان والأذكار والمسبحة والقبلة وعداد التكسي شغالة عادي.',q_global:'الخدمة عليها ضغط كبير اليوم، جرّب بعد شوي. الأذان والأذكار والعداد شغالة عادي.',m_journey:'📊 رحلتي',m_plan:'🗓️ خطط يومي',j_week:'صلواتك آخر 7 أيام',j_timeline:'وش سويت',j_empty:'للحين ما فيه شي، كل ما تخلص شي يطلع هنا ✅',j_prayers:'الصلوات',j_athkar:'الأذكار',j_meds:'العلاج',
 k_prayers:'صلاة مسجّلة',k_streak:'يوم متتالي أذكار',k_tasbeeh:'تسبيحة',k_taxi:'مشوار تكسي',k_translate:'جملة مترجمة',k_plan:'مكان زرته',
 f_all:'الكل',f_worship:'🕌 عبادة',f_trip:'🗓️ الرحلة',f_move:'🚕 تنقل',f_talk:'🌍 ترجمة',f_health:'💊 علاج',
 done_prayer:'صليت',done_athkar:'خلّصت الأذكار',done_dhikr:'ذكرت الله',done_tasbeeh:'خلّصت التسبيح',done_qibla:'حددت القبلة',done_med:'أخذت العلاج',done_taxi:'وصلت بالتكسي',done_translate:'ترجمة',done_plan:'زرت',done_fine:'طمّنت العيال',done_word:'تم',
@@ -866,7 +879,7 @@ fam_w_sos:'SOS pressed in the last 12 hours!',fam_w_stale:'Last update {h} h ago
 fam_safety_note:'General AI information, not a definitive assessment of the area.',fam_push_help:'To get I am fine / SOS notifications: install the free ntfy app, tap below and subscribe.',fam_push_btn:'🔔 Subscribe to alerts',
 g_qibla:'Tap Find Qibla and turn the phone until it turns green.',g_tasbeeh:'Tap the big circle with each tasbeeh.',g_bargain:'Tap and say what you want to buy and the price.',
 onb_fam:'Want family to follow your trip?',onb_fam_help:'Add one family member; they get a link to see your last location while the app is open, and alerts for I am fine / SOS.',onb_fam_name:'Name',onb_fam_ok:'I agree to share my location with them',onb_fam_send:'Send them the link on WhatsApp',family_word:'Family',m_famquick:'👨‍👩‍👦 Family follow me',fam_quick_ask:'Share your location with your family? They will see your last location while the app is open.',fam_quick_ok:'✅ Agree and send link',
-ob_hello:'Welcome! I am Bin3abdAi, your travel companion. A few quick questions so I can help you right.',ob_tap_start:'Tap here to start',ob_tap_why:'I need your tap so I can talk to you',
+ob_hello:'Welcome! A few quick questions so I can help you right.',ob_tap_start:'Tap here to start',ob_tap_why:'I need your tap so I can talk to you',
 ob_lang_q:'First, what is your language? Speak any language and I will understand and talk in it.',ob_lang_why:'So I always talk and write in your language',ob_lang_speak:'Speak in your language',ob_lang_search:'Tap to search any language by voice or text',
 ob_name_q:'What is your name?',ob_name_why:'So I can greet you by name',ob_say:'Answer by voice',ob_listening:'Listening… tap when done',
 ob_type_q:'What kind of trip is it?',ob_type_why:'So I tailor tips, plans and budget to your trip',tt_work:'Business',tt_work_s:'Economical',tt_tour:'Tourism',tt_tour_s:'Places & fun',tt_med:'Medical',tt_med_s:'Clinics & rest',tt_res:'Resident',tt_res_s:'I live there',
@@ -874,7 +887,7 @@ ob_dest_q:'Where are you travelling?',ob_dest_q_res:'Where do you live?',ob_dest
 ob_budget_q:'What is your trip budget?',ob_budget_q_res:'What is your monthly budget?',ob_budget_why_work:'I will split it and suggest the most economical options',ob_budget_why_tour:'I will split it and keep plans within it',ob_budget_why_med:'Treatment and rest come first; I save on the rest',ob_budget_why_res:'I will help you organize and save monthly',
 ob_amount:'Amount',ob_cur:'Currency',ob_days:'Days',ob_done:'All set, {n}! I am with you all the way.',ob_done_why:'You can change anything later in settings',ob_go:'Let us go',
 b_title:'Your budget',b_perday:'per day',b_stay:'🏨 Stay',b_move:'🚕 Transport',b_food:'🍽️ Food',b_emerg:'🆘 Emergency',b_misc:'📦 Misc',b_fun:'🎡 Activities',b_shop:'🛍️ Shopping',b_treat:'🏥 Treatment',b_rent:'🏠 Rent',b_bills:'💡 Bills',b_save:'💰 Savings',s_trip_edit:'✈️ Edit trip type, destination and budget',
-m_quran_t:'Quran',m_sos_t:'Emergency',q_label:'AI balance today',q_low:'Heads up: your daily AI balance is almost used up ({n} left). Prayer, adhkar and taxi meter always work.',q_out:'Your daily AI balance is used up; it renews tomorrow. Prayer, adhkar, tasbeeh, qibla and taxi meter still work.',q_global:'The service is busy today, try again later.',m_journey:'📊 My trip',m_plan:'🗓️ Plan my day',j_week:'Prayers, last 7 days',j_timeline:'What I did',j_empty:'Nothing yet. Every completed task appears here ✅',j_prayers:'Prayers',j_athkar:'Adhkar',j_meds:'Meds',
+m_quran_t:'Quran',m_sos_t:'Emergency',share_line:'Khoy is your smart travel companion. Share it with loved ones; every benefit is a reward for you, God willing 🌿',share_btn:'Share the good',share_msg:'🌿 Try Khoy by Bin3abdAi: your smart travel companion that translates by voice, estimates taxi fares and reminds you of prayers. Free. «Whoever guides to good is like its doer» 🤍',share_done:'Shared the app',st_title:'My voice (developer)',st_tok_help:'Enter the developer code to record fixed phrases in your voice for all users.',st_unlock:'🔓 Unlock',st_help:'Tap 🔴 and say the phrase (max 10s), tap ⏹️ when done. It uploads for all users.',st_lock:'🔒 Lock voice studio',st_bad_tok:'Wrong developer code',st_saved:'Your voice was saved',q_label:'AI balance today',q_low:'Heads up: your daily AI balance is almost used up ({n} left). Prayer, adhkar and taxi meter always work.',q_out:'Your daily AI balance is used up; it renews tomorrow. Prayer, adhkar, tasbeeh, qibla and taxi meter still work.',q_global:'The service is busy today, try again later.',m_journey:'📊 My trip',m_plan:'🗓️ Plan my day',j_week:'Prayers, last 7 days',j_timeline:'What I did',j_empty:'Nothing yet. Every completed task appears here ✅',j_prayers:'Prayers',j_athkar:'Adhkar',j_meds:'Meds',
 k_prayers:'prayers logged',k_streak:'day adhkar streak',k_tasbeeh:'tasbeeh',k_taxi:'taxi rides',k_translate:'translations',k_plan:'places visited',
 f_all:'All',f_worship:'🕌 Worship',f_trip:'🗓️ Trip',f_move:'🚕 Rides',f_talk:'🌍 Talk',f_health:'💊 Health',
 done_prayer:'Prayed',done_athkar:'Adhkar done',done_dhikr:'Dhikr',done_tasbeeh:'Tasbeeh done',done_qibla:'Qibla found',done_med:'Medicine taken',done_taxi:'Taxi ride',done_translate:'Translation',done_plan:'Visited',done_fine:'Told family',done_word:'Done',
@@ -1003,8 +1016,15 @@ async function getTTS(text,lang,fast,cache){
   const pr=(async()=>{let ab=await idbGet(k);if(!ab){ab=await ttsFetch(text,lang,fast);if(ab)idbPut(k,ab)}if(ab)ttsMem.set(k,ab);ttsPending.delete(k);return ab})();
   ttsPending.set(k,pr);return pr;
 }
+function ttsClean(text,lang){
+  let x=String(text).replace(/\[\[[^\]]*\]\]/g,'').replace(/https?:\/\/\S+/g,'')
+    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}\u{2B00}-\u{2BFF}]/gu,'').replace(/[*_#`•|]/g,' ');
+  if(lang==='ar'){x=x.replace(/Bin3abdAi/gi,'بن عابد إي آي').replace(/(\d+)\s*%/g,'$1 بالمية').replace(/°C?/g,' درجة').replace(/\bSAR\b/g,'ريال').replace(/\bTHB\b/g,'بات').replace(/\bUSD\b/g,'دولار')}
+  else x=x.replace(/Bin3abdAi/gi,'Bin Abed A I');
+  return x.replace(/[\u{1F3FB}-\u{1F3FF}]/gu,'').replace(/\s+([.،,!؟?])/g,'$1').replace(/\s{2,}/g,' ').trim();
+}
 async function speak(text,lang='ar',fast=false,cache=false){
-  if(!text)return;
+  if(!text)return;text=ttsClean(text,lang);if(!text)return;
   if(hasAI()){
     try{const ab=await getTTS(text,lang,fast,cache);if(ab){const ok=await playBuffer(ab.slice(0));if(ok)return}}catch(e){}
   }
@@ -1067,7 +1087,7 @@ function showErr(which,msg){
 async function transcribe(blob,lang){
   if(blob.size<1500)throw new Error(t('heard_nothing'));
   const ty=blob.type,ext=(ty.includes('mp4')||ty.includes('aac'))?'m4a':(ty.includes('ogg')?'ogg':'webm');
-  const send=async model=>{const fd=new FormData();fd.append('file',blob,'voice.'+ext);fd.append('model',model);if(lang)fd.append('language',lang);
+  const send=async model=>{const fd=new FormData();fd.append('file',blob,'voice.'+ext);fd.append('model',model);if(lang)fd.append('language',lang);if(!lang||lang==='ar')fd.append('prompt','كلام سعودي عامي: وش، أبغى، أبي، ودّني، كم سعره، الحين، زين، ترجم لي، تكسي، الصلاة، الأذكار، خوي.');
     return oai('/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key},body:fd})};
   let r=await send(MODEL_STT);
   if(!r.ok && r.status!==401 && r.status!==429) r=await send(MODEL_STT_FALLBACK);
@@ -1109,7 +1129,7 @@ Rules:
 - If the user wants to go somewhere or asks where something is, add at the very end on its own line: [[MAP: <best Google Maps search query in English, include city>]]
 - If the user asks to open or use a feature of the app, say one short sentence and add on its own line [[GO: x]] where x is one of: plan (plan my trip / where to go / schedule), journey (my trip dashboard, what I did, my prayers record), teach (teach Khoy / correct it), qibla, tasbeeh, bargain, translate (translator / talk with someone), taxi (taxi meter), prayer (prayer times), athkar (adhkar), quran, currency, camera, nav (directions), sos (emergency/family), meds (medicines).
 - Prices and times are approximate; never invent places. Medical: do not diagnose; advise a doctor; emergencies: call local emergency numbers. Religious rulings: brief, mainstream, suggest asking scholars for details.
-- If asked your name: you are Bin3abdAi, the assistant of Khoy.
+- Never introduce yourself unless the user asks who you are (then: Bin3abdAi, the assistant of Khoy).
 - TEACHING: if the user teaches you something or corrects you ("تعلّم"، "تذكّر"، "لا الصحيح"، "انتبه"...), first judge it. If it is about himself, his preferences or his trip, or it is factually correct, thank him briefly and add on its own line [[LEARN: <the fact, short, in his language>]]. If it contradicts well-established facts, kindly explain what is correct with a reason and do NOT add LEARN.
 ${teachCtx()}
 ${ctxInfo()}`;
@@ -1172,17 +1192,25 @@ async function greet(){
   if(myLang()==='ar'){
     const place=(area&&area.name)?area.name.split('،')[0]:(c?c[1]:'');const pick=a=>a[Math.floor(Math.random()*a.length)];
     const hi=(h<12?pick(['صباح الخير والسرور','صباحك فل وياسمين','صباح النور']):pick(['مساء الخير','مساك الله بالخير','مساء الورد']))+(name?(' يا '+name):'');
-    const first=!S.get('introDone',false);
-    const body=first?' أنا Bin3abdAi خويك في هالرحلة 😄 تبي ترجمة، تكسي، صلاة، أو مكان حلو؟ بس اضغط الزر وكلّمني.'
-      :' '+pick([place?('نوّرت '+place+'! وش الخطة اليوم؟'):'وش الخطة اليوم؟','جاهز للمشوار؟ قل لي وين نروح.','أبشر بعزك، أنا حاضر لأي شي.',place?('هلا بك في '+place+'، الله يسعد أيامك.'):'الله يسعد أيامك.']);
-    S.set('introDone',true);
-    txt=hi+'!'+body+(n?(' ترى الصلاة الجاية '+pName(n.p)+' بعد '+leftText(n.left)+'.'):'')+(wx&&wx.max>=33?' الجو حار، لا تنسى الموية 💧':(wx&&wx.rain>=50?' وخذ معك شمسية ☔':''));
+    const today=dayKey(),first=S.get('introDay','')!==today;S.set('introDay',today);
+    const hot=wx&&wx.max>=33,rainy=wx&&wx.rain>=50;
+    const wxLine=wx?(' والجو الحين '+wx.t+' درجة'+(hot?' يعني حر، تعطّر وتطيّب قبل ما تروح المسجد، وإذا لديك الإمكانية اشترِ كرتون موية باردة وحطها في المسجد 💧':(rainy?'، ويمكن تمطر، خذ معك شمسية ☔ وتعطّر وتطيّب قبل ما تروح المسجد':'، جو حلو 👌 تعطّر وتطيّب قبل ما تروح المسجد'))):'';
+    const prLine=n?(' و ترى الصلاة الجاية '+pName(n.p)+' بعد '+leftText(n.left)+'.'):'';
+    if(first){
+      txt='أرحب '+(name?('يا '+name):'يا شيخ')+'! معاك ولد عابد، خويك في السفر من بعد الله سبحانه، في كل مكان وزمان بإذن الله. '+
+        'تبغى ترجمة؟ تكسي وسعره؟ إلا إذا الفلوس حصلتها طايحة وما فرقت 🤷🏻‍♂️. '+
+        'ولا علاجات، ولا وين تبغى تروح؟ كلو شغّال ما يبغالك، وبضغطة زر يا حيّ ☺️🤞🏼 '+
+        'بس وقت الصلاة، صلاة ودين وعبادة ويطيح الكلام،'+prLine.replace(/^ و/,' و')+wxLine+'.';
+    }else{
+      txt=hi+'! '+pick([place?('نوّرت '+place+'! وش الخطة اليوم؟'):'وش الخطة اليوم؟','جاهز للمشوار؟ قل لي وين نروح.','أبشر بعزك، أنا حاضر لأي شي.',place?('هلا بك في '+place+'، الله يسعد أيامك.'):'الله يسعد أيامك.'])+prLine.replace(/^ و ترى/,' ترى')+wxLine+'.';
+    }
+    txt=txt.replace(/\.\./g,'.');
   }else{
     txt=t('greet_en',{name:name||'',country:c?c[2]:''})+(n?(' '+t('next_prayer')+': '+pName(n.p)+', '+t('left')+' '+leftText(n.left)+'.'):'');
   }
   setAState('speaking');
   const box=$('asstLog');box.innerHTML=`<div class="bubble ai">🤖 ${esc(txt)}</div>`;
-  speak(txt,myLang()).then(()=>setAState('ready'));
+  (myLang()==='ar'&&!txt.startsWith('أرحب')&&hasClip(h<12?'greet_m':'greet_e')?speakKey(h<12?'greet_m':'greet_e','').then(()=>speak(txt.replace(/^[^!]*!/,''),myLang())):speak(txt,myLang())).then(()=>setAState('ready'));
 }
 const guided=S.get('guided',{});
 function guideSpeak(id,force){
@@ -1496,7 +1524,7 @@ async function taxiToggle(){
     return;
   }
   if(!navigator.geolocation){showAlert('📍',t('taxi_gps'));return}
-  tx={on:true,dist:0,wait:0,start:Date.now(),last:null,lastMove:Date.now(),watch:null,timer:null,wl:null};sendLoc('taxi');
+  tx={on:true,dist:0,wait:0,start:Date.now(),last:null,lastMove:Date.now(),watch:null,timer:null,wl:null};sendLoc('taxi');speakKey('taxi_go','');
   try{if(navigator.wakeLock)tx.wl=await navigator.wakeLock.request('screen')}catch(e){}
   tx.watch=navigator.geolocation.watchPosition(p=>{
     if(p.coords.accuracy>60)return;const pt={lat:p.coords.latitude,lng:p.coords.longitude,t:Date.now()};
@@ -1663,7 +1691,7 @@ async function sendLoc(kind,extra){
 let lastLocSent=0;
 function locHeartbeat(){if(!cfg.shareLoc)return;if(Date.now()-lastLocSent<5*60e3)return;lastLocSent=Date.now();sendLoc('loc')}
 async function imFine(){
-  speak(t('fine_said'),myLang(),true,true);
+  speakKey('fine',t('fine_said'));
   const p=await getPos(true);
   sendLoc('fine');
   const f=(cfg.family||[])[0];
@@ -1812,6 +1840,36 @@ async function obHandleVoice(text){
   ob.said={};obRender();
 }
 
+
+/* ================= DEVELOPER VOICE (fixed phrases in the developer's own voice) ================= */
+const VOICE_PHRASES=[['greet_m','صباح الخير، هلا والله'],['greet_e','مساء الخير، هلا والله'],['p_fajr','حان الآن وقت صلاة الفجر'],['p_dhuhr','حان الآن وقت صلاة الظهر'],['p_asr','حان الآن وقت صلاة العصر'],['p_maghrib','حان الآن وقت صلاة المغرب'],['p_isha','حان الآن وقت صلاة العشاء'],['pre_adhan','باقي خمس دقايق على الأذان، تجهّز وتوضّأ'],['dhikr','لا تنسى ذكر الله'],['az_done','تقبّل الله منك'],['fine','أبشر، طمّنتهم عليك'],['taxi_go','شغّلت العداد، الله يوصلك بالسلامة']];
+let vlist=S.get('vlist',{});const clipMem=new Map();
+async function loadVoiceList(){if(!KHOY_PROXY)return;try{const r=await fetch(KHOY_PROXY+'/voice/list');if(r.ok){vlist=await r.json();S.set('vlist',vlist)}}catch(e){}}
+function hasClip(k){return !!vlist[k]}
+async function getClip(k){if(!vlist[k])return null;const ck='v_'+k+'_'+vlist[k];if(clipMem.has(ck))return clipMem.get(ck);let ab=await idbGet(ck);
+  if(!ab){try{const r=await fetch(KHOY_PROXY+'/voice/'+k);if(!r.ok)return null;ab=await r.arrayBuffer();idbPut(ck,ab)}catch(e){return null}}clipMem.set(ck,ab);return ab}
+async function speakKey(k,fallback){if(myLang()==='ar'&&hasClip(k)){const ab=await getClip(k);if(ab){const ok=await playBuffer(ab.slice(0));if(ok)return}}if(fallback)return speak(fallback,myLang(),true,true)}
+let devTaps=0,devTimer=null;
+async function shareApp(){const url=location.origin+location.pathname;const text=t('share_msg');
+  try{if(navigator.share){await navigator.share({title:'خوي Bin3abdAi',text,url});logDone('fine',t('share_done'),{silent:true});return}}catch(e){if(e&&e.name==='AbortError')return}
+  openUrl('https://wa.me/?text='+encodeURIComponent(text+'\n'+url))}
+function devTap(){devTaps++;clearTimeout(devTimer);devTimer=setTimeout(()=>devTaps=0,1500);if(devTaps>=5){devTaps=0;go('settings');setTimeout(()=>{renderStudio(true);$('studio').scrollIntoView({behavior:'smooth'})},300)}}
+function renderStudio(open){const el=$('studio');if(!el)return;const tok=S.get('devtok','');if(!tok&&!open){el.innerHTML='';return}
+  if(!tok){el.innerHTML=`<h3 style="margin-top:22px">🎙️ ${esc(t('st_title'))}</h3><p class="small">${esc(t('st_tok_help'))}</p><input id="devTok" type="password" placeholder="KHOY-..."><button class="big" onclick="S.set('devtok',$('devTok').value.trim());renderStudio()">${esc(t('st_unlock'))}</button>`;return}
+  el.innerHTML=`<h3 style="margin-top:22px">🎙️ ${esc(t('st_title'))}</h3><p class="small">${esc(t('st_help'))}</p>`+VOICE_PHRASES.map(([k,tx])=>`<div class="glass info" style="display:flex;gap:8px;align-items:center;font-weight:700"><span style="flex:1">${hasClip(k)?'✅':'⚪'} ${esc(tx)}</span><button class="pill" style="flex:none;width:auto;padding:8px 12px" id="rec_${k}" onclick="studioRec('${k}')">🔴</button>${hasClip(k)?`<button class="pill" style="flex:none;width:auto;padding:8px 12px" onclick="speakKey('${k}','')">▶️</button><button class="pill" style="flex:none;width:auto;padding:8px 12px" onclick="studioDel('${k}')">🗑️</button>`:''}</div>`).join('')+`<button class="big alt" onclick="S.set('devtok','');renderStudio()">${esc(t('st_lock'))}</button>`}
+let stRec=null;
+async function studioRec(k){const b=$('rec_'+k);if(stRec){try{stRec.stop()}catch(e){}return}
+  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}catch(e){showAlert('🎙️',t('mic_denied'));return}
+  stopSpeech();const mime=pickMime();const rec=new MediaRecorder(stream,mime?{mimeType:mime}:undefined),ch=[];stRec=rec;b.textContent='⏹️';
+  rec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};const tm=setTimeout(()=>{try{rec.stop()}catch(e){}},10000);
+  rec.onstop=async()=>{clearTimeout(tm);stream.getTracks().forEach(x=>x.stop());stRec=null;b.textContent='⏳';
+    const blob=new Blob(ch,{type:(rec.mimeType||'audio/webm').split(';')[0]});
+    try{const r=await fetch(KHOY_PROXY+'/voice/'+k,{method:'POST',headers:{'X-Admin-Token':S.get('devtok',''),'Content-Type':blob.type},body:blob});
+      if(r.status===401){S.set('devtok','');showAlert('🔒',t('st_bad_tok'));renderStudio(true);return}
+      if(!r.ok)throw new Error('upload '+r.status);await loadVoiceList();doneToast(t('st_saved'));renderStudio()}catch(e){showAlert('⚠️',e.message);renderStudio()}};
+  rec.start()}
+async function studioDel(k){try{await fetch(KHOY_PROXY+'/voice/'+k,{method:'POST',headers:{'X-Admin-Token':S.get('devtok','')},body:''});await loadVoiceList();renderStudio()}catch(e){}}
+
 /* ================= ACTIVITY LOG / DONE ================= */
 let act=S.get('act',[]),prayed=S.get('prayed',{});
 const ACT_META={prayer:['🕌','worship'],athkar_m:['🌅','worship'],athkar_e:['🌇','worship'],dhikr:['📿','worship'],tasbeeh:['📿','worship'],qibla:['🕋','worship'],med:['💊','health'],taxi:['🚕','move'],translate:['🌍','talk'],plan:['🗓️','trip'],fine:['👋','trip']};
@@ -1906,7 +1964,7 @@ async function teachAdd(txt){
 async function handleTeach(blob){const q=await transcribe(blob,myLang());if(!q)throw new Error(t('heard_nothing'));$('tcText').value=q;await teachAdd(q)}
 
 /* ================= RATINGS & FEEDBACK -> developer (ntfy) ================= */
-const DEV_TOPIC='khoy-dev-8v2zp628tnx58h97',APP_VER='9';
+const DEV_TOPIC='khoy-dev-8v2zp628tnx58h97',APP_VER='10';
 let rateCtx=null,rateTimer=null,lastVoiceRate=S.get('lvr',0);
 const RATE_Q={plan:'rq_plan',asst:'rq_asst',taxi:'rq_taxi',athkar:'rq_athkar',tasbeeh:'rq_tasbeeh',convo:'rq_convo',bargain:'rq_bargain',teach:'rq_teach',suggest:'rq_suggest'};
 function askRate(kind,detail,o={}){
@@ -2034,7 +2092,7 @@ async function azPrefetch(){if(azPf||!hasAI())return;azPf=true;const list=AZ[azS
 async function azReadNow(){const b=$('azRead');const old=b.textContent;b.textContent='⏳ '+t('wait');try{await speak(AZ[azSet][azI].t,'ar',true,true)}finally{b.textContent=old}}
 function renderAz(){const d=AZ[azSet][azI];$('azProg').textContent=`${azI+1} / ${AZ[azSet].length}`;$('azText').textContent=d.t;$('azCount').textContent=azC>=d.n?t('done'):`${azC} / ${d.n}`}
 function azTap(){const d=AZ[azSet][azI];azC++;try{navigator.vibrate&&navigator.vibrate(30)}catch(e){}
-  if(azC>=d.n){renderAz();setTimeout(()=>{if(azI<AZ[azSet].length-1){azI++;azC=0;renderAz()}else{$('azCount').textContent=t('az_done');logDone('athkar_'+azSet,'');askRate('athkar',azSet,{voice:true})}},600)}else renderAz()}
+  if(azC>=d.n){renderAz();setTimeout(()=>{if(azI<AZ[azSet].length-1){azI++;azC=0;renderAz()}else{$('azCount').textContent=t('az_done');speakKey('az_done','');logDone('athkar_'+azSet,'');askRate('athkar',azSet,{voice:true})}},600)}else renderAz()}
 function azMove(d){azI=Math.min(AZ[azSet].length-1,Math.max(0,azI+d));azC=0;renderAz()}
 
 /* ================= MEDS ================= */
@@ -2054,7 +2112,7 @@ function nextAlert(){const a=aQ.shift();if(!a){aOpen=false;$('alertBox').classLi
   aOpen=true;$('alIc').textContent=a.ic;$('alMsg').textContent=a.msg;
   $('alOk').style.display=a.o.noBtn?'none':'block';$('alOk').textContent=a.o.okText||t('ok');$('alOk').onclick=()=>{a.o.onOk&&a.o.onOk();nextAlert()};
   $('alLater').style.display=a.o.onLater?'block':'none';$('alLater').textContent=t('remind_later');$('alLater').onclick=()=>{a.o.onLater();nextAlert()};
-  $('alertBox').classList.add('on');if(a.o.say)speak(a.o.say,myLang())}
+  $('alertBox').classList.add('on');if(a.o.sayKey)speakKey(a.o.sayKey,a.o.say||'');else if(a.o.say)speak(a.o.say,myLang())}
 function beep(){try{const c=getCtx();const o=c.createOscillator(),g=c.createGain();o.frequency.value=880;o.connect(g);g.connect(c.destination);g.gain.value=.25;o.start();setTimeout(()=>o.frequency.value=660,300);setTimeout(()=>o.stop(),700)}catch(e){}}
 let fired=S.get('fired',{}),snoozed={};
 function tick(){
@@ -2063,10 +2121,10 @@ function tick(){
   todayDoses().forEach(d=>{const fk='m_'+d.key,due=(d.t===hm&&!fired[fk])||(snoozed[d.key]&&Date.now()>=snoozed[d.key]);
     if(due&&!isTaken(d.key)){fired[fk]=true;delete snoozed[d.key];beep();sysNotify('💊',t('med_time')+': '+d.name);
       showAlert('💊',t('med_time')+': '+d.name+(d.note?' — '+d.note:''),{okText:t('taken'),say:t('med_time')+' '+d.name,onOk:()=>markTaken(d.key),onLater:()=>{snoozed[d.key]=Date.now()+15*60000}})}});
-  if(prayer&&prayer.day===day){PNAMES.forEach(p=>{if(p[0]==='Sunrise')return;const fk='p_'+p[0];if(prayer.timings[p[0]]===hm&&!fired[fk]){fired[fk]=true;beep();sysNotify('🕌 '+pName(p),t('prayer_now')+' '+pName(p));showAlert('🕌',t('prayer_now')+' '+pName(p),{say:t('prayer_now')+' '+pName(p),okText:t('prayed_btn'),onOk:()=>markPrayed(p[0]),onLater:()=>{}})}})}
+  if(prayer&&prayer.day===day){PNAMES.forEach(p=>{if(p[0]==='Sunrise')return;const fk='p_'+p[0];if(prayer.timings[p[0]]===hm&&!fired[fk]){fired[fk]=true;beep();sysNotify('🕌 '+pName(p),t('prayer_now')+' '+pName(p));showAlert('🕌',t('prayer_now')+' '+pName(p),{say:t('prayer_now')+' '+pName(p),sayKey:'p_'+p[0].toLowerCase(),okText:t('prayed_btn'),onOk:()=>markPrayed(p[0]),onLater:()=>{}})}})}
   else loadPrayer(false);
-  if(prayer&&prayer.day===day&&cfg.preAdhan!==false){PNAMES.forEach(p=>{if(p[0]==='Sunrise')return;const[h,m]=prayer.timings[p[0]].split(':').map(Number);const tm=h*60+m-5;const pre=String(Math.floor((tm+1440)%1440/60)).padStart(2,'0')+':'+String((tm+1440)%60).padStart(2,'0');const fk='pre_'+p[0];if(pre===hm&&!fired[fk]){fired[fk]=true;beep();sysNotify('⏰',t('pre_adhan',{p:pName(p)}));showAlert('⏰',t('pre_adhan',{p:pName(p)}),{say:t('pre_adhan',{p:pName(p)})})}})}
-  const dt=dhikrTimes(),di=dt.indexOf(hm);if(di>=0&&!fired['dh_'+hm]){fired['dh_'+hm]=true;const dz=DHIKR_SHORT[di%DHIKR_SHORT.length];tick2(880,120);sysNotify('📿',dz);showAlert('📿',dz,{say:dz,okText:t('said_it'),onOk:()=>logDone('dhikr',dz,{silent:true})})}
+  if(prayer&&prayer.day===day&&cfg.preAdhan!==false){PNAMES.forEach(p=>{if(p[0]==='Sunrise')return;const[h,m]=prayer.timings[p[0]].split(':').map(Number);const tm=h*60+m-5;const pre=String(Math.floor((tm+1440)%1440/60)).padStart(2,'0')+':'+String((tm+1440)%60).padStart(2,'0');const fk='pre_'+p[0];if(pre===hm&&!fired[fk]){fired[fk]=true;beep();sysNotify('⏰',t('pre_adhan',{p:pName(p)}));showAlert('⏰',t('pre_adhan',{p:pName(p)}),{say:t('pre_adhan',{p:pName(p)}),sayKey:'pre_adhan'})}})}
+  const dt=dhikrTimes(),di=dt.indexOf(hm);if(di>=0&&!fired['dh_'+hm]){fired['dh_'+hm]=true;const dz=DHIKR_SHORT[di%DHIKR_SHORT.length];tick2(880,120);sysNotify('📿',dz);showAlert('📿',dz,{say:dz,sayKey:'dhikr',okText:t('said_it'),onOk:()=>logDone('dhikr',dz,{silent:true})})}
   planTick(hm,fired);dailyReview(hm,fired);
   locHeartbeat();
   S.set('fired',fired);if(cur==='home')renderHome();
@@ -2091,7 +2149,7 @@ function renderHome(){
 }
 
 /* ================= SETTINGS ================= */
-function fillSettings(){$('sQuota').innerHTML=quotaHtml();
+function fillSettings(){renderStudio();$('sQuota').innerHTML=quotaHtml();
   const L=langOf(myLang());$('sUiLang').textContent=flag(L&&L[3])+' '+(L?(L[0]==='ar'?'العربية':L[2]):myLang());
   const c=country();$('sDest').textContent=c?(flag(c[0])+' '+(myLang()==='ar'?c[1]:c[2])):t('choose_country');
   $('sKey').value=cfg.key;$('sName').value=cfg.name;$('sAbout').value=cfg.about;$('sVoice').value=cfg.voice;$('sReciter').value=cfg.reciter;$('sMethod').value=cfg.method;
@@ -2168,7 +2226,7 @@ const HANDLERS={pl:handlePlVoice,tc:handleTeach,fb:handleFb,bg:handleBg,asst:han
 function renderAll(){applyI18n();renderHome();renderQuran();if(cur==='translate')renderTranslate();if(cur==='sos')renderSOS();if(cur==='settings')fillSettings();if(cur==='prayer')renderPrayer();Object.keys(MIC_IDS).forEach(w=>{if($(MIC_IDS[w]))setMicUI(w,'idle')})}
 ['translate','taxi','prayer','athkar','camera','nav','qibla','tasbeeh','bargain','teach','plan','journey'].forEach(id=>{const top=document.querySelector('#'+id+' .top');if(top){const b=document.createElement('button');b.className='back';b.style.marginInlineStart='auto';b.dataset.t='help';b.onclick=()=>guideSpeak(id,true);top.appendChild(b)}});
 applyTheme();applyFont();$('homeChar').src=CHAR_IMG;document.querySelector('#miniChar img').src=CHAR_IMG;renderAll();
-loadPrayer(false);
+loadPrayer(false);loadVoiceList();
 setInterval(tick,20000);setTimeout(tick,1500);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
 if(/^#import-/.test(location.hash)){if(importSettings(location.hash)){history.replaceState(null,'',location.pathname)}}
