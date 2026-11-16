@@ -107,6 +107,80 @@ a{color:var(--accent)}
 .foot .links button{background:var(--card2);border:1.5px solid var(--line);border-radius:999px;padding:9px 16px;font-weight:700;font-size:.85em}
 .medrow,.famrow{border:1.5px dashed var(--line);border-radius:14px;padding:10px;margin:10px 0}
 .err{background:rgba(239,68,68,.12);border:1.5px solid rgba(239,68,68,.6);border-radius:16px;padding:12px;margin:10px 0;font-weight:700}
+
+/* ===== brand mark ===== */
+.bm{display:inline-flex;align-items:center;gap:10px;direction:rtl}
+.bm-logo{width:44px;height:44px;flex:none;filter:drop-shadow(0 0 10px rgba(var(--accentRGB),.55))}
+.bm-logo .hex{animation:spinhex 12s linear infinite;transform-origin:50% 50%}
+.bm-logo .core{animation:corepulse 2.4s ease-in-out infinite;transform-origin:50% 50%}
+@keyframes spinhex{to{transform:rotate(360deg)}}
+@keyframes corepulse{50%{transform:scale(1.25);opacity:.75}}
+.bm-txt{display:flex;flex-direction:column;line-height:1.05}
+.bm-ar{font-weight:800;font-size:1.35em;background:linear-gradient(90deg,var(--accent),#a5f3fc,var(--accent2),var(--accent));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+.bm-en{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.68em;letter-spacing:2.5px;color:var(--muted);direction:ltr;text-align:right}
+.bm-en b{color:var(--accent);font-weight:800}
+.bm-en::after{content:"_";color:var(--accent);animation:blink 1s steps(1) infinite;margin-left:1px}
+@keyframes shine{to{background-position:300% 0}}
+@keyframes blink{50%{opacity:0}}
+/* big version (splash) */
+.bm.bmxl{flex-direction:column;gap:14px}
+.bm.bmxl .bm-logo{width:120px;height:120px}
+.bm.bmxl .bm-ar{font-size:3.4em;letter-spacing:1px;text-shadow:none}
+.bm.bmxl .bm-en{font-size:1.15em;letter-spacing:6px;text-align:center;white-space:nowrap;clip-path:inset(0 100% 0 0);animation:typing 1.4s steps(9) .4s forwards}
+.bm.bmxl .bm-txt{align-items:center}
+@keyframes typing{to{clip-path:inset(0 0 0 0)}}
+[data-theme="light"] .bm-ar{background-image:linear-gradient(90deg,#0891b2,#4f46e5,#7c3aed,#0891b2)}
+.bm-tag{margin-top:6px;font-size:.95em;letter-spacing:8px;color:var(--muted);opacity:0;animation:fadeup .9s ease 1.9s forwards}
+.bm-tag::before,.bm-tag::after{content:"";display:inline-block;width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--accent));vertical-align:middle;margin:0 10px}
+.bm-tag::after{background:linear-gradient(90deg,var(--accent),transparent)}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* radar splash */
+.radar{position:relative;width:230px;height:230px;display:grid;place-items:center;border-radius:50%;
+ background:repeating-radial-gradient(circle,transparent 0 37px,rgba(var(--accentRGB),.22) 38px 39px),radial-gradient(circle,rgba(var(--accentRGB),.10),transparent 70%);
+ border:1.5px solid rgba(var(--accentRGB),.35);overflow:hidden}
+.radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(var(--accentRGB),.55),rgba(var(--accentRGB),.12) 40deg,transparent 70deg);animation:sweep 2.6s linear infinite}
+.radar::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,rgba(var(--accentRGB),.35),transparent)}
+.radar .hz{position:absolute;top:50%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--accentRGB),.35),transparent)}
+.radar .blip{position:absolute;width:7px;height:7px;border-radius:50%;background:#67e8f9;box-shadow:0 0 10px #22d3ee;opacity:0;animation:blip 2.6s linear infinite}
+.radar .blip.lock{width:12px;height:12px;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.7);animation:lockon 1.4s ease-out 2.2s infinite;opacity:0}
+.radar .bm-logo{position:relative;z-index:2}
+@keyframes sweep{to{transform:rotate(360deg)}}
+@keyframes blip{0%,8%{opacity:0}12%{opacity:1}60%{opacity:.15}100%{opacity:0}}
+@keyframes lockon{0%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.7)}100%{opacity:1;box-shadow:0 0 0 18px rgba(34,197,94,0)}}
+.radarLock{margin-top:12px;font-weight:800;font-family:ui-monospace,Menlo,monospace;letter-spacing:1px;color:#22c55e;opacity:0;animation:fadeup .6s ease 2.3s forwards;direction:rtl}
+/* done toast + dashboard */
+#doneToast{white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;font-size:.95em;position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-120px);z-index:70;padding:12px 22px;border-radius:999px;font-weight:800;color:#fff;background:linear-gradient(135deg,#22c55e,#0f766e);box-shadow:0 8px 30px rgba(34,197,94,.45);transition:transform .35s cubic-bezier(.2,1.4,.4,1)}
+#doneToast.on{transform:translateX(-50%) translateY(0)}
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.ring{position:relative;text-align:center;padding:10px 4px;border-radius:20px;background:var(--card);border:1.5px solid var(--line)}
+.ring svg{width:84px;height:84px;transform:rotate(-90deg)}
+.ring .rv{position:absolute;top:36px;left:0;right:0;font-weight:800;font-family:ui-monospace,Menlo,monospace;font-size:1.05em}
+.ring .rl{font-size:.82em;font-weight:700;margin-top:2px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:10px 0}
+.kpi{padding:14px;border-radius:18px;background:var(--card);border:1.5px solid var(--line)}
+.kpi b{display:block;font-size:1.7em;font-family:ui-monospace,Menlo,monospace;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bars{display:flex;gap:6px;align-items:flex-end;height:110px;padding:10px;border-radius:18px;background:var(--card);border:1.5px solid var(--line);margin:10px 0}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.7em;gap:4px}
+.bars i{display:block;width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--accent),var(--accent2));min-height:3px;transition:height .6s}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chips button{padding:8px 14px;border-radius:999px;background:var(--card2);border:1.5px solid var(--line);font-weight:700;color:var(--ink)}
+.chips button.sel{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.tl{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);margin:6px 0;font-weight:600}
+.tl .tm{font-family:ui-monospace,Menlo,monospace;opacity:.7;font-size:.85em;direction:ltr}
+.pitem{padding:12px;border-radius:16px;background:var(--card);border:1.5px solid var(--line);margin:8px 0}
+.pitem.done{opacity:.55;border-color:#22c55e}
+.pitem .ph{display:flex;gap:8px;align-items:center;font-weight:800}
+.pitem .ph .tm{font-family:ui-monospace,Menlo,monospace;color:var(--accent);direction:ltr}
+.opt{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+.opt button{padding:12px 14px;border-radius:16px;background:var(--card2);border:1.5px solid var(--line);font-weight:700;color:var(--ink);font-size:1em}
+.opt button.sel{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+/* rating bar */
+#rateBar{position:fixed;left:12px;right:12px;bottom:14px;z-index:60;display:none;padding:14px;border-radius:20px;background:var(--card);border:1.5px solid var(--line);box-shadow:0 10px 40px rgba(0,0,0,.45);backdrop-filter:blur(14px)}
+#rateBar.on{display:block;animation:fadeup .35s ease}
+#rateBar .rq{font-weight:800;text-align:center;margin-bottom:8px}
+#rateBar .rbtns{display:flex;gap:10px;justify-content:center}
+#rateBar .rbtns button{flex:1;font-size:1.9em;padding:10px;border-radius:16px;background:var(--card2);border:1.5px solid var(--line)}
+#rateBar .rx{position:absolute;top:6px;left:10px;font-size:1.2em;opacity:.6;background:none}
 /* picker */
 .pk{position:fixed;inset:0;z-index:55;background:var(--bg);display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 10px) 14px 14px}
 .pk.on{display:flex}
@@ -146,51 +220,72 @@ a{color:var(--accent)}
 <!-- ===================== HOME ===================== -->
 <section id="home" class="screen on">
   <div class="brandbar">
-    <div class="brand"><div class="logo">🤝</div><div>خوي <span dir="ltr">Bin3abdAi</span></div></div>
-    <button class="chip" id="destChip" onclick="pickCountry()">🌍</button>
+    <div class="bm"><svg class="bm-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="bmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#6366f1"/></linearGradient><radialGradient id="bmc"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#67e8f9"/><stop offset="1" stop-color="#6366f1" stop-opacity="0"/></radialGradient></defs><g class="hex"><polygon points="50,6 88,28 88,72 50,94 12,72 12,28" fill="none" stroke="url(#bmg)" stroke-width="5" stroke-linejoin="round"/><polygon points="50,20 76,35 76,65 50,80 24,65 24,35" fill="none" stroke="url(#bmg)" stroke-width="1.5" opacity=".5" stroke-dasharray="4 5"/></g><circle class="core" cx="50" cy="50" r="15" fill="url(#bmc)"/></svg><div class="bm-txt"><span class="bm-ar">خوي</span><span class="bm-en">Bin3abd<b>Ai</b></span></div></div>
+    <div style="display:flex;gap:8px"><button class="chip" id="destChip" onclick="pickCountry()">🌍</button><button class="chip" onclick="go('settings')">⚙️</button></div>
   </div>
-  <p class="hello" id="hello"></p>
-  <div class="clock" id="clock">--:--</div>
-  <div class="date" id="today"></div>
+  <p class="hello" id="hello" style="text-align:center"></p>
+  <div class="orbwrap" style="height:min(52vw,250px)"><canvas id="orb"></canvas></div>
+  <div class="astate" id="astate"></div>
+  <button class="mic" id="asstMic" style="background:linear-gradient(135deg,var(--accent),var(--accent2));min-height:120px" onclick="micTap('asst')"><span class="ic">🎙️</span><span class="lb" data-t="mic_idle"></span></button>
+  <div id="asstMap"></div>
+  <div id="asstLog"></div>
 
-  <button class="hero" onclick="go('asst')">
-    <div class="orbmini"></div>
-    <div><b data-t="t_asst"></b><span class="small" data-t="t_asst_sub"></span></div>
-  </button>
-
-  <div class="glass info" id="homePrayer">🕌 ...</div>
+  <div class="grid" style="margin-top:14px">
+    <button class="tile g1" onclick="go('translate')"><span class="ic">🌍</span><span data-t="t_translate"></span></button>
+    <button class="tile g6" onclick="go('taxi')"><span class="ic">🚕</span><span data-t="t_taxi"></span></button>
+    <button class="tile g4" onclick="go('prayer')"><span class="ic">🕌</span><span data-t="t_prayer"></span></button>
+    <button class="tile g8" onclick="go('athkar')"><span class="ic">📿</span><span data-t="t_athkar"></span></button>
+  </div>
+  <div id="homePray"></div>
+  <div id="homeAlertsCard"></div>
+  <div class="row"><button class="big" style="padding:18px" onclick="go('journey')" data-t="m_journey"></button><button class="big" style="padding:18px" onclick="go('plan')" data-t="m_plan"></button></div>
+  <button class="big green" style="font-size:1.25em;padding:20px" onclick="imFine()" data-t="im_fine"></button>
+  <div class="glass info" id="homePrayer" style="text-align:center">🕌 ...</div>
+  <div class="glass info" id="homeWx" style="text-align:center;display:none"></div>
+  <div class="glass info small" id="homeLoc" style="text-align:center;display:none"></div>
   <div class="glass info" id="homeMed" style="display:none"></div>
 
-  <div class="grid">
-    <button class="tile g1" onclick="go('translate')"><span class="ic">🌍</span><span data-t="t_translate"></span></button>
-    <button class="tile g2" onclick="go('camera')"><span class="ic">📷</span><span data-t="t_camera"></span></button>
-    <button class="tile g3" onclick="go('nav')"><span class="ic">🗺️</span><span data-t="t_nav"></span></button>
-    <button class="tile g4" onclick="go('currency')"><span class="ic">💱</span><span data-t="t_currency"></span></button>
-    <button class="tile g5" onclick="go('sos')"><span class="ic">🆘</span><span data-t="t_sos"></span></button>
-    <button class="tile g6" onclick="go('prayer')"><span class="ic">🕌</span><span data-t="t_prayer"></span></button>
-    <button class="tile g7" onclick="go('quran')"><span class="ic">📖</span><span data-t="t_quran"></span></button>
-    <button class="tile g8" onclick="go('athkar')"><span class="ic">📿</span><span data-t="t_athkar"></span></button>
-    <button class="tile g9" onclick="go('meds')"><span class="ic">💊</span><span data-t="t_meds"></span></button>
-    <button class="tile g10" onclick="go('settings')"><span class="ic">⚙️</span><span data-t="settings"></span></button>
+  <button class="big alt" style="font-size:.9em;padding:12px" onclick="toggleMore()" id="moreBtn" data-t="more"></button>
+  <div id="moreBox" style="display:none">
+    <div class="grid">
+      <button class="pill" onclick="go('camera')" data-t="m_camera"></button>
+      <button class="pill" onclick="go('nav')" data-t="m_nav"></button>
+      <button class="pill" onclick="go('currency')" data-t="m_currency"></button>
+      <button class="pill" onclick="go('sos')" data-t="m_sos"></button>
+      <button class="pill" onclick="go('quran')" data-t="m_quran"></button>
+      <button class="pill" onclick="go('meds')" data-t="m_meds"></button>
+      <button class="pill" onclick="go('qibla')" data-t="m_qibla"></button>
+      <button class="pill" onclick="go('tasbeeh')" data-t="m_tasbeeh"></button>
+      <button class="pill" onclick="go('bargain')" data-t="m_bargain"></button>
+      <button class="pill" onclick="famQuick()" data-t="m_famquick"></button>
+      <button class="pill" onclick="go('teach')" data-t="m_teach"></button>
+      <button class="pill" onclick="openFeedback('suggest')" data-t="m_suggest"></button>
+    </div>
   </div>
 
   <div class="foot">
-    <div class="sig">Bin3abdAi</div><div class="tag">نحلم ونحقق</div>
+    <div class="sig" style="font-family:ui-monospace,Menlo,monospace;letter-spacing:3px">Bin3abd<span style="color:var(--accent2)">Ai</span></div><div class="tag">نحلم ونحقق</div>
     <div class="links"><button onclick="go('privacy')" data-t="privacy"></button><button onclick="toggleTheme()" data-t="theme_btn"></button></div>
   </div>
 </section>
 
-<!-- ===================== ASSISTANT ===================== -->
-<section id="asst" class="screen">
-  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title">Bin3abdAi</h2></div>
-  <div class="orbwrap"><canvas id="orb"></canvas></div>
-  <div class="astate" id="astate"></div>
-  <div class="chips" id="asstChips"></div>
-  <button class="mic" id="asstMic" style="background:linear-gradient(135deg,var(--accent),var(--accent2))" onclick="micTap('asst')"><span class="ic">🎙️</span><span class="lb" data-t="mic_idle"></span></button>
-  <div id="asstMap"></div>
-  <div id="asstLog"></div>
-  <button class="big alt" onclick="clearAsst()" data-t="new_chat"></button>
-  <div class="foot"><div class="sig">Bin3abdAi</div><div class="tag">نحلم ونحقق</div></div>
+<!-- ===================== TAXI METER ===================== -->
+<section id="taxi" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="t_taxi"></h2></div>
+  <div class="glass" style="padding:18px;text-align:center">
+    <div class="small" data-t="taxi_fare"></div>
+    <div id="txFare" style="font-size:3.4em;font-weight:800;line-height:1.1;letter-spacing:1px">—</div>
+    <div id="txHome" class="small" style="font-size:1em"></div>
+    <div class="row" style="margin-top:12px">
+      <div><div class="small" data-t="taxi_dist"></div><b id="txDist">0.0</b></div>
+      <div><div class="small" data-t="taxi_time"></div><b id="txTime">0:00</b></div>
+      <div><div class="small" data-t="taxi_wait"></div><b id="txWait">0:00</b></div>
+    </div>
+  </div>
+  <button class="mic" id="txBtn" style="background:linear-gradient(135deg,#16a34a,#14532d);min-height:120px;margin-top:12px" onclick="taxiToggle()"><span class="ic">▶️</span><span id="txBtnLb"></span></button>
+  <div class="row"><button class="big alt" onclick="taxiReset()" data-t="taxi_reset"></button><button class="big alt" onclick="sayPhraseIdx(5)" data-t="taxi_meter_phrase"></button></div>
+  <div class="glass info" style="font-weight:500" id="txRates"></div>
+  <div id="txCustom"></div>
 </section>
 
 <!-- ===================== TRANSLATE ===================== -->
@@ -201,6 +296,8 @@ a{color:var(--accent)}
     <button class="pill" id="lpOther" onclick="pickLang()"></button>
   </div>
   <div class="small" id="trHint" style="text-align:center"></div>
+  <button class="big" id="convoBtn" style="padding:16px" onclick="convoToggle()"></button>
+  <div class="astate" id="convoState"></div>
   <button class="mic" id="meMic" style="background:linear-gradient(135deg,#16a34a,#14532d);margin-top:10px" onclick="micTap('me')"><span class="ic">🗣️</span><span class="lb" data-t="me_speak"></span></button>
   <button class="mic" id="themMic" style="background:linear-gradient(135deg,#2563eb,#1e3a8a);margin-top:12px" onclick="micTap('them')"><span class="ic">👂</span><span class="lb" data-t="them_speak"></span></button>
   <div id="trOut"></div>
@@ -312,13 +409,109 @@ a{color:var(--accent)}
   <div class="count" id="azCount"></div>
   <button class="big g8" style="min-height:100px" onclick="azTap()" data-t="az_tap"></button>
   <div class="row"><button class="big alt" onclick="azMove(-1)" data-t="prev"></button><button class="big alt" onclick="azMove(1)" data-t="next"></button></div>
-  <button class="big" onclick="speak(AZ[azSet][azI].t,'ar')" data-t="read_me"></button>
+  <button class="big" id="azRead" onclick="azReadNow()" data-t="read_me"></button>
 </section>
 
 <!-- ===================== MEDS ===================== -->
 <section id="meds" class="screen">
   <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="t_meds"></h2></div>
   <div id="medList"></div>
+</section>
+
+<!-- ===================== QIBLA ===================== -->
+<section id="qibla" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="m_qibla"></h2></div>
+  <div class="glass" style="text-align:center;padding:22px">
+    <div id="qbDial" style="width:250px;height:250px;margin:6px auto;border-radius:50%;border:3px solid var(--line);position:relative;transition:background .3s">
+      <div style="position:absolute;top:6px;left:50%;transform:translateX(-50%);font-weight:800">▲</div>
+      <div id="qbArrow" style="position:absolute;inset:0;display:grid;place-items:center;transition:transform .15s linear"><div style="font-size:4.2em;line-height:1">🕋</div></div>
+    </div>
+    <div id="qbInfo" style="font-size:1.35em;font-weight:800;margin-top:10px"></div>
+    <div id="qbDeg" class="small"></div>
+  </div>
+  <button class="big" onclick="qiblaStart()" data-t="qibla_start"></button>
+  <p class="small" data-t="qibla_note"></p>
+</section>
+
+<!-- ===================== TASBEEH ===================== -->
+<section id="tasbeeh" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="m_tasbeeh"></h2></div>
+  <div class="row"><button class="pill" id="tb33" onclick="tbSet(33)">33</button><button class="pill" id="tb99" onclick="tbSet(99)">99</button></div>
+  <div id="tbWord" style="text-align:center;font-size:1.5em;font-weight:800;margin:12px 0"></div>
+  <button id="tbBtn" onclick="tbTap()" style="display:block;margin:10px auto;width:260px;height:260px;border-radius:50%;font-size:4em;font-weight:800;color:#fff;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),transparent 40%),linear-gradient(135deg,#7c3aed,#4c1d95);box-shadow:0 0 40px rgba(124,58,237,.5)">0</button>
+  <div class="small" id="tbTotal" style="text-align:center"></div>
+  <button class="big alt" onclick="tbReset()" data-t="taxi_reset"></button>
+</section>
+
+<!-- ===================== BARGAIN ===================== -->
+<section id="bargain" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="m_bargain"></h2></div>
+  <p class="hint" data-t="bg_hint"></p>
+  <button class="mic g4" id="bgMic" onclick="micTap('bg')"><span class="ic">🛍️</span><span class="lb" data-t="bg_ask"></span></button>
+  <input type="file" id="bgCam" accept="image/*" capture="environment" style="display:none" onchange="bgPhoto(this)">
+  <button class="big alt" onclick="$('bgCam').click()" data-t="bg_photo"></button>
+  <div id="bgOut"></div>
+</section>
+
+<!-- ===================== FAMILY (son's page) ===================== -->
+<section id="family" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="fam_title"></h2></div>
+  <div id="famLast" class="glass info">…</div>
+  <div id="famMap"></div>
+  <div id="famWarn"></div>
+  <button class="big" onclick="famRefresh()" data-t="fam_refresh"></button>
+  <button class="big alt" onclick="famSafety()" data-t="fam_safety"></button>
+  <div id="famSafetyOut"></div>
+  <h3 data-t="fam_hist"></h3>
+  <div id="famHist"></div>
+  <div class="glass info small" style="font-weight:500" data-t="fam_push_help"></div>
+  <a class="big alt" id="famPushLink" style="display:block;text-align:center;text-decoration:none" target="_blank" rel="noopener" data-t="fam_push_btn"></a>
+</section>
+
+<!-- ===================== JOURNEY DASHBOARD ===================== -->
+<section id="journey" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="m_journey"></h2></div>
+  <div class="small" id="jDate" style="text-align:center;font-family:ui-monospace,Menlo,monospace;letter-spacing:1px"></div>
+  <div class="dash" id="jRings"></div>
+  <div id="jAdvice"></div>
+  <h3 data-t="j_week"></h3>
+  <div class="bars" id="jBars"></div>
+  <div class="kpis" id="jKpis"></div>
+  <h3 data-t="j_timeline"></h3>
+  <div class="chips" id="jChips"></div>
+  <div id="jTl"></div>
+</section>
+
+<!-- ===================== TRIP PLANNER ===================== -->
+<section id="plan" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="m_plan"></h2></div>
+  <div id="planAsk">
+    <p class="hint" data-t="pl_hint"></p>
+    <h3 data-t="pl_mood"></h3><div class="opt" data-q="mood"></div>
+    <h3 data-t="pl_likes"></h3><div class="opt" data-q="likes" data-multi="1"></div>
+    <h3 data-t="pl_pace"></h3><div class="opt" data-q="pace"></div>
+    <h3 data-t="pl_budget"></h3><div class="opt" data-q="budget"></div>
+    <h3 data-t="pl_days"></h3><div class="opt" data-q="days"></div>
+    <button class="mic g3" id="plMic" onclick="micTap('pl')"><span class="ic">🎙️</span><span class="lb" data-t="pl_voice"></span></button>
+    <div id="plVoice" class="small"></div>
+    <button class="big green" style="font-size:1.2em;padding:20px" onclick="makePlan()" data-t="pl_make"></button>
+  </div>
+  <div id="planOut"></div>
+</section>
+
+<!-- ===================== TEACH ===================== -->
+<section id="teach" class="screen">
+  <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="m_teach"></h2></div>
+  <p class="hint" data-t="tc_hint"></p>
+  <button class="mic g2" id="tcMic" onclick="micTap('tc')"><span class="ic">🧠</span><span class="lb" data-t="tc_ask"></span></button>
+  <textarea id="tcText" rows="2" data-tp="tc_ph"></textarea>
+  <button class="big alt" onclick="teachAdd($('tcText').value)" data-t="tc_save"></button>
+  <div id="tcOut"></div>
+  <h3 data-t="tc_list"></h3>
+  <div id="tcList"></div>
+  <h3 style="margin-top:22px" data-t="fb_title"></h3>
+  <p class="small" data-t="fb_help"></p>
+  <button class="big" onclick="openFeedback('suggest')" data-t="fb_suggest"></button>
 </section>
 
 <!-- ===================== PRIVACY ===================== -->
@@ -331,11 +524,32 @@ a{color:var(--accent)}
 <section id="settings" class="screen">
   <div class="top"><button class="back" onclick="go('home')" data-t="back"></button><h2 class="title" data-t="settings"></h2></div>
 
+  <button class="big green" onclick="enableAlerts()" data-t="alerts_btn"></button>
+  <p class="small" data-t="alerts_help"></p>
+  <h3 data-t="s_alerts_cfg"></h3>
+  <div class="row"><div><div class="small" data-t="s_dhikr_every"></div><input id="sDhEvery" inputmode="numeric"></div><div><div class="small" data-t="s_dhikr_from"></div><input id="sDhFrom" style="direction:ltr"></div><div><div class="small" data-t="s_dhikr_to"></div><input id="sDhTo" style="direction:ltr"></div></div>
+  <label><input type="checkbox" id="sPreAdhan" style="width:auto"> <span data-t="s_pre_adhan"></span></label>
+
+  <h3 style="margin-top:22px" data-t="s_family_share"></h3>
+  <label><input type="checkbox" id="sShare" style="width:auto"> <span data-t="s_share_loc"></span></label>
+  <p class="small" data-t="s_share_help"></p>
+  <button class="big alt" onclick="showFamilyLink()" data-t="s_fam_link"></button>
+  <div id="famLinkOut"></div>
+
+  <label><input type="checkbox" id="sRate" style="width:auto"> <span data-t="s_rate"></span></label>
+  <h3 style="margin-top:22px" data-t="s_transfer"></h3>
+  <label><input type="checkbox" id="sExpKey" style="width:auto" checked> <span data-t="s_exp_key"></span></label>
+  <button class="big alt" onclick="exportSettings()" data-t="s_export"></button>
+  <div id="expOut"></div>
+  <textarea id="impCode" rows="2" data-tp="s_import_ph"></textarea>
+  <button class="big alt" onclick="importSettings($('impCode').value)" data-t="s_import"></button>
+
   <label data-t="s_ui_lang"></label>
   <button class="pill" id="sUiLang" onclick="pickUiLang()"></button>
   <label data-t="s_dest"></label>
   <button class="pill" id="sDest" onclick="pickCountry()"></button>
 
+  <div id="sQuota"></div>
   <label data-t="s_key"></label>
   <input id="sKey" type="password" placeholder="sk-..." autocomplete="off">
   <p class="small" data-t="s_key_help"></p>
@@ -404,6 +618,15 @@ a{color:var(--accent)}
 </div>
 <!-- boot -->
 <div class="boot" id="boot"><div class="ring"></div><div style="font-weight:800;letter-spacing:3px">Bin3abdAi</div><div class="bar"><i id="bootBar"></i></div><div class="lines" id="bootLines"></div></div>
+<!-- splash -->
+<div id="doneToast"></div>
+<div id="rateBar"><button class="rx" onclick="rateClose()">✕</button><div id="rateBody"></div></div>
+<div class="onb" id="splash" style="text-align:center;align-items:center">
+  <div class="bm bmxl"><div class="radar"><span class="hz"></span><span class="blip" style="top:28%;left:66%"></span><span class="blip" style="top:70%;left:24%;animation-delay:.9s"></span><span class="blip" style="top:60%;left:80%;animation-delay:1.6s"></span><span class="blip lock" style="top:34%;left:30%"></span><svg class="bm-logo" viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="bmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#6366f1"/></linearGradient><radialGradient id="bmc"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#67e8f9"/><stop offset="1" stop-color="#6366f1" stop-opacity="0"/></radialGradient></defs><g class="hex"><polygon points="50,6 88,28 88,72 50,94 12,72 12,28" fill="none" stroke="url(#bmg)" stroke-width="5" stroke-linejoin="round"/><polygon points="50,20 76,35 76,65 50,80 24,65 24,35" fill="none" stroke="url(#bmg)" stroke-width="1.5" opacity=".5" stroke-dasharray="4 5"/></g><circle class="core" cx="50" cy="50" r="15" fill="url(#bmc)"/></svg></div><div class="bm-txt"><span class="bm-ar">خوي</span><span class="bm-en">Bin3abd<b>Ai</b></span></div></div>
+  <div class="radarLock" id="radarLock"></div>
+  <div class="bm-tag">نحلم ونحقق</div>
+  <button class="big" style="max-width:420px;margin-top:30px;font-size:1.3em;padding:22px" onclick="startApp()" data-t="tap_start"></button>
+</div>
 <!-- onboarding -->
 <div class="onb" id="onb"></div>
 
@@ -505,8 +728,8 @@ const shortAr=a=>a.replace(/^ال/,'').replace(/ية$/,'ي');
 
 /* ================= I18N ================= */
 const T={
-ar:{t_asst:'المساعد Bin3abdAi',t_asst_sub:'كلّمني واسألني عن أي شي، وأرشدك وين ما كنت',t_translate:'المترجم',t_camera:'ترجمة بالكاميرا',t_nav:'وصّلني',t_currency:'العملات',t_sos:'طوارئ وعائلة',t_prayer:'الصلاة',t_quran:'القرآن',t_athkar:'الأذكار',t_meds:'أدويتي',settings:'الإعدادات',privacy:'الخصوصية',theme_btn:'🌓 الوضع',back:'→ رجوع',close:'✕ إغلاق',
-gm:'صباح الخير',ge:'مساء الخير',mic_idle:'اضغط وتكلّم',listening:'أسمعك... اضغط لما تخلص',wait:'لحظة... ⏳',thinking:'أفكّر...',speaking:'أتكلّم...',ready:'جاهز',new_chat:'🧹 محادثة جديدة',
+ar:{t_asst:'المساعد Bin3abdAi',t_asst_sub:'كلّمني واسألني عن أي شي، وأرشدك وين ما كنت',t_translate:'ترجم لي',t_camera:'ترجمة بالكاميرا',t_nav:'وصّلني',t_currency:'العملات',t_sos:'طوارئ وعائلة',t_prayer:'الصلاة',t_quran:'القرآن',t_athkar:'الأذكار',t_meds:'أدويتي',settings:'الإعدادات',privacy:'الخصوصية',theme_btn:'🌓 الوضع',back:'→ رجوع',close:'✕ إغلاق',
+gm:'صباح الخير',ge:'مساء الخير',mic_idle:'اضغط هنا وكلّمني',listening:'أسمعك... اضغط لما تخلص',wait:'لحظة... ⏳',thinking:'أفكّر...',speaking:'أتكلّم...',ready:'جاهز',new_chat:'🧹 محادثة جديدة',
 me_speak:'أنا أتكلّم',them_speak:'هو يتكلّم',auto:'🤖 تلقائي',auto_hint:'تلقائي: أرد على الشخص بنفس لغته',other_lang:'🌐 اختر لغة',choose_lang:'اختر اللغة',choose_country:'وين مسافر؟',search_ph:'اكتب للبحث...',voice_search:'ابحث بالصوت',no_results:'ما لقيت شي، جرّب البحث بالصوت',ready_phrases:'جمل جاهزة',said:'قلت',they_said:'قال',replay:'🔊 أعد',show_big:'🔍 كبّر له',tap_back:'اضغط بأي مكان للرجوع',ok:'تمام ✅',
 need_key:'هذي الميزة تحتاج مفتاح OpenAI من الإعدادات.',mic_denied:'ما قدرت أفتح المايك. اسمح للتطبيق باستخدام المايكروفون.',err_retry:'صار خطأ بسيط، جرّب مرة ثانية.',heard_nothing:'ما سمعت شي',translating:'أترجم...',
 cam_hint:'صوّر لوحة أو منيو أو ورقة أو علبة دواء، وأنا أترجمها لك وأقرأها',cam_take:'صوّر الآن',cam_pick:'🖼️ اختر من الصور',mode_text:'📝 ترجم النص',mode_menu:'🍽️ منيو الأكل',mode_med:'💊 علبة دواء',mode_what:'❓ وش هذا؟',
@@ -517,11 +740,45 @@ refresh_loc:'🔄 تحديث حسب مكاني',left:'باقي',next_prayer:'ا�
 favs:'⭐ المفضلة',all_surahs:'كل السور',playing:'يُتلى الآن',paused:'متوقف',
 az_morning:'🌅 الصباح',az_evening:'🌙 المساء',az_tap:'👆 اضغط مع كل مرة',prev:'السابق',next:'التالي',read_me:'🔊 اقرأه لي',az_done:'🌿 تقبّل الله، خلصت الأذكار',done:'✅ تم',
 meds_none:'ما فيه أدوية مضافة. أضفها من الإعدادات.',taken:'أخذته ✅',taken_lbl:'✅ أخذته',remind_later:'ذكّرني بعد ربع ساعة',med_time:'وقت دواء',next_med:'الدواء الجاي',
-s_ui_lang:'🌐 لغة التطبيق',s_dest:'✈️ الدولة اللي أنت فيها',s_key:'🔑 مفتاح OpenAI',s_key_help:'ينحفظ على هذا الجوال فقط. ضع حد صرف شهري في حساب OpenAI للأمان.',s_name:'وش أناديك؟',s_about:'معلومات تساعد المساعد (اختياري)',s_home_cur:'💰 عملة بلدك',s_theme:'🎨 المظهر',s_dark:'🌙 داكن تقني',s_light:'☀️ فاتح',s_font:'🔠 حجم الخط',s_voice:'🗣️ صوت المساعد',s_reciter:'📖 القارئ',s_method:'🕌 طريقة حساب الصلاة',s_hotel:'🏨 الفندق',s_hotel_name:'اسم الفندق',s_hotel_addr:'عنوان الفندق (يفضل بلغة البلد)',s_family:'👨‍👩‍👦 أرقام العائلة',s_family_add:'➕ إضافة رقم',fam_name:'الاسم (مثلاً: محمد)',fam_phone:'الرقم مع مفتاح الدولة: 9665xxxxxxxx',s_meds_help:'الأوقات بصيغة 24 ساعة مفصولة بفاصلة، مثل: 08:00, 20:00',s_add_med:'➕ إضافة دواء',med_name:'اسم الدواء',med_note:'ملاحظة (بعد الأكل...)',del:'🗑 حذف',save:'💾 حفظ',saved:'✅ تم الحفظ',bad_times:'انحفظ، بس هذي الأوقات غلط وتجاهلتها:',ics:'📅 أضف تذكيرات الأدوية لتقويم الجوال',ics_help:'التذكير داخل التطبيق يشتغل والتطبيق مفتوح. عشان يرن دائماً، أضفها للتقويم.',add_meds_first:'أضف الأدوية واحفظ أول.',redo_onb:'👋 إعادة شاشة الترحيب',
+s_ui_lang:'🌐 لغة التطبيق',s_dest:'✈️ الدولة اللي أنت فيها',s_key:'🔑 مفتاح OpenAI خاص فيك (اختياري)',s_key_help:'ينحفظ على هذا الجوال فقط. ضع حد صرف شهري في حساب OpenAI للأمان.',s_name:'وش أناديك؟',s_about:'معلومات تساعد المساعد (اختياري)',s_home_cur:'💰 عملة بلدك',s_theme:'🎨 المظهر',s_dark:'🌙 داكن تقني',s_light:'☀️ فاتح',s_font:'🔠 حجم الخط',s_voice:'🗣️ صوت المساعد',s_reciter:'📖 القارئ',s_method:'🕌 طريقة حساب الصلاة',s_hotel:'🏨 الفندق',s_hotel_name:'اسم الفندق',s_hotel_addr:'عنوان الفندق (يفضل بلغة البلد)',s_family:'👨‍👩‍👦 أرقام العائلة',s_family_add:'➕ إضافة رقم',fam_name:'الاسم (مثلاً: محمد)',fam_phone:'الرقم مع مفتاح الدولة: 9665xxxxxxxx',s_meds_help:'الأوقات بصيغة 24 ساعة مفصولة بفاصلة، مثل: 08:00, 20:00',s_add_med:'➕ إضافة دواء',med_name:'اسم الدواء',med_note:'ملاحظة (بعد الأكل...)',del:'🗑 حذف',save:'💾 حفظ',saved:'✅ تم الحفظ',bad_times:'انحفظ، بس هذي الأوقات غلط وتجاهلتها:',ics:'📅 أضف تذكيرات الأدوية لتقويم الجوال',ics_help:'التذكير داخل التطبيق يشتغل والتطبيق مفتوح. عشان يرن دائماً، أضفها للتقويم.',add_meds_first:'أضف الأدوية واحفظ أول.',redo_onb:'👋 إعادة شاشة الترحيب',
 onb_hi:'هلا والله! أنا خويك 🤝',onb_hi2:'مساعدك الذكي في السفر: أترجم، أرشدك، وأذكّرك.',onb_lang:'اختر لغة التطبيق',onb_name:'وش أناديك؟',onb_name_ph:'مثلاً: أبو محمد',onb_dest:'وين مسافر؟',onb_key:'آخر خطوة: مفتاح OpenAI',onb_key_help:'المفتاح يشغّل المساعد والمترجم والكاميرا. ينحفظ على جوالك فقط. تقدر تضيفه بعدين من الإعدادات.',later:'أضيفه بعدين',next_btn:'التالي',start:'ابدأ 🚀',more_langs:'🌐 لغات أخرى',ui_translating:'أجهّز الواجهة بلغتك...',
 boot1:'تهيئة النواة الذكية',boot2:'ربط الصوت والترجمة',boot3:'تحميل معرفة المرشد السياحي',boot4:'جاهز لخدمتك',
 asst_chips:['وش أزور اليوم؟','أبغى مطعم حلال قريب','وين أقرب مسجد؟','كم أعطي التاكسي؟','وش أنتبه له هنا؟','كيف الطقس عادة؟'],
-priv:`<p><b>خصوصيتك تهمنا.</b></p><p>• كل إعداداتك (الاسم، الأدوية، أرقام العائلة، المفتاح) تنحفظ على جوالك فقط، وما نحتفظ بأي نسخة منها.</p><p>• لما تستخدم المساعد أو المترجم أو الكاميرا، يُرسل صوتك أو نصك أو صورتك إلى OpenAI لمعالجتها فقط، وفق سياسة OpenAI.</p><p>• الموقع يُستخدم فقط لأوقات الصلاة والإرشاد ولما تطلب مشاركة موقعك، وما يُحفظ عندنا.</p><p>• ما فيه إعلانات ولا تتبّع.</p><p>• تقدر تمسح كل بياناتك بحذف التطبيق من الشاشة الرئيسية أو مسح بيانات المتصفح.</p>`,
+t_taxi:'عداد التكسي',more:'⋯ المزيد',m_camera:'📷 الكاميرا',m_nav:'🗺️ وصّلني',m_currency:'💱 العملات',m_sos:'🆘 طوارئ',m_quran:'📖 القرآن',m_meds:'💊 أدويتي',tap_start:'اضغط هنا وابدأ 👆',
+taxi_fare:'الأجرة التقريبية',taxi_dist:'المسافة كم',taxi_time:'الوقت',taxi_wait:'زحمة',taxi_start:'ابدأ العداد (لما تركب)',taxi_stop:'وقّف العداد (لما توصل)',taxi_reset:'↺ تصفير',taxi_meter_phrase:'🗣️ قل للسواق: شغّل العداد',taxi_note:'الحساب تقريبي من الـGPS حسب تسعيرة العداد الرسمية، والهدف تعرف إذا السعر معقول. رسوم المطار والطرق السريعة تنحسب زيادة.',taxi_done:'الأجرة التقريبية {fare}، يعني تقريباً {home}.',taxi_gps:'شغّل الموقع عشان يشتغل العداد.',taxi_custom:'تسعيرة التكسي في هالبلد (عدّلها إذا تعرفها)',taxi_flag:'فتحة العداد',taxi_perkm:'لكل كيلو',taxi_permin:'لكل دقيقة زحمة',
+alerts_btn:'🔔 فعّل التنبيهات حتى لو التطبيق مقفل',alerts_help:'يضيف أوقات الصلاة لـ30 يوم مع أذكار الصباح والمساء والأدوية لتقويم الجوال، فترن حتى لو التطبيق مقفل. اضغطه بعد ما توصل البلد، وكرره كل شهر.',alerts_ready:'جهّزت التنبيهات ✅ الحين اضغط "إضافة الكل" عشان تنحفظ في التقويم.',athkar_m:'📿 أذكار الصباح',athkar_e:'📿 أذكار المساء',help:'🔊 اشرح لي',
+g_translate:'إذا بغيت تكلّم أحد: اضغط الزر الأخضر وتكلّم، وأنا أقوله بلغته. ولما يرد عليك، اضغط الزر الأزرق وخلّه يتكلّم، وأنا أقول لك وش قال.',
+g_taxi:'لما تركب التكسي اضغط الزر الأخضر الكبير، ولما توصل اضغطه مرة ثانية، وأنا أقول لك كم المفروض تدفع.',
+g_prayer:'هذي أوقات الصلاة في مكانك، والملوّنة هي الصلاة الجاية.',
+g_athkar:'اضغط الزر البنفسجي مع كل مرة تقول الذكر، أو اضغط اقرأه لي وأنا أقراه عليك.',
+g_camera:'صوّر أي ورقة أو لوحة أو منيو، وأنا أقرأها لك بالعربي.',g_nav:'اضغط وقل لي وين تبي تروح، وأنا أفتح لك الطريق.',
+greet_en:'Welcome {name}! I am Khoy. Tap the big button and talk to me: I can translate, run the taxi meter, remind you of prayer and read the athkar.',
+im_fine:'👋 أنا بخير (طمّن العيال)',fine_said:'أبشر، طمّنتهم عليك',you_are_in:'أنت في',accuracy:'الدقة',sharing_on:'موقعك يتشارك مع العائلة',m_qibla:'🕋 القبلة',m_tasbeeh:'📿 المسبحة',m_bargain:'🛍️ المساومة',
+qibla_start:'🧭 حدد القبلة',qibla_tap:'اضغط الزر تحت عشان أحدد القبلة',qibla_note:'خل الجوال مسطّح بعيد عن الحديد والمغناطيس. لو الاتجاه غلط، حرك الجوال على شكل رقم 8.',qibla_perm:'لازم تسمح باستخدام البوصلة',qibla_turn_phone:'حرّك الجوال شوي',qibla_ok:'أنت الحين على القبلة',qibla_right:'لف يمين ↪️',qibla_left:'لف يسار ↩️',
+bg_hint:'قل لي وش الغرض وكم يبي البياع، وأقول لك هل السعر زين وكم تعرض.',bg_ask:'اضغط وقل: الغرض وسعره',bg_photo:'📷 صوّر الغرض أول (اختياري)',bg_after_photo:'الحين اضغط الزر وقل كم يبي فيه',bg_fair:'السعر المعقول',bg_offer:'اعرض عليه',
+convo_start:'💬 محادثة تلقائية (بدون ضغط)',convo_stop:'⏹️ وقّف المحادثة',convo_hello:'تكلّموا بالتناوب، وأنا أترجم بينكم.',
+pre_adhan:'باقي خمس دقايق على أذان {p}، تجهّز وتوضّأ',s_alerts_cfg:'⏰ التنبيهات',s_dhikr_every:'ذكر كل (دقيقة)',s_dhikr_from:'من',s_dhikr_to:'إلى',s_pre_adhan:'نبّه قبل الأذان بـ5 دقايق',
+s_family_share:'👨‍👩‍👦 مشاركة الموقع مع العائلة',s_share_loc:'شارك موقعي مع العائلة',s_share_help:'لما يكون التطبيق مفتوح يرسل الموقع كل 5 دقايق، وفوراً مع «أنا بخير» والطوارئ والتكسي. لازم الوالد يكون عارف وموافق.',s_fam_link:'🔗 رابط صفحة العائلة (لك أنت)',copy:'نسخ',
+s_transfer:'💾 نقل الإعدادات لجوال ثاني',s_exp_key:'مع مفتاح OpenAI (لا تشارك الكود مع أحد)',s_export:'📤 أنشئ كود الإعدادات',s_send_link:'أرسل الرابط واتساب',s_import_ph:'الصق كود الإعدادات هنا',s_import:'📥 استيراد الإعدادات',s_imported:'تم نقل الإعدادات ✅',s_import_bad:'الكود غير صحيح',
+fam_title:'صفحة العائلة',fam_refresh:'🔄 تحديث',fam_safety:'🛡️ نصائح أمان عن مكانه',fam_hist:'آخر التحديثات',fam_none:'ما وصل أي تحديث خلال آخر 12 ساعة.',fam_fail:'ما قدرت أجيب الموقع',fam_ok:'ما فيه شي يقلق',
+fam_w_sos:'ضغط زر الطوارئ خلال آخر 12 ساعة!',fam_w_stale:'آخر تحديث قبل {h} ساعة، يمكن التطبيق مقفل أو ما فيه نت.',fam_w_acc:'دقة الموقع ضعيفة في آخر تحديث.',fam_w_night:'الوقت متأخر وهو بعيد عن الفندق {km} كم.',fam_w_far:'بعيد عن الفندق {km} كم.',
+fam_safety_note:'معلومات عامة من الذكاء الاصطناعي وليست تقييم أكيد للمنطقة.',fam_push_help:'عشان توصلك إشعارات «أنا بخير» والطوارئ على جوالك: نزّل تطبيق ntfy المجاني، واضغط الزر تحت واشترك.',fam_push_btn:'🔔 اشترك في إشعارات الوالد',
+g_qibla:'اضغط حدد القبلة، ولف بالجوال لين يصير أخضر.',g_tasbeeh:'اضغط الدائرة الكبيرة مع كل تسبيحة.',g_bargain:'اضغط الزر وقل وش تبي تشتري وكم يبي البياع.',
+onb_fam:'تبي أحد من أهلك يطمّن عليك؟',onb_fam_help:'اكتب اسم واحد من عيالك ورقمه، وأرسل له رابط يشوف فيه آخر مكان لك وقت ما التطبيق مفتوح، ويوصله تنبيه لما تضغط «أنا بخير» أو الطوارئ.',onb_fam_name:'الاسم (مثلاً: محمد)',onb_fam_ok:'أوافق أشارك موقعي معه',onb_fam_send:'أرسل له الرابط واتساب',family_word:'العائلة',m_famquick:'👨‍👩‍👦 أهلي يطمّنون علي',fam_quick_ask:'تبي تشارك موقعك مع أهلك؟ بيشوفون آخر مكان لك وقت ما التطبيق مفتوح.',fam_quick_ok:'✅ أوافق وأرسل الرابط',
+q_label:'رصيد الذكاء اليوم',q_low:'تنبيه: رصيدك اليومي من الذكاء الاصطناعي قرب يخلص، باقي لك {n}. الأذان والأذكار والعداد شغالة دايم.',q_out:'خلص رصيدك اليومي من الذكاء الاصطناعي، ويتجدد بكرة إن شاء الله. الأذان والأذكار والمسبحة والقبلة وعداد التكسي شغالة عادي.',q_global:'الخدمة عليها ضغط كبير اليوم، جرّب بعد شوي. الأذان والأذكار والعداد شغالة عادي.',m_journey:'📊 رحلتي',m_plan:'🗓️ خطط يومي',j_week:'صلواتك آخر 7 أيام',j_timeline:'وش سويت',j_empty:'للحين ما فيه شي، كل ما تخلص شي يطلع هنا ✅',j_prayers:'الصلوات',j_athkar:'الأذكار',j_meds:'العلاج',
+k_prayers:'صلاة مسجّلة',k_streak:'يوم متتالي أذكار',k_tasbeeh:'تسبيحة',k_taxi:'مشوار تكسي',k_translate:'جملة مترجمة',k_plan:'مكان زرته',
+f_all:'الكل',f_worship:'🕌 عبادة',f_trip:'🗓️ الرحلة',f_move:'🚕 تنقل',f_talk:'🌍 ترجمة',f_health:'💊 علاج',
+done_prayer:'صليت',done_athkar:'خلّصت الأذكار',done_dhikr:'ذكرت الله',done_tasbeeh:'خلّصت التسبيح',done_qibla:'حددت القبلة',done_med:'أخذت العلاج',done_taxi:'وصلت بالتكسي',done_translate:'ترجمة',done_plan:'زرت',done_fine:'طمّنت العيال',done_word:'تم',
+prayed_btn:'✅ صليت',said_it:'✅ ذكرت',did_you_pray:'صليت {p}؟',open_journey:'📊 افتح رحلتي',alerts_card:'فعّل التنبيهات عشان يوصلك الأذان والأذكار والعلاج حتى والتطبيق مقفل',
+pl_hint:'قبل ما أقترح عليك وين تروح، أبي أعرف وش جوّك اليوم ووش تحب. اختر وأنا أرتب لك جدول مريح وأنبهك قبل كل مشوار.',pl_mood:'كيف جوّك اليوم؟',pl_likes:'وش تحب؟',pl_pace:'وش يناسبك؟',pl_budget:'الميزانية',pl_days:'كم يوم أرتب؟',pl_day:'يوم',pl_voice:'أو قل لي وش في خاطرك',pl_make:'✨ رتّب لي جدولي',pl_making:'أرتب لك جدول يناسبك…',pl_ready_say:'رتبت لك الجدول، وبنبهك قبل كل مشوار بربع ساعة.',pl_go:'ودّني',pl_mark:'تم',pl_alerts:'أضف الجدول للتنبيهات',pl_new:'جدول جديد',pl_soon:'بعد ربع ساعة: {x}',
+pq_relax:'😌 رايق وأبي هدوء',pq_active:'💪 نشيط أبي أطلع',pq_tired:'😮‍💨 تعبان شوي',pq_happy:'😄 مستانس',pq_food:'🍽️ أكل حلال',pq_shop:'🛍️ تسوق',pq_nature:'🌴 طبيعة وبحر',pq_history:'🏛️ أماكن تاريخية',pq_mosque:'🕌 مساجد',pq_massage:'💆 مساج وعلاج',pq_family:'👨‍👩‍👦 هدايا للعيال',pq_light:'🐢 خفيف ومريح',pq_mid:'🚶 متوسط',pq_eco:'💵 اقتصادي',pq_midb:'💳 متوسط',pq_lux:'💎 مرتاح',
+g_journey:'هنا تشوف كل شي سويته في رحلتك، وصلواتك وأذكارك.',g_plan:'اختر جوّك ووش تحب، واضغط رتّب لي جدولي.',
+m_teach:'🧠 علّم خوي',m_suggest:'💡 اقترح على المطوّر',tc_hint:'علّمني أي شي عنك أو صحّح لي: مثلاً «لا تكلمني بالإنجليزي»، «أنا ما آكل البحريات»، «سمّني أبو محمد». وأنا أتأكد من صحة المعلومة قبل ما أحفظها.',tc_ask:'اضغط وعلّمني',tc_ph:'أو اكتب هنا وش تبي تعلمني',tc_save:'🧠 احفظ التعليم',tc_list:'اللي علّمتني إياه',tc_empty:'ما علّمتني شي للحين.',tc_checking:'أتأكد من صحة المعلومة…',tc_saved:'أبشر، حفظتها وبمشي عليها',tc_keep_anyway:'احفظها على كيفي',
+fb_title:'💡 رأيك يهمنا',fb_help:'رأيك واقتراحك يوصل مباشرة لمطوّر خوي (Bin3abdAi) عشان يطوّر التطبيق.',fb_suggest:'💡 وش تقترح نضيف؟',fb_say:'اضغط وقل رأيك أو اقتراحك',fb_ph:'أو اكتب رأيك هنا',fb_sent:'وصل رأيك للمطوّر، الله يعطيك العافية',send:'إرسال',
+rq_asst:'عجبك ردّي؟',rq_taxi:'وش رأيك بالعداد؟',rq_athkar:'تقبّل الله. وش رأيك بالأذكار؟',rq_tasbeeh:'وش رأيك بالمسبحة؟',rq_convo:'وش رأيك بالترجمة؟',rq_bargain:'نفعتك نصيحة المساومة؟',rq_teach:'كذا التعليم سهل؟',rq_suggest:'وش تقترح على المطوّر نضيف؟',rq_plan:'وش رأيك بهالمكان؟',
+rate_say:'إذا عجبك اضغط الإصبع اللي فوق، وإذا ما عجبك اضغط اللي تحت، وقل رأيك.',rate_thanks_up:'الله يسعدك 🌹 تبي تقول شي زيادة؟',rate_thanks_down:'سامحنا 🙏 وش اللي ما عجبك؟ قل لنا عشان نصلحه',s_rate:'اطلب تقييمي بعد كل خدمة',
+g_teach:'اضغط الزر وقل وش تبي تعلمني، وأنا أتأكد وأحفظه.',
+priv:`<p><b>خصوصيتك تهمنا.</b></p><p>• كل إعداداتك (الاسم، الأدوية، أرقام العائلة، المفتاح) تنحفظ على جوالك فقط، وما نحتفظ بأي نسخة منها.</p><p>• لما تستخدم المساعد أو المترجم أو الكاميرا، يُرسل صوتك أو نصك أو صورتك إلى OpenAI لمعالجتها فقط، وفق سياسة OpenAI.</p><p>• الموقع يُستخدم لأوقات الصلاة والإرشاد. وإذا فعّلت «مشاركة الموقع مع العائلة» يُرسل عبر خدمة ntfy.sh برمز سري خاص فيكم، ويُحذف من الخدمة بعد 12 ساعة تقريباً.</p><p>• اسم الحي من BigDataCloud، والطقس من Open-Meteo.</p><p>• التقييم والاقتراحات تنرسل للمطوّر مع اسمك والدولة فقط (بدون موقع)، وتقدر توقف طلب التقييم من الإعدادات.</p><p>• اللي تعلّمه لخوي ينحفظ في جوالك ويُرسل مع أسئلتك للذكاء الاصطناعي.</p><p>• ما فيه إعلانات ولا تتبّع.</p><p>• تقدر تمسح كل بياناتك بحذف التطبيق من الشاشة الرئيسية أو مسح بيانات المتصفح.</p>`,
 loc_denied:'ما قدرت أحدد موقعك. اسمح للتطبيق باستخدام الموقع.',help_card_src:'أنا سائح ولا أتكلم لغتكم. أرجو مساعدتي. هذا اسمي وعنوان فندقي.'},
 en:{t_asst:'Bin3abdAi Assistant',t_asst_sub:'Talk to me, ask anything, I will guide you anywhere',t_translate:'Translator',t_camera:'Camera translate',t_nav:'Take me there',t_currency:'Currency',t_sos:'SOS & Family',t_prayer:'Prayer',t_quran:'Quran',t_athkar:'Athkar',t_meds:'My meds',settings:'Settings',privacy:'Privacy',theme_btn:'🌓 Theme',back:'← Back',close:'✕ Close',
 gm:'Good morning',ge:'Good evening',mic_idle:'Tap and speak',listening:'Listening… tap when done',wait:'One moment… ⏳',thinking:'Thinking…',speaking:'Speaking…',ready:'Ready',new_chat:'🧹 New chat',
@@ -535,10 +792,44 @@ refresh_loc:'🔄 Update by my location',left:'in',next_prayer:'Next prayer',at:
 favs:'⭐ Favourites',all_surahs:'All surahs',playing:'Playing',paused:'Paused',
 az_morning:'🌅 Morning',az_evening:'🌙 Evening',az_tap:'👆 Tap for each one',prev:'Previous',next:'Next',read_me:'🔊 Read it to me',az_done:'🌿 Done, may Allah accept',done:'✅ Done',
 meds_none:'No medicines added. Add them in Settings.',taken:'Taken ✅',taken_lbl:'✅ Taken',remind_later:'Remind me in 15 min',med_time:'Time for',next_med:'Next medicine',
-s_ui_lang:'🌐 App language',s_dest:'✈️ Country you are in',s_key:'🔑 OpenAI key',s_key_help:'Stored on this phone only. Set a monthly spending limit in your OpenAI account.',s_name:'What should I call you?',s_about:'Info that helps the assistant (optional)',s_home_cur:'💰 Home currency',s_theme:'🎨 Theme',s_dark:'🌙 Dark tech',s_light:'☀️ Light',s_font:'🔠 Text size',s_voice:'🗣️ Assistant voice',s_reciter:'📖 Reciter',s_method:'🕌 Prayer calculation',s_hotel:'🏨 Hotel',s_hotel_name:'Hotel name',s_hotel_addr:'Hotel address (local language is best)',s_family:'👨‍👩‍👦 Family numbers',s_family_add:'➕ Add number',fam_name:'Name',fam_phone:'Number with country code: 9665xxxxxxxx',s_meds_help:'24h times separated by commas, e.g. 08:00, 20:00',s_add_med:'➕ Add medicine',med_name:'Medicine name',med_note:'Note (after food…)',del:'🗑 Delete',save:'💾 Save',saved:'✅ Saved',bad_times:'Saved, but these times were invalid and ignored:',ics:'📅 Add medicine reminders to calendar',ics_help:'In-app reminders work while the app is open. Add them to your calendar to always ring.',add_meds_first:'Add medicines and save first.',redo_onb:'👋 Show welcome again',
+s_ui_lang:'🌐 App language',s_dest:'✈️ Country you are in',s_key:'🔑 Your own OpenAI key (optional)',s_key_help:'Stored on this phone only. Set a monthly spending limit in your OpenAI account.',s_name:'What should I call you?',s_about:'Info that helps the assistant (optional)',s_home_cur:'💰 Home currency',s_theme:'🎨 Theme',s_dark:'🌙 Dark tech',s_light:'☀️ Light',s_font:'🔠 Text size',s_voice:'🗣️ Assistant voice',s_reciter:'📖 Reciter',s_method:'🕌 Prayer calculation',s_hotel:'🏨 Hotel',s_hotel_name:'Hotel name',s_hotel_addr:'Hotel address (local language is best)',s_family:'👨‍👩‍👦 Family numbers',s_family_add:'➕ Add number',fam_name:'Name',fam_phone:'Number with country code: 9665xxxxxxxx',s_meds_help:'24h times separated by commas, e.g. 08:00, 20:00',s_add_med:'➕ Add medicine',med_name:'Medicine name',med_note:'Note (after food…)',del:'🗑 Delete',save:'💾 Save',saved:'✅ Saved',bad_times:'Saved, but these times were invalid and ignored:',ics:'📅 Add medicine reminders to calendar',ics_help:'In-app reminders work while the app is open. Add them to your calendar to always ring.',add_meds_first:'Add medicines and save first.',redo_onb:'👋 Show welcome again',
 onb_hi:'Welcome! I\'m Khoy 🤝',onb_hi2:'Your smart travel companion: I translate, guide and remind you.',onb_lang:'Choose app language',onb_name:'What should I call you?',onb_name_ph:'e.g. Ahmed',onb_dest:'Where are you travelling?',onb_key:'Last step: OpenAI key',onb_key_help:'The key powers the assistant, translator and camera. It stays on your phone only. You can add it later in Settings.',later:'Add it later',next_btn:'Next',start:'Start 🚀',more_langs:'🌐 More languages',ui_translating:'Preparing the app in your language…',
 boot1:'Initialising smart core',boot2:'Linking voice and translation',boot3:'Loading tour-guide knowledge',boot4:'Ready to help',
 asst_chips:['What should I visit today?','Halal food nearby','Nearest mosque?','How much for a taxi?','What should I watch out for?','Typical weather?'],
+t_taxi:'Taxi meter',more:'⋯ More',m_camera:'📷 Camera',m_nav:'🗺️ Directions',m_currency:'💱 Currency',m_sos:'🆘 SOS',m_quran:'📖 Quran',m_meds:'💊 Meds',tap_start:'Tap here to start 👆',
+taxi_fare:'Estimated fare',taxi_dist:'Distance km',taxi_time:'Time',taxi_wait:'Traffic',taxi_start:'Start meter (when you get in)',taxi_stop:'Stop meter (when you arrive)',taxi_reset:'↺ Reset',taxi_meter_phrase:'🗣️ Tell driver: use the meter',taxi_note:'GPS-based estimate using the official meter rates, so you know if the price is fair. Airport and expressway fees are extra.',taxi_done:'Estimated fare {fare}, about {home}.',taxi_gps:'Turn on location for the meter.',taxi_custom:'Taxi rates in this country (edit if you know them)',taxi_flag:'Flag fall',taxi_perkm:'Per km',taxi_permin:'Per traffic minute',
+alerts_btn:'🔔 Enable alerts even when the app is closed',alerts_help:'Adds 30 days of prayer times plus morning/evening athkar and medicines to your phone calendar, so they ring even when the app is closed. Do it after you arrive, and repeat monthly.',alerts_ready:'Alerts ready ✅ Now tap "Add All" to save them in your calendar.',athkar_m:'📿 Morning athkar',athkar_e:'📿 Evening athkar',help:'🔊 Explain',
+g_translate:'To talk with someone: tap the green button and speak, I will say it in their language. When they answer, tap the blue button and let them speak.',
+g_taxi:'When you get in the taxi tap the big green button, and tap it again when you arrive. I will tell you the fair price.',
+g_prayer:'These are the prayer times where you are; the highlighted one is next.',
+g_athkar:'Tap the purple button each time you say the dhikr, or tap read it to me.',
+g_camera:'Take a photo of any paper, sign or menu and I will read it to you.',g_nav:'Tap and tell me where you want to go, I will open the route.',
+greet_en:'Welcome {name}! I am Khoy. Tap the big button and talk to me: I can translate, run the taxi meter, remind you of prayer and read the athkar.',
+im_fine:'👋 I am fine (tell family)',fine_said:'Done, I told them you are fine',you_are_in:'You are in',accuracy:'accuracy',sharing_on:'Your location is shared with family',m_qibla:'🕋 Qibla',m_tasbeeh:'📿 Tasbeeh',m_bargain:'🛍️ Bargain',
+qibla_start:'🧭 Find Qibla',qibla_tap:'Tap the button below to find the Qibla',qibla_note:'Hold the phone flat, away from metal. If wrong, move the phone in a figure 8.',qibla_perm:'Please allow compass access',qibla_turn_phone:'Move the phone a little',qibla_ok:'You are facing the Qibla',qibla_right:'Turn right ↪️',qibla_left:'Turn left ↩️',
+bg_hint:'Tell me the item and the seller\'s price; I will tell you if it is fair and what to offer.',bg_ask:'Tap and say: item and price',bg_photo:'📷 Photo of the item (optional)',bg_after_photo:'Now tap and say the price',bg_fair:'Fair price',bg_offer:'Offer',
+convo_start:'💬 Hands-free conversation',convo_stop:'⏹️ Stop conversation',convo_hello:'Speak in turns and I will translate between you.',
+pre_adhan:'5 minutes until {p}',s_alerts_cfg:'⏰ Alerts',s_dhikr_every:'Dhikr every (min)',s_dhikr_from:'From',s_dhikr_to:'To',s_pre_adhan:'Alert 5 minutes before adhan',
+s_family_share:'👨‍👩‍👦 Share location with family',s_share_loc:'Share my location with family',s_share_help:'While the app is open it sends location every 5 minutes, and immediately with I am fine, SOS and taxi. The user must know and agree.',s_fam_link:'🔗 Family page link (for you)',copy:'Copy',
+s_transfer:'💾 Transfer settings to another phone',s_exp_key:'Include OpenAI key (never share the code)',s_export:'📤 Create settings code',s_send_link:'Send link via WhatsApp',s_import_ph:'Paste the settings code here',s_import:'📥 Import settings',s_imported:'Settings imported ✅',s_import_bad:'Invalid code',
+fam_title:'Family page',fam_refresh:'🔄 Refresh',fam_safety:'🛡️ Safety notes for this place',fam_hist:'Latest updates',fam_none:'No update in the last 12 hours.',fam_fail:'Could not load location',fam_ok:'Nothing worrying',
+fam_w_sos:'SOS pressed in the last 12 hours!',fam_w_stale:'Last update {h} h ago; the app may be closed or offline.',fam_w_acc:'Low location accuracy in the last update.',fam_w_night:'It is late and he is {km} km from the hotel.',fam_w_far:'{km} km from the hotel.',
+fam_safety_note:'General AI information, not a definitive assessment of the area.',fam_push_help:'To get I am fine / SOS notifications: install the free ntfy app, tap below and subscribe.',fam_push_btn:'🔔 Subscribe to alerts',
+g_qibla:'Tap Find Qibla and turn the phone until it turns green.',g_tasbeeh:'Tap the big circle with each tasbeeh.',g_bargain:'Tap and say what you want to buy and the price.',
+onb_fam:'Want family to follow your trip?',onb_fam_help:'Add one family member; they get a link to see your last location while the app is open, and alerts for I am fine / SOS.',onb_fam_name:'Name',onb_fam_ok:'I agree to share my location with them',onb_fam_send:'Send them the link on WhatsApp',family_word:'Family',m_famquick:'👨‍👩‍👦 Family follow me',fam_quick_ask:'Share your location with your family? They will see your last location while the app is open.',fam_quick_ok:'✅ Agree and send link',
+q_label:'AI balance today',q_low:'Heads up: your daily AI balance is almost used up ({n} left). Prayer, adhkar and taxi meter always work.',q_out:'Your daily AI balance is used up; it renews tomorrow. Prayer, adhkar, tasbeeh, qibla and taxi meter still work.',q_global:'The service is busy today, try again later.',m_journey:'📊 My trip',m_plan:'🗓️ Plan my day',j_week:'Prayers, last 7 days',j_timeline:'What I did',j_empty:'Nothing yet. Every completed task appears here ✅',j_prayers:'Prayers',j_athkar:'Adhkar',j_meds:'Meds',
+k_prayers:'prayers logged',k_streak:'day adhkar streak',k_tasbeeh:'tasbeeh',k_taxi:'taxi rides',k_translate:'translations',k_plan:'places visited',
+f_all:'All',f_worship:'🕌 Worship',f_trip:'🗓️ Trip',f_move:'🚕 Rides',f_talk:'🌍 Talk',f_health:'💊 Health',
+done_prayer:'Prayed',done_athkar:'Adhkar done',done_dhikr:'Dhikr',done_tasbeeh:'Tasbeeh done',done_qibla:'Qibla found',done_med:'Medicine taken',done_taxi:'Taxi ride',done_translate:'Translation',done_plan:'Visited',done_fine:'Told family',done_word:'Done',
+prayed_btn:'✅ Prayed',said_it:'✅ Said it',did_you_pray:'Did you pray {p}?',open_journey:'📊 Open my trip',alerts_card:'Turn on alerts to get adhan, adhkar and medicine reminders even when the app is closed',
+pl_hint:'Before suggesting places, tell me your mood and what you like. I will plan a comfortable schedule and remind you before each stop.',pl_mood:'How do you feel today?',pl_likes:'What do you like?',pl_pace:'Pace',pl_budget:'Budget',pl_days:'How many days?',pl_day:'day',pl_voice:'Or tell me what you want',pl_make:'✨ Plan my schedule',pl_making:'Planning your schedule…',pl_ready_say:'Your schedule is ready; I will remind you 15 minutes before each stop.',pl_go:'Take me',pl_mark:'Done',pl_alerts:'Add schedule to alerts',pl_new:'New plan',pl_soon:'In 15 minutes: {x}',
+pq_relax:'😌 Calm',pq_active:'💪 Active',pq_tired:'😮‍💨 A bit tired',pq_happy:'😄 Happy',pq_food:'🍽️ Halal food',pq_shop:'🛍️ Shopping',pq_nature:'🌴 Nature & sea',pq_history:'🏛️ History',pq_mosque:'🕌 Mosques',pq_massage:'💆 Massage',pq_family:'👨‍👩‍👦 Gifts',pq_light:'🐢 Light',pq_mid:'🚶 Medium',pq_eco:'💵 Budget',pq_midb:'💳 Mid',pq_lux:'💎 Comfort',
+g_journey:'Here you see everything you did on your trip.',g_plan:'Pick your mood and likes, then tap plan.',
+m_teach:'🧠 Teach Khoy',m_suggest:'💡 Suggest to developer',tc_hint:'Teach me anything about you or correct me. I check the information before saving it.',tc_ask:'Tap and teach me',tc_ph:'Or type what you want to teach me',tc_save:'🧠 Save',tc_list:'What you taught me',tc_empty:'Nothing taught yet.',tc_checking:'Checking the information…',tc_saved:'Saved, I will follow it',tc_keep_anyway:'Save it anyway',
+fb_title:'💡 Your opinion matters',fb_help:'Your rating and ideas go straight to the developer (Bin3abdAi).',fb_suggest:'💡 What should we add?',fb_say:'Tap and say your opinion',fb_ph:'Or type it here',fb_sent:'Sent to the developer, thank you',send:'Send',
+rq_asst:'Was my answer helpful?',rq_taxi:'How was the taxi meter?',rq_athkar:'How were the adhkar?',rq_tasbeeh:'How is the tasbeeh?',rq_convo:'How was the translation?',rq_bargain:'Was the bargaining tip useful?',rq_teach:'Was teaching easy?',rq_suggest:'What should the developer add?',rq_plan:'How was this place?',
+rate_say:'If you liked it tap thumbs up, if not tap thumbs down and tell us why.',rate_thanks_up:'Thank you 🌹 anything to add?',rate_thanks_down:'Sorry 🙏 what went wrong?',s_rate:'Ask for my rating after each service',
+g_teach:'Tap and say what to teach me; I check and save it.',
 priv:`<p><b>Your privacy matters.</b></p><p>• All your settings (name, medicines, family numbers, key) are stored on your phone only; we keep no copy.</p><p>• When you use the assistant, translator or camera, your voice, text or photo is sent to OpenAI for processing only, under OpenAI's policy.</p><p>• Location is used only for prayer times, guidance and when you choose to share it, and is never stored by us.</p><p>• No ads and no tracking.</p><p>• You can erase all data by removing the app from your home screen or clearing browser data.</p>`,
 loc_denied:'Could not get your location. Please allow location access.',help_card_src:'I am a tourist and I do not speak your language. Please help me. This is my name and my hotel address.'}
 };
@@ -559,7 +850,7 @@ async function setUiLang(code){
   else{
     const cached=S.get('ui_'+code,null);
     if(cached){uiDict=cached}
-    else if(cfg.key){
+    else if(hasAI()){
       showAlert('🌐',t('ui_translating'),{noBtn:true});
       try{
         const name=(langOf(code)||[0,0,code])[2];
@@ -586,7 +877,9 @@ function go(id){
   if(micState.active) cancelMic();
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   $(id).classList.add('on'); cur=id; window.scrollTo(0,0);
-  ({prayer:renderPrayer,meds:renderMeds,settings:fillSettings,athkar:()=>openAthkar(azSet||autoAzSet()),home:renderHome,asst:enterAsst,translate:renderTranslate,currency:enterCurrency,sos:renderSOS}[id]||(()=>{}))();
+  ({prayer:renderPrayer,meds:renderMeds,settings:fillSettings,athkar:()=>openAthkar(azSet||autoAzSet()),home:enterHome,journey:renderJourney,plan:renderPlan,teach:renderTeach,translate:()=>{renderTranslate();convoUI('')},currency:enterCurrency,sos:renderSOS,taxi:renderTaxi,tasbeeh:renderTb,qibla:()=>{qb.bearing=null;$('qbInfo').textContent=t('qibla_tap')}}[id]||(()=>{}))();
+  if(['translate','taxi','prayer','athkar','camera','nav','qibla','tasbeeh','bargain','teach','plan','journey'].includes(id)) guideSpeak(id);
+  if(convo.on&&id!=='translate')convoToggle();
 }
 
 /* ================= AUDIO ================= */
@@ -597,33 +890,72 @@ function stopSpeech(){try{if(curSrc){curSrc.onended=null;curSrc.stop()}}catch(e)
 function playBuffer(ab){
   return new Promise(resolve=>{
     const ctx=getCtx();if(!ctx){resolve(false);return}
-    ctx.decodeAudioData(ab,buf=>{
+    const pr=ctx.decodeAudioData(ab,buf=>{
       stopSpeech();
       const src=ctx.createBufferSource();src.buffer=buf;
       const an=ctx.createAnalyser();an.fftSize=512;src.connect(an);an.connect(ctx.destination);
       curSrc=src;curAnalyser=an;src.onended=()=>{curAnalyser=null;resolve(true)};src.start(0);
-    },()=>resolve(false));
+    },()=>resolve(false));if(pr&&pr.catch)pr.catch(()=>resolve(false));
   });
 }
 const BCP={ar:'ar-SA',en:'en-US',th:'th-TH',fr:'fr-FR',es:'es-ES',de:'de-DE',it:'it-IT',pt:'pt-PT',ru:'ru-RU',tr:'tr-TR',fa:'fa-IR',ur:'ur-PK',hi:'hi-IN',id:'id-ID',ms:'ms-MY',tl:'fil-PH',vi:'vi-VN',zh:'zh-CN',ja:'ja-JP',ko:'ko-KR'};
 function browserSpeak(text,lang){try{const u=new SpeechSynthesisUtterance(text);u.lang=BCP[lang]||lang||'en-US';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
-async function speak(text,lang='ar',fast=false){
+/* ================= AI ACCESS: own key OR Bin3abdAi proxy ================= */
+const KHOY_PROXY='https://khoy.alsehlii-m7md.workers.dev';   // <- رابط الوسيط (Cloudflare Worker) بعد التركيب، مثال: https://khoy.xxx.workers.dev
+const OPENAI='https://api.openai.com/v1';
+let uid=S.get('uid','');if(!uid){uid='u'+rid(20);S.set('uid',uid)}
+let quota=S.get('quota',{used:0,limit:0,day:''});
+function hasAI(){return !!(cfg.key||KHOY_PROXY)}
+async function oai(path,init={}){
+  if(cfg.key)return fetch(OPENAI+path,init);
+  if(!KHOY_PROXY)throw new Error(t('need_key'));
+  const h=Object.assign({},init.headers||{});delete h.Authorization;h['X-Khoy-Uid']=uid;h['X-Khoy-Lang']=myLang();
+  const r=await fetch(KHOY_PROXY+path,Object.assign({},init,{headers:h}));
+  const u=+r.headers.get('X-Quota-Used'),lim=+r.headers.get('X-Quota-Limit');
+  if(lim){quota={used:u,limit:lim,day:dayKey()};S.set('quota',quota);quotaCheck()}
+  if(r.status===429){let j={};try{j=await r.clone().json()}catch(e){}quotaOut(j.code);throw new Error(j.code==='global'?t('q_global'):t('q_out'))}
+  return r;
+}
+function quotaLeft(){return quota.limit?Math.max(0,quota.limit-quota.used):null}
+function quotaCheck(){const left=quotaLeft();if(left==null)return;const k='qw_'+dayKey();
+  if(left>0&&left<=Math.ceil(quota.limit*0.2)&&!S.get(k,false)){S.set(k,true);showAlert('⚠️',t('q_low',{n:left}),{say:t('q_low',{n:left})})}}
+function quotaOut(code){const k='qo_'+dayKey();if(S.get(k,false))return;S.set(k,true);const m=code==='global'?t('q_global'):t('q_out');showAlert('⛽',m,{say:m})}
+function quotaHtml(){if(cfg.key||!KHOY_PROXY||!quota.limit||quota.day!==dayKey())return'';const left=quotaLeft(),pc=Math.round(left/quota.limit*100);
+  return `<div class="glass info small" style="font-weight:700">⛽ ${esc(t('q_label'))}: ${left}/${quota.limit}<div style="height:8px;border-radius:9px;background:rgba(148,163,184,.2);margin-top:6px;overflow:hidden"><i style="display:block;height:100%;width:${pc}%;background:${pc<=20?'#ef4444':'linear-gradient(90deg,var(--accent),var(--accent2))'}"></i></div></div>`}
+
+/* --- TTS cache (IndexedDB) so repeated texts like athkar play instantly --- */
+let idb=null;
+function idbOpen(){return new Promise(r=>{if(idb)return r(idb);try{const q=indexedDB.open('khoy',1);q.onupgradeneeded=()=>q.result.createObjectStore('tts');q.onsuccess=()=>{idb=q.result;r(idb)};q.onerror=()=>r(null)}catch(e){r(null)}})}
+async function idbGet(k){const d=await idbOpen();if(!d)return null;return new Promise(r=>{try{const q=d.transaction('tts').objectStore('tts').get(k);q.onsuccess=()=>r(q.result||null);q.onerror=()=>r(null)}catch(e){r(null)}})}
+async function idbPut(k,v){const d=await idbOpen();if(!d)return;try{d.transaction('tts','readwrite').objectStore('tts').put(v,k)}catch(e){}}
+function hashKey(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return 'k'+h+'_'+s.length}
+const ttsMem=new Map(),ttsPending=new Map();
+async function ttsFetch(text,lang,fast){
+  const body={model:fast?MODEL_TTS_FAST:MODEL_TTS,voice:cfg.voice,input:text.slice(0,3500),response_format:'mp3'};
+  if(!fast) body.instructions= lang==='ar'?'تكلّم بلهجة بدوية نجدية، بهدوء وببطء ووضوح، بنبرة دافئة ومحترمة لرجل كبير في السن.':'Speak clearly, warmly and at a calm pace.';
+  const r=await oai('/audio/speech',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok)return null;return await r.arrayBuffer();
+}
+async function getTTS(text,lang,fast,cache){
+  if(!hasAI())return null;
+  if(!cache)return ttsFetch(text,lang,fast);
+  const k=hashKey(cfg.voice+'|'+(fast?1:0)+'|'+text);
+  if(ttsMem.has(k))return ttsMem.get(k);
+  if(ttsPending.has(k))return ttsPending.get(k);
+  const pr=(async()=>{let ab=await idbGet(k);if(!ab){ab=await ttsFetch(text,lang,fast);if(ab)idbPut(k,ab)}if(ab)ttsMem.set(k,ab);ttsPending.delete(k);return ab})();
+  ttsPending.set(k,pr);return pr;
+}
+async function speak(text,lang='ar',fast=false,cache=false){
   if(!text)return;
-  if(cfg.key){
-    try{
-      const body={model:fast?MODEL_TTS_FAST:MODEL_TTS,voice:cfg.voice,input:text.slice(0,3500),response_format:'mp3'};
-      if(!fast) body.instructions= lang==='ar'?'تكلّم بالعربي بلهجة سعودية هادئة وواضحة، بنبرة محترمة ودافئة.':'Speak clearly, warmly and at a calm pace.';
-      if(fast) body.speed=1.0;
-      const r=await fetch('https://api.openai.com/v1/audio/speech',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
-      if(r.ok){const ok=await playBuffer(await r.arrayBuffer());if(ok)return}
-    }catch(e){}
+  if(hasAI()){
+    try{const ab=await getTTS(text,lang,fast,cache);if(ab){const ok=await playBuffer(ab.slice(0));if(ok)return}}catch(e){}
   }
   browserSpeak(text,lang);
 }
 
 /* ================= MIC ================= */
 const micState={active:null,rec:null,stream:null,chunks:[],timer:null};
-const MIC_IDS={asst:'asstMic',me:'meMic',them:'themMic',pick:'pickMic',nav:'navMic',cur:'curMic'};
+const MIC_IDS={pl:'plMic',tc:'tcMic',fb:'fbMic',asst:'asstMic',me:'meMic',them:'themMic',pick:'pickMic',nav:'navMic',cur:'curMic',bg:'bgMic'};
 function micIdle(which){
   if(which==='them'){const L=langOf(resolveTarget());return t('them_speak')+(cfg.target==='auto'?' ('+t('auto').replace(/^\S+\s/,'')+')':(L?' ('+langName(L)+')':''))}
   if(which==='me') return t('me_speak')+' ('+langName(langOf(myLang()))+')';
@@ -644,7 +976,7 @@ async function micTap(which){
   stopSpeech();
   if(micState.active===which){finishMic();return}
   if(micState.active)cancelMic();
-  if(!cfg.key){showAlert('🔑',t('need_key'));return}
+  if(!hasAI()){showAlert('🔑',t('need_key'));return}
   try{micState.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}
   catch(e){showAlert('🎙️',t('mic_denied'));return}
   const mime=pickMime();
@@ -669,7 +1001,7 @@ function finishMic(){
   rec.stop();
 }
 function showErr(which,msg){
-  const box={asst:'asstLog',me:'trOut',them:'trOut',nav:'navOut',cur:'curOut',pick:'pkList'}[which];
+  const box={pl:'plVoice',tc:'tcOut',fb:'rateBody',asst:'asstLog',me:'trOut',them:'trOut',nav:'navOut',cur:'curOut',pick:'pkList',bg:'bgOut'}[which];
   if($(box)) $(box).insertAdjacentHTML('afterbegin','<div class="err">'+esc(t('err_retry'))+'<br><span class="small">'+esc(msg)+'</span></div>');
 }
 
@@ -678,7 +1010,7 @@ async function transcribe(blob,lang){
   if(blob.size<1500)throw new Error(t('heard_nothing'));
   const ty=blob.type,ext=(ty.includes('mp4')||ty.includes('aac'))?'m4a':(ty.includes('ogg')?'ogg':'webm');
   const send=async model=>{const fd=new FormData();fd.append('file',blob,'voice.'+ext);fd.append('model',model);if(lang)fd.append('language',lang);
-    return fetch('https://api.openai.com/v1/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key},body:fd})};
+    return oai('/audio/transcriptions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key},body:fd})};
   let r=await send(MODEL_STT);
   if(!r.ok && r.status!==401 && r.status!==429) r=await send(MODEL_STT_FALLBACK);
   if(!r.ok)throw new Error('STT '+r.status+': '+(await r.text()).slice(0,160));
@@ -688,7 +1020,7 @@ async function chat(messages,o={}){
   const body={model:o.model||MODEL_CHAT,messages,temperature:o.temp??.5};
   if(o.json)body.response_format={type:'json_object'};
   if(o.max)body.max_tokens=o.max;
-  const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const r=await oai('/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
   if(!r.ok)throw new Error('Chat '+r.status+': '+(await r.text()).slice(0,160));
   const j=await r.json();return(j.choices?.[0]?.message?.content||'').trim();
 }
@@ -702,7 +1034,7 @@ function ctxInfo(){
 }
 function replyStyle(){
   return myLang()==='ar'
-    ?'رد بلهجة سعودية بسيطة ومحترمة ودافئة.'
+    ?'رد بلهجة بدوية نجدية بسيطة ودافئة ومحترمة، مثل ما يتكلم الشايب البدوي، بكلمات سهلة جداً وبدون مصطلحات.'
     :`Reply in ${myLangName()}, simple and warm.`;
 }
 
@@ -717,14 +1049,16 @@ Rules:
 - For elderly users suggest comfortable places with little walking; remind about heat and water when relevant.
 - When you mention a place, add its English or local name in brackets so it can be shown to a driver.
 - If the user wants to go somewhere or asks where something is, add at the very end on its own line: [[MAP: <best Google Maps search query in English, include city>]]
+- If the user asks to open or use a feature of the app, say one short sentence and add on its own line [[GO: x]] where x is one of: plan (plan my trip / where to go / schedule), journey (my trip dashboard, what I did, my prayers record), teach (teach Khoy / correct it), qibla, tasbeeh, bargain, translate (translator / talk with someone), taxi (taxi meter), prayer (prayer times), athkar (adhkar), quran, currency, camera, nav (directions), sos (emergency/family), meds (medicines).
 - Prices and times are approximate; never invent places. Medical: do not diagnose; advise a doctor; emergencies: call local emergency numbers. Religious rulings: brief, mainstream, suggest asking scholars for details.
 - If asked your name: you are Bin3abdAi, the assistant of Khoy.
+- TEACHING: if the user teaches you something or corrects you ("تعلّم"، "تذكّر"، "لا الصحيح"، "انتبه"...), first judge it. If it is about himself, his preferences or his trip, or it is factually correct, thank him briefly and add on its own line [[LEARN: <the fact, short, in his language>]]. If it contradicts well-established facts, kindly explain what is correct with a reason and do NOT add LEARN.
+${teachCtx()}
 ${ctxInfo()}`;
 }
 function setAState(s){const el=$('astate');if(el)el.textContent={listening:t('listening'),thinking:t('thinking'),speaking:t('speaking'),ready:t('ready')}[s]||'';orb.mode=s}
 function renderAsst(){
-  $('asstChips').innerHTML=(t('asst_chips')||[]).map((q,i)=>`<button onclick="askAsst(t('asst_chips')[${i}])">${esc(q)}</button>`).join('');
-  $('asstLog').innerHTML=asstHist.slice(-8).reverse().map(m=>`<div class="bubble ${m.role==='user'?'me':'ai'}">${m.role==='user'?'🧓 ':'🤖 '}${esc(m.content.replace(/\[\[MAP:[^\]]*\]\]/g,'').trim())}</div>`).join('');
+  $('asstLog').innerHTML=asstHist.slice(-2).reverse().map(m=>`<div class="bubble ${m.role==='user'?'me':'ai'}">${m.role==='user'?'🧓 ':'🤖 '}${esc(m.content.replace(/\[\[(MAP|GO|LEARN):[^\]]*\]\]/g,'').trim())}</div>`).join('');
 }
 function clearAsst(){asstHist=[];S.set('asst',asstHist);$('asstMap').innerHTML='';renderAsst()}
 async function runAsst(q){
@@ -734,21 +1068,67 @@ async function runAsst(q){
   asstHist.push({role:'assistant',content:a});asstHist=asstHist.slice(-30);S.set('asst',asstHist);renderAsst();
   const m=a.match(/\[\[MAP:\s*([^\]]+)\]\]/);
   $('asstMap').innerHTML=m?`<a class="big green" style="display:block;text-align:center;text-decoration:none" href="${mapsDir(m[1].trim())}" target="_blank" rel="noopener">${esc(t('open_maps'))}</a>`:'';
+  const g=a.match(/\[\[GO:\s*(\w+)\s*\]\]/);
+  const lr=a.match(/\[\[LEARN:\s*([^\]]+)\]\]/);if(lr)teachSave(lr[1].trim(),'voice');
   setAState('speaking');
-  await speak(a.replace(/\[\[MAP:[^\]]*\]\]/g,'').trim(),myLang());
+  await speak(a.replace(/\[\[(MAP|GO|LEARN):[^\]]*\]\]/g,'').trim(),myLang());
   setAState('ready');
+  askRate('asst',q,{quiet:!!g});
+  if(g&&$(g[1])&&g[1]!=='home')go(g[1]);
 }
 async function handleAsst(blob){const q=await transcribe(blob,myLang());if(!q)throw new Error(t('heard_nothing'));await runAsst(q)}
 async function askAsst(q){
-  if(busy)return;if(!cfg.key){showAlert('🔑',t('need_key'));return}
+  if(busy)return;if(!hasAI()){showAlert('🔑',t('need_key'));return}
   busy=true;setMicUI('asst','busy');
   try{await runAsst(q)}catch(e){showErr('asst',e.message)}
   busy=false;setMicUI('asst','idle');
 }
 let booted=false;
-function enterAsst(){
-  renderAsst();setMicUI('asst','idle');startOrb();
-  if(!booted){booted=true;runBoot()}
+function enterHome(){renderHome();renderAsst();setMicUI('asst','idle');startOrb()}
+function toggleMore(){const b=$('moreBox');b.style.display=b.style.display==='none'?'block':'none'}
+function startApp(){
+  try{getCtx()}catch(e){}
+  rateClose();$('splash').classList.remove('on');booted=true;runBoot();go('home');
+  setTimeout(greet,1900);
+  getPos(true).then(p=>{if(p&&prayer&&(!prayer.pos||hav(prayer.pos,p)>15))loadPrayer(true)});
+  try{if('Notification' in window&&Notification.permission==='default'&&cfg.alertsSet)Notification.requestPermission()}catch(e){}
+}
+let wx=S.get('wx',null);
+async function loadWeather(){
+  const p=lastPos;if(!p)return null;
+  if(wx&&Date.now()-wx.ts<30*60e3&&hav(wx,p)<5){renderWx();return wx}
+  try{const j=await(await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lng}&current=temperature_2m,relative_humidity_2m&daily=temperature_2m_max,precipitation_probability_max&timezone=auto&forecast_days=1`)).json();
+    wx={lat:p.lat,lng:p.lng,ts:Date.now(),t:Math.round(j.current.temperature_2m),hum:j.current.relative_humidity_2m,max:Math.round(j.daily.temperature_2m_max[0]),rain:j.daily.precipitation_probability_max[0]};S.set('wx',wx)}catch(e){}
+  renderWx();return wx;
+}
+function wxText(){if(!wx)return'';
+  if(myLang()==='ar'){let s=`الجو الحين ${wx.t} درجة، والعظمى اليوم ${wx.max}`+(wx.rain!=null?`، واحتمال المطر ${wx.rain} بالمية`:'')+'.';
+    if(wx.max>=33)s+=' الجو حار، اشرب موية وخلك بالظل.';if(wx.rain>=50)s+=' خذ معك شمسية.';return s}
+  let s=`It is ${wx.t}°C now, high ${wx.max}°C`+(wx.rain!=null?`, ${wx.rain}% chance of rain`:'')+'.';if(wx.max>=33)s+=' It is hot, drink water.';if(wx.rain>=50)s+=' Take an umbrella.';return s}
+function renderWx(){const el=$('homeWx');if(!el||!wx)return;el.style.display='block';el.textContent='☀️ '+wxText()}
+async function greet(){
+  try{await Promise.race([getPos().then(loadWeather),new Promise(r=>setTimeout(r,2500))])}catch(e){}
+  const c=country(),n=nextPrayer(),h=new Date().getHours();
+  const name=cfg.name||'';
+  let txt;
+  if(myLang()==='ar'){
+    txt=(h<12?'صباح الخير':'مساء الخير')+(name?(' يا '+name):'')+'، هلا والله ومرحبا'+(c?(' بك في '+c[1]):'')+'. أنا خويك. '+
+      'أي شي تبيه، اضغط الزر الكبير اللي تحت وكلّمني، وأنا أسويه لك. '+
+      'أقدر أترجم لك، وأشغّل لك عداد التكسي، وأعلّمك بوقت الصلاة، وأقرا لك الأذكار.'+
+      (n?(' والصلاة الجاية '+pName(n.p)+' بعد '+leftText(n.left)+'.'):'')+(wx?(' '+wxText()):'');
+  }else{
+    txt=t('greet_en',{name:name||'',country:c?c[2]:''})+(n?(' '+t('next_prayer')+': '+pName(n.p)+', '+t('left')+' '+leftText(n.left)+'.'):'');
+  }
+  setAState('speaking');
+  const box=$('asstLog');box.innerHTML=`<div class="bubble ai">🤖 ${esc(txt)}</div>`;
+  speak(txt,myLang()).then(()=>setAState('ready'));
+}
+const guided=S.get('guided',{});
+function guideSpeak(id,force){
+  const k='g_'+id;const txt=t(k);if(!txt||txt===k)return;
+  if(!force&&(guided[id]||0)>=3)return;
+  guided[id]=(guided[id]||0)+1;S.set('guided',guided);
+  speak(txt,myLang());
 }
 function runBoot(){
   const b=$('boot'),lines=[t('boot1'),t('boot2'),t('boot3'),t('boot4')];let i=0;
@@ -765,7 +1145,7 @@ const lvBuf=new Uint8Array(512);
 function audioLevel(){if(!curAnalyser)return 0;try{curAnalyser.getByteTimeDomainData(lvBuf);let s=0;for(let i=0;i<lvBuf.length;i++){const v=(lvBuf[i]-128)/128;s+=v*v}return Math.min(1,Math.sqrt(s/lvBuf.length)*4)}catch(e){return 0}}
 function startOrb(){cancelAnimationFrame(orb.raf);drawOrb()}
 function drawOrb(){
-  if(cur!=='asst')return;
+  if(cur!=='home')return;
   const c=$('orb'),dpr=Math.min(2,window.devicePixelRatio||1),w=c.clientWidth,h=c.clientHeight;
   if(c.width!==w*dpr||c.height!==h*dpr){c.width=w*dpr;c.height=h*dpr}
   const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);
@@ -848,7 +1228,7 @@ const PHR={
 };
 function phrasesFor(code){return PHR[code]||S.get('ph_'+code,null)}
 async function ensurePhrases(code){
-  if(phrasesFor(code)||!cfg.key)return phrasesFor(code);
+  if(phrasesFor(code)||!hasAI())return phrasesFor(code);
   const L=langOf(code);
   const out=await chat([{role:'system',content:`Translate each English phrase into natural polite spoken ${L?L[2]:code} for a traveller. Return JSON {"items":[...]} in the same order.`},{role:'user',content:JSON.stringify(PHR.en)}],{temp:0,json:true});
   try{const a=JSON.parse(out).items;if(Array.isArray(a)&&a.length===PHR.en.length){S.set('ph_'+code,a);return a}}catch(e){}
@@ -859,7 +1239,7 @@ async function renderPhrases(){
   const src=PHR[myLang()]||PHR.en,to=resolveTarget();
   let dst=phrasesFor(to);
   $('phrases').innerHTML=src.map((p,k)=>`<button class="pill" onclick="sayPhrase(${k})">${esc(p)}<div class="small" dir="auto">${esc(dst?dst[k]:'…')}</div></button>`).join('');
-  if(!dst&&!phrBusy&&cfg.key){phrBusy=true;try{dst=await ensurePhrases(to)}catch(e){}phrBusy=false;if(dst&&cur==='translate')renderPhrases()}
+  if(!dst&&!phrBusy&&hasAI()){phrBusy=true;try{dst=await ensurePhrases(to)}catch(e){}phrBusy=false;if(dst&&cur==='translate')renderPhrases()}
 }
 async function sayPhrase(k){
   const to=resolveTarget();let dst=phrasesFor(to);
@@ -897,7 +1277,7 @@ function langItems(excludeMine){
   return allLangs().filter(l=>!excludeMine||l[0]!==myLang()).map(l=>({id:l[0],label:langName(l)+(myLang()==='ar'?'':''),sub:myLang()==='ar'?l[2]:l[1],flag:flag(l[3]),keys:[norm(l[1]),norm(shortAr(l[1])),norm(l[2]),l[0]]}));
 }
 async function resolveLangByAI(q){
-  if(!cfg.key)return null;
+  if(!hasAI())return null;
   const out=await chat([{role:'system',content:'The user asked (any language) for a language. Return JSON {"code":"ISO 639-1 or 639-3","ar":"Arabic name with ال and ية","en":"English name","country":"ISO 3166 alpha-2 of main country"}. If not a language return {"code":""}.'},{role:'user',content:q}],{temp:0,json:true});
   try{const j=JSON.parse(out);if(!j.code)return null;if(!langOf(j.code)){customLangs.push([j.code,j.ar||j.en,j.en||j.code,j.country||'']);S.set('customLangs',customLangs)}return j.code}catch(e){return null}
 }
@@ -905,7 +1285,7 @@ function pickLang(){openPicker({title:t('choose_lang'),items:langItems(true),onP
 function pickUiLang(){openPicker({title:t('s_ui_lang'),items:langItems(false),onPick:setUiLang,resolve:resolveLangByAI})}
 function countryItems(){return COUNTRIES.map(c=>({id:c[0],label:myLang()==='ar'?c[1]:c[2],sub:(myLang()==='ar'?c[2]:c[1])+' · '+c[3],flag:flag(c[0]),keys:[norm(c[1]),norm(c[2]),c[0].toLowerCase(),c[3].toLowerCase()]}))}
 async function resolveCountryByAI(q){
-  if(!cfg.key)return null;
+  if(!hasAI())return null;
   const out=await chat([{role:'system',content:'Return JSON {"code":"ISO 3166 alpha-2"} for the country the user means, or {"code":""}.'},{role:'user',content:q}],{temp:0,json:true});
   try{const c=(JSON.parse(out).code||'').toUpperCase();return COUNTRIES.find(x=>x[0]===c)?c:null}catch(e){return null}
 }
@@ -925,7 +1305,7 @@ function camFile(inp){
   };img.src=URL.createObjectURL(f);
 }
 async function camRun(mode){
-  if(!camData)return;if(!cfg.key){showAlert('🔑',t('need_key'));return}
+  if(!camData)return;if(!hasAI()){showAlert('🔑',t('need_key'));return}
   camMode=mode;document.querySelectorAll('#camModes .pill,#camModes2 .pill').forEach(b=>b.classList.toggle('sel',b.dataset.m===mode));
   const P={text:'Read all text in the image and translate it. Start with one line saying what this is, then the translation.',
     menu:'This is a restaurant menu. Translate the main dishes with prices. Clearly warn about any dish that contains pork, alcohol or is doubtful for a Muslim. Suggest 2 safe choices.',
@@ -933,7 +1313,7 @@ async function camRun(mode){
     what:'What is in this image? Explain briefly and usefully for a traveller.'}[mode];
   $('camOut').innerHTML=`<div class="glass info">⏳ ${esc(t('wait'))}</div>`;
   try{
-    const r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},
+    const r=await oai('/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},
       body:JSON.stringify({model:MODEL_VISION,temperature:.2,max_tokens:700,messages:[{role:'system',content:`You help an elderly traveller. ${replyStyle()} Use short clear sentences, no markdown symbols. ${ctxInfo()}`},{role:'user',content:[{type:'text',text:P},{type:'image_url',image_url:{url:camData,detail:'high'}}]}]})});
     if(!r.ok)throw new Error('Vision '+r.status);
     const a=(await r.json()).choices[0].message.content.trim();
@@ -959,7 +1339,7 @@ async function navResolve(q){
   speak(j.say||'',myLang(),true);
 }
 async function handleNav(blob){const q=await transcribe(blob,myLang());if(!q)throw new Error(t('heard_nothing'));await navResolve(q)}
-async function navText(){const q=$('navQ').value.trim();if(!q)return;if(!cfg.key){openUrl(mapsDir(q));return}try{await navResolve(q)}catch(e){showErr('nav',e.message)}}
+async function navText(){const q=$('navQ').value.trim();if(!q)return;if(!hasAI()){openUrl(mapsDir(q));return}try{await navResolve(q)}catch(e){showErr('nav',e.message)}}
 
 /* ================= CURRENCY ================= */
 let rates=S.get('rates',null);
@@ -995,6 +1375,7 @@ async function handleCur(blob){
 
 /* ================= SOS ================= */
 function renderSOS(){
+  sendLoc('sos');
   const c=country();
   $('sosTitle').textContent=c?(t('sos_emergency')+' '+flag(c[0])+' '+(myLang()==='ar'?c[1]:c[2])):t('no_dest');
   $('sosNums').innerHTML=c?c[5].map(([k,n])=>`<a class="big red" style="display:flex;justify-content:space-between;text-decoration:none" href="tel:${n}"><span>📞 ${esc(t(k))}</span><span dir="ltr">${n}</span></a>`).join(''):`<button class="big" onclick="pickCountry(renderSOS)">${esc(t('choose_country'))}</button>`;
@@ -1015,9 +1396,398 @@ async function shareMyLocation(){
 async function showHelpCard(){
   const c=country();const h=cfg.hotel||{};
   let local=t('help_card_src');
-  if(c&&cfg.key){const k='help_'+c[4];local=S.get(k,null);if(!local){try{local=await translateTo(T.ar.help_card_src,c[4]);S.set(k,local)}catch(e){local=T.en.help_card_src}}}
+  if(c&&hasAI()){const k='help_'+c[4];local=S.get(k,null);if(!local){try{local=await translateTo(T.ar.help_card_src,c[4]);S.set(k,local)}catch(e){local=T.en.help_card_src}}}
   showBig(local+'\n\n👤 '+(cfg.name||'')+'\n🏨 '+(h.name||'')+' '+(h.addr||''),t('help_card_src'));
 }
+
+
+/* ================= TAXI METER ================= */
+const TAXI_RATES={TH:{flag:35,flagKm:1,tiers:[[10,6.5],[20,7],[40,8],[60,8.5],[80,9],[1e9,10.5]],waitPerMin:3}};
+function taxiRates(){const c=country();if(c&&TAXI_RATES[c[0]])return Object.assign({cur:c[3],official:true},TAXI_RATES[c[0]]);
+  const u=S.get('taxiCustom_'+(c?c[0]:'XX'),{flag:0,perKm:0,waitPerMin:0});return{cur:c?c[3]:'',flag:+u.flag||0,flagKm:0,tiers:[[1e9,+u.perKm||0]],waitPerMin:+u.waitPerMin||0,official:false}}
+let tx={on:false,dist:0,wait:0,start:0,last:null,lastMove:0,watch:null,timer:null,wl:null};
+function hav(a,b){const R=6371,dLa=(b.lat-a.lat)*Math.PI/180,dLo=(b.lng-a.lng)*Math.PI/180,x=Math.sin(dLa/2)**2+Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+function taxiFare(){const r=taxiRates();let f=r.flag,d=Math.max(0,tx.dist-r.flagKm),prev=r.flagKm;
+  for(const[upto,rate]of r.tiers){if(d<=0)break;const span=Math.min(d,upto-prev);if(span>0){f+=span*rate;d-=span}prev=upto}
+  return f+tx.wait/60*r.waitPerMin}
+const mmss=s=>{s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const CUR_AR={THB:'بات',SAR:'ريال',AED:'درهم',USD:'دولار',EUR:'يورو',MYR:'رينغيت',TRY:'ليرة',EGP:'جنيه',IDR:'روبية',PHP:'بيسو'};
+const curName=c=>myLang()==='ar'&&CUR_AR[c]?CUR_AR[c]:c;
+function renderTaxi(){
+  const r=taxiRates(),f=taxiFare();
+  $('txFare').textContent=(tx.on||tx.dist>0||tx.wait>0)?(Math.round(f)+' '+curName(r.cur)):('— '+curName(r.cur));
+  const h=conv(f,r.cur,cfg.homeCur);$('txHome').textContent=(h!=null&&f>0)?('≈ '+fmt(h)+' '+curName(cfg.homeCur)):'';
+  $('txDist').textContent=tx.dist.toFixed(1);$('txTime').textContent=mmss(tx.start?((tx.on?Date.now():tx.end||Date.now())-tx.start)/1000:0);$('txWait').textContent=mmss(tx.wait);
+  $('txBtnLb').textContent=tx.on?t('taxi_stop'):t('taxi_start');$('txBtn').querySelector('.ic').textContent=tx.on?'⏹️':'▶️';
+  $('txBtn').style.background=tx.on?'linear-gradient(135deg,#ef4444,#991b1b)':'linear-gradient(135deg,#16a34a,#14532d)';
+  $('txRates').innerHTML=esc(t('taxi_note'));
+  if(!r.official&&!tx.on){const c=country(),u=S.get('taxiCustom_'+(c?c[0]:'XX'),{flag:'',perKm:'',waitPerMin:''});
+    $('txCustom').innerHTML=`<div class="glass info"><div>${esc(t('taxi_custom'))}</div><div class="row" style="margin-top:8px"><div><div class="small">${esc(t('taxi_flag'))}</div><input id="tcF" inputmode="decimal" value="${esc(u.flag)}"></div><div><div class="small">${esc(t('taxi_perkm'))}</div><input id="tcK" inputmode="decimal" value="${esc(u.perKm)}"></div><div><div class="small">${esc(t('taxi_permin'))}</div><input id="tcM" inputmode="decimal" value="${esc(u.waitPerMin)}"></div></div><button class="big alt" onclick="saveTaxiCustom()">${esc(t('save'))}</button></div>`}
+  else $('txCustom').innerHTML='';
+  if(!rates)loadRates().then(()=>{if(cur==='taxi'&&!tx.on)renderTaxi()});
+}
+function saveTaxiCustom(){const c=country();S.set('taxiCustom_'+(c?c[0]:'XX'),{flag:$('tcF').value,perKm:$('tcK').value,waitPerMin:$('tcM').value});renderTaxi()}
+async function taxiToggle(){
+  if(tx.on){
+    tx.on=false;tx.end=Date.now();navigator.geolocation.clearWatch(tx.watch);clearInterval(tx.timer);try{tx.wl&&tx.wl.release()}catch(e){}
+    renderTaxi();const r=taxiRates(),f=taxiFare(),h=conv(f,r.cur,cfg.homeCur);
+    speak(t('taxi_done',{fare:Math.round(f)+' '+curName(r.cur),home:(h!=null?fmt(h):'—')+' '+curName(cfg.homeCur)}),myLang()).then(()=>askRate('taxi',Math.round(f)+' '+r.cur,{voice:true}));logDone('taxi',Math.round(f)+' '+curName(r.cur));
+    return;
+  }
+  if(!navigator.geolocation){showAlert('📍',t('taxi_gps'));return}
+  tx={on:true,dist:0,wait:0,start:Date.now(),last:null,lastMove:Date.now(),watch:null,timer:null,wl:null};sendLoc('taxi');
+  try{if(navigator.wakeLock)tx.wl=await navigator.wakeLock.request('screen')}catch(e){}
+  tx.watch=navigator.geolocation.watchPosition(p=>{
+    if(p.coords.accuracy>60)return;const pt={lat:p.coords.latitude,lng:p.coords.longitude,t:Date.now()};
+    if(tx.last){const d=hav(tx.last,pt),dt=(pt.t-tx.last.t)/3600000,sp=dt>0?d/dt:0;
+      if(sp>150)return; if(sp>=6&&d>0.005){tx.dist+=d;tx.lastMove=pt.t}}
+    tx.last=pt;
+  },()=>{showAlert('📍',t('taxi_gps'))},{enableHighAccuracy:true,maximumAge:0,timeout:20000});
+  tx.timer=setInterval(()=>{if(Date.now()-tx.lastMove>6000)tx.wait+=1;if(cur==='taxi')renderTaxi()},1000);
+  renderTaxi();
+}
+function taxiReset(){if(tx.on)return;tx={on:false,dist:0,wait:0,start:0,last:null};renderTaxi()}
+function sayPhraseIdx(k){sayPhrase(k)}
+
+/* ================= CALENDAR ALERTS (work when app is closed) ================= */
+async function enableAlerts(){
+  try{if('Notification' in window&&Notification.permission==='default')Notification.requestPermission()}catch(e){}
+  cfg.alertsSet=true;saveCfg();
+  showAlert('🔔',t('wait'),{noBtn:true});
+  const pos=await getPos();const c=country();const now=new Date();
+  const months=[[now.getFullYear(),now.getMonth()+1]];const nx=new Date(now.getFullYear(),now.getMonth()+1,1);months.push([nx.getFullYear(),nx.getMonth()+1]);
+  let days=[];
+  try{for(const[y,m]of months){
+    const url=pos?`https://api.aladhan.com/v1/calendar/${y}/${m}?latitude=${pos.lat}&longitude=${pos.lng}&method=${methodFor()}`
+      :`https://api.aladhan.com/v1/calendarByCity/${y}/${m}?city=${encodeURIComponent(c?c[2]:'Jeddah')}&country=${encodeURIComponent(c?c[0]:'SA')}&method=${methodFor()}`;
+    const j=await (await fetch(url)).json();days=days.concat(j.data)}}
+  catch(e){closeAlert();showAlert('⚠️',t('prayer_fail'));return}
+  const today=dayKey(),stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  let ics='BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Khoy Bin3abdAi//AR\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:خوي Bin3abdAi\r\n';
+  const ev=(id,ymd,hm,title,desc,pre)=>{ics+=`BEGIN:VEVENT\r\nUID:khoy-${id}-${ymd}@khoy\r\nDTSTAMP:${stamp}\r\nDTSTART:${ymd}T${hm}00\r\nDURATION:PT10M\r\nSUMMARY:${title}\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${desc}\r\nTRIGGER:PT0M\r\nEND:VALARM\r\n`+(pre?`BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${pre}\r\nTRIGGER:-PT5M\r\nEND:VALARM\r\n`:'')+`END:VEVENT\r\n`};
+  const addMin=(hm,mi)=>{let[h,m]=hm.split(':').map(Number);m+=mi;h+=Math.floor(m/60);m=m%60;return String(h%24).padStart(2,'0')+String(m).padStart(2,'0')};
+  let n=0;
+  for(const d of days){const[dd,mm,yy]=d.date.gregorian.date.split('-');const key=`${yy}-${mm}-${dd}`;if(key<today||n>=30)continue;n++;const ymd=yy+mm+dd;
+    for(const p of PNAMES){if(p[0]==='Sunrise')continue;const hm=String(d.timings[p[0]]).slice(0,5).replace(':','');ev('p'+p[0],ymd,hm,'🕌 '+pName(p),t('prayer_now')+' '+pName(p),cfg.preAdhan!==false?t('pre_adhan',{p:pName(p)}):'')}
+    ev('am',ymd,addMin(String(d.timings.Sunrise).slice(0,5),15),t('athkar_m'),t('athkar_m'));
+    ev('pm',ymd,addMin(String(d.timings.Asr).slice(0,5),20),t('athkar_e'),t('athkar_e'));
+  }
+  const d0=new Date(),y0=d0.getFullYear()+String(d0.getMonth()+1).padStart(2,'0')+String(d0.getDate()).padStart(2,'0');
+  // dhikr reminders every N minutes within the daily window (repeat daily)
+  dhikrTimes().forEach((hm,i)=>{const dz=DHIKR_SHORT[i%DHIKR_SHORT.length];ics+=`BEGIN:VEVENT\r\nUID:khoy-dh-${hm}@khoy\r\nDTSTAMP:${stamp}\r\nDTSTART:${y0}T${hm.replace(':','')}00\r\nDURATION:PT5M\r\nRRULE:FREQ=DAILY;COUNT=60\r\nSUMMARY:📿 ${dz}\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${dz}\r\nTRIGGER:PT0M\r\nEND:VALARM\r\nEND:VEVENT\r\n`});
+  meds.forEach((m,i)=>m.times.forEach(tt=>{const hm=tt.replace(':','');ics+=`BEGIN:VEVENT\r\nUID:khoy-med-${i}-${hm}@khoy\r\nDTSTAMP:${stamp}\r\nDTSTART:${y0}T${hm}00\r\nDURATION:PT10M\r\nRRULE:FREQ=DAILY\r\nSUMMARY:💊 ${m.name}${m.note?(' - '+m.note):''}\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${m.name}\r\nTRIGGER:PT0M\r\nEND:VALARM\r\nEND:VEVENT\r\n`}));
+  planIcs(stamp).forEach(x=>ics+=x);
+  ics+='END:VCALENDAR\r\n';
+  closeAlert();
+  const url=URL.createObjectURL(new Blob([ics],{type:'text/calendar;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;
+  if(!/iPhone|iPad|iPod/.test(navigator.userAgent))a.download='khoy-alerts.ics';
+  document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),3000);
+  showAlert('🔔',t('alerts_ready'));
+}
+
+
+/* ================= DHIKR REMINDERS ================= */
+const DHIKR_SHORT=['سبحان الله وبحمده، سبحان الله العظيم','أستغفر الله وأتوب إليه','لا إله إلا الله وحده لا شريك له','اللهم صلِّ وسلم على نبينا محمد','لا حول ولا قوة إلا بالله','الحمد لله','الله أكبر','سبحان الله، والحمد لله، ولا إله إلا الله، والله أكبر','حسبي الله ونعم الوكيل','رب اغفر لي ولوالديّ'];
+function dhikrTimes(){const ev=Math.max(15,+cfg.dhikrEvery||45),f=normTime(cfg.dhikrFrom||'08:00')||'08:00',to=normTime(cfg.dhikrTo||'22:00')||'22:00';
+  const toMin=x=>{const[a,b]=x.split(':').map(Number);return a*60+b};const out=[];for(let m=toMin(f);m<=toMin(to);m+=ev)out.push(String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'));return out}
+
+/* ================= QIBLA ================= */
+let qb={on:false,bearing:null,heading:null,said:false};
+function qiblaBearing(p){const k={lat:21.4225,lng:39.8262},r=x=>x*Math.PI/180;const y=Math.sin(r(k.lng-p.lng))*Math.cos(r(k.lat)),x=Math.cos(r(p.lat))*Math.sin(r(k.lat))-Math.sin(r(p.lat))*Math.cos(r(k.lat))*Math.cos(r(k.lng-p.lng));return(Math.atan2(y,x)*180/Math.PI+360)%360}
+async function qiblaStart(){
+  try{if(typeof DeviceOrientationEvent!=='undefined'&&DeviceOrientationEvent.requestPermission){const r=await DeviceOrientationEvent.requestPermission();if(r!=='granted'){$('qbInfo').textContent=t('qibla_perm');return}}}catch(e){}
+  $('qbInfo').textContent='⏳';const p=await getPos(true);if(!p){$('qbInfo').textContent=t('loc_denied');return}
+  qb.bearing=qiblaBearing(p);qb.said=false;
+  if(!qb.on){qb.on=true;const h=e=>{let hd=e.webkitCompassHeading!=null?e.webkitCompassHeading:(e.absolute&&e.alpha!=null?360-e.alpha:null);if(hd==null)return;qb.heading=hd;renderQibla()};
+    window.addEventListener('deviceorientationabsolute',h,true);window.addEventListener('deviceorientation',h,true)}
+  renderQibla();
+}
+function renderQibla(){
+  if(qb.bearing==null)return;
+  if(qb.heading==null){$('qbInfo').textContent=t('qibla_turn_phone');$('qbDeg').textContent=Math.round(qb.bearing)+'°';$('qbArrow').style.transform=`rotate(${qb.bearing}deg)`;return}
+  let d=((qb.bearing-qb.heading)+540)%360-180;$('qbArrow').style.transform=`rotate(${d}deg)`;
+  const ok=Math.abs(d)<6;$('qbDial').style.background=ok?'rgba(34,197,94,.25)':'transparent';
+  $('qbInfo').textContent=ok?t('qibla_ok'):(d>0?t('qibla_right'):t('qibla_left'));$('qbDeg').textContent=Math.round(qb.bearing)+'°';
+  if(ok&&!qb.said){qb.said=true;logDone('qibla','',{silent:true});try{navigator.vibrate&&navigator.vibrate(200)}catch(e){}beep();speak(t('qibla_ok'),myLang(),true,true)}
+  if(!ok&&Math.abs(d)>20)qb.said=false;
+}
+
+/* ================= TASBEEH ================= */
+let tb=S.get('tb',{target:33,n:0,total:0});
+const TB_WORDS=['سبحان الله','الحمد لله','الله أكبر'];
+function tbSet(x){tb.target=x;tb.n=0;S.set('tb',tb);renderTb()}
+function tbWord(){if(tb.target===33)return TB_WORDS[0];return TB_WORDS[Math.min(2,Math.floor(tb.n/33))]}
+function renderTb(){$('tbBtn').textContent=tb.n;$('tb33').classList.toggle('sel',tb.target===33);$('tb99').classList.toggle('sel',tb.target===99);$('tbWord').textContent=tbWord();$('tbTotal').textContent=(myLang()==='ar'?'المجموع: ':'Total: ')+tb.total}
+function tick2(f,d){try{const c=getCtx();const o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.value=.15;o.start();setTimeout(()=>o.stop(),d)}catch(e){}}
+function tbTap(){tb.n++;tb.total++;
+  if(tb.n%33===0){try{navigator.vibrate&&navigator.vibrate([200,80,200])}catch(e){}tick2(660,350)}else{try{navigator.vibrate&&navigator.vibrate(25)}catch(e){}tick2(1200,40)}
+  if(tb.n>=tb.target){speak(myLang()==='ar'?'تقبّل الله، خلّصت '+tb.target:'Done '+tb.target,myLang(),true,true);setTimeout(()=>{tb.n=0;renderTb();S.set('tb',tb)},900);logDone('tasbeeh',String(tb.target));setTimeout(()=>askRate('tasbeeh',String(tb.target),{}),2500)}
+  S.set('tb',tb);renderTb()}
+function tbReset(){tb.n=0;S.set('tb',tb);renderTb()}
+
+/* ================= BARGAIN ================= */
+let bgImg=null;
+function bgPhoto(inp){const f=inp.files&&inp.files[0];inp.value='';if(!f)return;const img=new Image();img.onload=()=>{const sc=Math.min(1,1024/Math.max(img.width,img.height));const cv=document.createElement('canvas');cv.width=img.width*sc;cv.height=img.height*sc;cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);bgImg=cv.toDataURL('image/jpeg',.8);$('bgOut').innerHTML=`<img src="${bgImg}" style="width:100%;border-radius:16px;margin:8px 0"><p class="hint">${esc(t('bg_after_photo'))}</p>`};img.src=URL.createObjectURL(f)}
+async function handleBg(blob){
+  const q=await transcribe(blob,myLang());if(!q)throw new Error(t('heard_nothing'));
+  const c=country();const L=c?langOf(c[4]):null;
+  const content=[{type:'text',text:`The traveller says: "${q}". Estimate a fair local price for this item/service at a market or shop in this place, and a smart counter-offer. ${ctxInfo()} Return JSON {"fair":"fair price range in local currency","offer":"suggested first counter-offer in local currency","advice":"2-3 short sentences in ${myLangName()}${myLang()==='ar'?' (simple Bedouin Najdi dialect)':''}","say_local":"a short polite phrase in ${L?L[2]:'English'} offering that price"}`}];
+  if(bgImg)content.push({type:'image_url',image_url:{url:bgImg,detail:'low'}});
+  const r=await oai('/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},body:JSON.stringify({model:MODEL_VISION,temperature:.3,response_format:{type:'json_object'},messages:[{role:'user',content}]})});
+  if(!r.ok)throw new Error('AI '+r.status);
+  const j=JSON.parse((await r.json()).choices[0].message.content);
+  $('bgOut').innerHTML=`<div class="bubble me">🧓 ${esc(q)}</div><div class="glass info">💰 ${esc(t('bg_fair'))}: <b>${esc(j.fair||'')}</b><br>🤝 ${esc(t('bg_offer'))}: <b>${esc(j.offer||'')}</b></div><div class="bubble ai">${esc(j.advice||'')}</div>`+(j.say_local?`<button class="big" id="bgSay">🗣️ ${esc(j.say_local)}</button>`:'');
+  if(j.say_local)$('bgSay').onclick=()=>{showBig(j.say_local,j.offer||'');speak(j.say_local,c?c[4]:'en',true)};
+  bgImg=null;await speak(j.advice||'',myLang(),true);askRate('bargain',q,{});
+}
+
+/* ================= CONTINUOUS CONVERSATION ================= */
+let convo={on:false,stream:null};
+function convoUI(state){$('convoBtn').textContent=convo.on?t('convo_stop'):t('convo_start');$('convoBtn').classList.toggle('red',convo.on);$('convoState').textContent=state||''}
+async function convoToggle(){
+  if(convo.on){convo.on=false;try{convo.rec&&convo.rec.state!=='inactive'&&convo.rec.stop()}catch(e){}try{convo.stream.getTracks().forEach(x=>x.stop())}catch(e){}stopSpeech();convoUI('');return}
+  if(!hasAI()){showAlert('🔑',t('need_key'));return}
+  try{convo.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}catch(e){showAlert('🎙️',t('mic_denied'));return}
+  convo.on=true;convoUI(t('listening'));speak(t('convo_hello'),myLang(),true,true).then(convoLoop);
+}
+function recordUntilSilence(){return new Promise(res=>{
+  const ctx=getCtx(),src=ctx.createMediaStreamSource(convo.stream),an=ctx.createAnalyser();an.fftSize=1024;src.connect(an);
+  const mime=pickMime();const rec=new MediaRecorder(convo.stream,mime?{mimeType:mime}:undefined);convo.rec=rec;const ch=[];
+  rec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
+  let spoke=false,lastLoud=Date.now(),start=Date.now();const buf=new Uint8Array(1024);
+  const iv=setInterval(()=>{if(!convo.on){clearInterval(iv);try{rec.stop()}catch(e){}return}
+    an.getByteTimeDomainData(buf);let sm=0;for(const v of buf){const x=(v-128)/128;sm+=x*x}const rms=Math.sqrt(sm/buf.length);
+    if(rms>0.035){spoke=true;lastLoud=Date.now()}
+    const now=Date.now();
+    if((spoke&&now-lastLoud>1300)||now-start>30000||(!spoke&&now-start>9000)){clearInterval(iv);try{rec.stop()}catch(e){}}
+  },100);
+  rec.onstop=()=>{try{src.disconnect()}catch(e){}res(spoke?new Blob(ch,{type:rec.mimeType||'audio/webm'}):null)};
+  rec.start();
+})}
+async function convoLoop(){
+  while(convo.on){
+    convoUI('🎙️ '+t('listening'));
+    const blob=await recordUntilSilence();if(!convo.on)break;if(!blob)continue;
+    try{
+      convoUI('🔄 '+t('translating'));
+      const text=await transcribe(blob,'');if(!text)continue;
+      const tgt=resolveTarget(),TL=langOf(tgt);
+      const out=await chat([{role:'system',content:`Live interpreter between a ${myLangName()} speaker and a ${TL?TL[2]:'foreign'} speaker. Detect the language of the text. If it is ${myLangName()}, translate it into natural polite ${TL?TL[2]:'English'}${tgt==='th'?' (use ครับ)':''}. Otherwise translate it into ${myLangName()}${myLang()==='ar'?' (simple Saudi Bedouin-friendly Arabic)':''}. Keep names, numbers, prices exact. Reply ONLY JSON {"lang":"<ISO 639-1>","translation":"..."}`},{role:'user',content:text}],{temp:0,json:true,max:500});
+      const j=JSON.parse(out);const lang=(j.lang||'').slice(0,3);const toMine=lang!==myLang();
+      if(toMine&&lang){S.set('lastLang',lang)}
+      const to=toMine?myLang():tgt;const L=langOf(toMine?lang:myLang());
+      trCard((toMine?t('they_said'):t('said'))+(L?' ('+langName(L)+')':''),text,'',j.translation||'',to);
+      convoUI('🔊 '+t('speaking'));
+      logDone('translate',(j.translation||'').slice(0,60),{silent:true});
+      await speak(j.translation||'',to,true);
+    }catch(e){showErr('me',e.message||String(e))}
+  }
+  convoUI('');askRate('convo','');
+}
+
+/* ================= I'M FINE + FAMILY SHARING (ntfy.sh) ================= */
+function rid(n){const a=new Uint8Array(n);crypto.getRandomValues(a);return [...a].map(x=>'abcdefghijkmnpqrstuvwxyz23456789'[x%32]).join('')}
+if(!cfg.famTopic){cfg.famTopic='khoy-'+rid(18);saveCfg()}
+async function ntfyPub(topic,obj){try{await fetch('https://ntfy.sh/',{method:'POST',body:JSON.stringify(Object.assign({topic},obj))})}catch(e){}}
+async function sendLoc(kind,extra){
+  if(!cfg.shareLoc||!cfg.famTopic)return;
+  const p=(kind==='loc')?await getPos():await getPos(true);if(!p)return;
+  const payload={k:kind,lat:+p.lat.toFixed(6),lng:+p.lng.toFixed(6),acc:p.acc||null,area:area&&area.name||'',cc:country()?country()[0]:'',ts:Date.now(),name:cfg.name||'',hotel:(cfg.hotel&&cfg.hotel.lat!=null)?{lat:cfg.hotel.lat,lng:cfg.hotel.lng}:null};
+  if(extra)Object.assign(payload,extra);
+  ntfyPub(cfg.famTopic,{message:JSON.stringify(payload),tags:['round_pushpin']});
+  if(kind!=='loc'){const link=`https://maps.google.com/?q=${payload.lat},${payload.lng}`;
+    ntfyPub(cfg.famTopic+'-alert',{title:kind==='sos'?'🆘 '+(cfg.name||'')+' يحتاج مساعدة':'👋 '+(cfg.name||'')+' بخير',message:(payload.area?('📍 '+payload.area+'\n'):'')+link,priority:kind==='sos'?5:3,click:link})}
+}
+let lastLocSent=0;
+function locHeartbeat(){if(!cfg.shareLoc)return;if(Date.now()-lastLocSent<5*60e3)return;lastLocSent=Date.now();sendLoc('loc')}
+async function imFine(){
+  speak(t('fine_said'),myLang(),true,true);
+  const p=await getPos(true);
+  sendLoc('fine');
+  const f=(cfg.family||[])[0];
+  if(f){const msg=(myLang()==='ar'?'أنا بخير الحمد لله 👋':'I am fine 👋')+(p?`\n📍 ${area&&area.name||''}\nhttps://maps.google.com/?q=${p.lat},${p.lng}`:'');openUrl('https://wa.me/'+f.phone.replace(/\D/g,'')+'?text='+encodeURIComponent(msg))}
+  else if(!cfg.shareLoc)showAlert('👨‍👩‍👦',t('no_family'));
+}
+function familyLink(){return location.origin+location.pathname+'#family-'+cfg.famTopic}
+function showFamilyLink(){const u=familyLink();$('famLinkOut').innerHTML=`<div class="glass info small" style="direction:ltr;word-break:break-all">${esc(u)}</div><button class="big alt" id="famCopy">📋 ${esc(t('copy'))}</button><a class="big alt" style="display:block;text-align:center;text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(u)}" target="_blank" rel="noopener">💬 WhatsApp</a>`;$('famCopy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(u).catch(()=>{})}}
+
+/* --- son's family page --- */
+let famTopic=null,famTimer=null,famData=[];
+async function famFetch(topic){const r=await fetch(`https://ntfy.sh/${topic}/json?poll=1&since=12h`);const txt=await r.text();return txt.split('\n').filter(Boolean).map(l=>{try{return JSON.parse(l)}catch(e){return null}}).filter(m=>m&&m.event==='message')}
+async function famRefresh(){
+  if(!famTopic)return;$('famLast').textContent='⏳';
+  try{const msgs=await famFetch(famTopic);famData=msgs.map(m=>{try{return JSON.parse(m.message)}catch(e){return null}}).filter(Boolean).sort((a,b)=>b.ts-a.ts)}catch(e){$('famLast').textContent=t('fam_fail');return}
+  renderFamily();
+}
+function ago(ts){const m=Math.round((Date.now()-ts)/60000);if(m<1)return myLang()==='ar'?'الحين':'now';if(m<60)return(myLang()==='ar'?'قبل ':'')+m+(myLang()==='ar'?' دقيقة':' min ago');const h=Math.floor(m/60);return(myLang()==='ar'?'قبل ':'')+h+(myLang()==='ar'?' ساعة':' h ago')}
+function renderFamily(){
+  $('famPushLink').href='https://ntfy.sh/'+famTopic+'-alert';
+  if(!famData.length){$('famLast').textContent=t('fam_none');$('famMap').innerHTML='';$('famWarn').innerHTML='';$('famHist').innerHTML='';return}
+  const L=famData[0];const kindIc={loc:'📍',fine:'👋',sos:'🆘',taxi:'🚕'}[L.k]||'📍';
+  $('famLast').innerHTML=`${kindIc} <b>${esc(L.name||'')}</b> — ${esc(L.area||'')}<br><span class="small">${esc(ago(L.ts))} · ${new Date(L.ts).toLocaleString()}${L.acc?` · ±${L.acc}m`:''}</span><br><a href="https://maps.google.com/?q=${L.lat},${L.lng}" target="_blank" rel="noopener">🗺️ ${esc(t('open_maps'))}</a>`;
+  const d=0.006;$('famMap').innerHTML=`<iframe style="width:100%;height:260px;border:0;border-radius:18px;margin:6px 0" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=${L.lng-d}%2C${L.lat-d}%2C${L.lng+d}%2C${L.lat+d}&layer=mapnik&marker=${L.lat}%2C${L.lng}"></iframe>`;
+  const W=[];const ageH=(Date.now()-L.ts)/3600e3;
+  if(famData.some(x=>x.k==='sos'&&Date.now()-x.ts<12*3600e3))W.push(['red',t('fam_w_sos')]);
+  if(ageH>3)W.push(['',t('fam_w_stale',{h:Math.floor(ageH)})]);
+  if(L.acc&&L.acc>200)W.push(['',t('fam_w_acc')]);
+  if(L.hotel){const dk=hav(L,L.hotel);const hr=new Date(L.ts).getHours();if(dk>5&&(hr>=22||hr<5))W.push(['red',t('fam_w_night',{km:dk.toFixed(1)})]);else if(dk>25)W.push(['',t('fam_w_far',{km:dk.toFixed(0)})])}
+  $('famWarn').innerHTML=W.map(([c,x])=>`<div class="${c==='red'?'err':'glass info'}">⚠️ ${esc(x)}</div>`).join('')||`<div class="glass info">✅ ${esc(t('fam_ok'))}</div>`;
+  $('famHist').innerHTML=famData.slice(0,15).map(x=>`<div class="glass info small" style="font-weight:600">${({loc:'📍',fine:'👋',sos:'🆘',taxi:'🚕'}[x.k]||'📍')} ${esc(x.area||'')} · ${esc(ago(x.ts))} · <a href="https://maps.google.com/?q=${x.lat},${x.lng}" target="_blank" rel="noopener">🗺️</a></div>`).join('');
+}
+async function famSafety(){
+  if(!famData.length)return;if(!hasAI()){showAlert('🔑',t('need_key'));return}
+  const L=famData[0];$('famSafetyOut').innerHTML=`<div class="glass info">⏳</div>`;
+  try{const a=await chat([{role:'system',content:`You give brief, factual, non-stigmatizing travel-safety notes for a family member of an elderly Saudi tourist. Location: "${L.area}" (${L.lat},${L.lng}), country ${L.cc}, local time of last update ${new Date(L.ts).toLocaleTimeString()}. Mention only well-known, general facts: whether it is a busy tourist/nightlife area, common tourist scams nearby, traffic, flooding, late-night caution, and nearest kinds of help (tourist police number). If you are not sure about this specific area, say so and give general advice. Never label residents or ethnic groups. Answer in ${myLangName()} in 3-5 short bullet-like sentences.`}],{temp:.3});
+    $('famSafetyOut').innerHTML=`<div class="bubble ai">${esc(a)}</div><p class="small">${esc(t('fam_safety_note'))}</p>`}catch(e){$('famSafetyOut').innerHTML=`<div class="err">${esc(e.message)}</div>`}
+}
+function openFamilyFromHash(){const m=location.hash.match(/^#family-([a-z0-9-]{8,})$/);if(!m)return false;famTopic=m[1];$('splash').classList.remove('on');$('onb').classList.remove('on');go('family');famRefresh();clearInterval(famTimer);famTimer=setInterval(()=>{if(cur==='family')famRefresh()},60000);return true}
+
+/* ================= SETTINGS TRANSFER ================= */
+function b64e(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function b64d(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return decodeURIComponent(escape(atob(s)))}
+function exportSettings(){
+  const c=JSON.parse(JSON.stringify(cfg));if(!$('sExpKey').checked)delete c.key;delete c.onboarded;
+  const code=b64e(JSON.stringify({c,m:meds}));const u=location.origin+location.pathname+'#import-'+code;
+  $('expOut').innerHTML=`<div class="glass info small" style="direction:ltr;word-break:break-all;max-height:120px;overflow:auto">${esc(code)}</div><button class="big alt" id="expCopy">📋 ${esc(t('copy'))}</button><a class="big alt" style="display:block;text-align:center;text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(u)}" target="_blank" rel="noopener">💬 ${esc(t('s_send_link'))}</a>`;
+  $('expCopy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(code).catch(()=>{})};
+}
+function importSettings(code){
+  try{code=(code||'').trim().replace(/^.*#import-/,'');const j=JSON.parse(b64d(code));
+    const keep=cfg.key;cfg=Object.assign(cfg,j.c||{});if(!cfg.key)cfg.key=keep;cfg.onboarded=true;saveCfg();if(j.m){meds=j.m;S.set('meds',meds)}
+    showAlert('✅',t('s_imported'));renderAll();if(cur==='settings')fillSettings();return true}
+  catch(e){showAlert('⚠️',t('s_import_bad'));return false}
+}
+
+
+
+/* ================= ACTIVITY LOG / DONE ================= */
+let act=S.get('act',[]),prayed=S.get('prayed',{});
+const ACT_META={prayer:['🕌','worship'],athkar_m:['🌅','worship'],athkar_e:['🌇','worship'],dhikr:['📿','worship'],tasbeeh:['📿','worship'],qibla:['🕋','worship'],med:['💊','health'],taxi:['🚕','move'],translate:['🌍','talk'],plan:['🗓️','trip'],fine:['👋','trip']};
+let dtTimer=null;
+function doneToast(txt){const el=$('doneToast');el.textContent='✅ '+txt;el.classList.add('on');clearTimeout(dtTimer);dtTimer=setTimeout(()=>el.classList.remove('on'),2200);try{navigator.vibrate&&navigator.vibrate([30,40,30])}catch(e){}tick2(1320,70)}
+function logDone(k,d,o={}){act.push({k,d:String(d||'').slice(0,80),ts:Date.now()});act=act.filter(x=>Date.now()-x.ts<40*864e5).slice(-1500);S.set('act',act);if(!o.silent)doneToast(t('done_'+k.replace(/_.*/,''))+(d&&k!=='translate'?' · '+d:''));if(cur==='journey')renderJourney()}
+function isPrayed(p,day){return !!((prayed[day||dayKey()]||{})[p])}
+function markPrayed(p){const d=dayKey();prayed[d]=prayed[d]||{};if(prayed[d][p]){delete prayed[d][p];S.set('prayed',prayed);renderPrayer();renderHome();return}prayed[d][p]=true;S.set('prayed',prayed);logDone('prayer',pName(PNAMES.find(x=>x[0]===p)));renderPrayer();renderHome()}
+function sysNotify(title,body){try{if(document.hidden&&'Notification' in window&&Notification.permission==='granted')new Notification(title,{body,icon:'icon-512.png',tag:'khoy-'+title})}catch(e){}}
+function passedPrayers(){if(!prayer||prayer.day!==dayKey())return[];const n=new Date(),mins=n.getHours()*60+n.getMinutes();return PNAMES.filter(p=>p[0]!=='Sunrise').filter(p=>{const[h,m]=prayer.timings[p[0]].split(':').map(Number);return h*60+m<=mins})}
+function renderHomePray(){const el=$('homePray');if(!el)return;const pp=passedPrayers().filter(p=>!isPrayed(p[0]));const last=pp[pp.length-1];
+  el.innerHTML=last?`<div class="glass info" style="display:flex;align-items:center;gap:10px"><span style="flex:1">🕌 ${esc(t('did_you_pray',{p:pName(last)}))}</span><button class="pill" style="flex:none;width:auto;padding:10px 16px;background:#16a34a;color:#fff" onclick="markPrayed('${last[0]}')">${esc(t('prayed_btn'))}</button></div>`:''}
+function dayStats(day){const pr=Object.keys(prayed[day]||{}).length;const A=act.filter(x=>dayKey(new Date(x.ts))===day);return{pr,am:A.some(x=>x.k==='athkar_m'),pm:A.some(x=>x.k==='athkar_e'),A}}
+function ringSvg(v,max,col){const r=34,c=2*Math.PI*r,f=max?Math.min(1,v/max):0;return `<svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="${r}" fill="none" stroke="rgba(148,163,184,.18)" stroke-width="9"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-f)}" style="transition:stroke-dashoffset .8s"/></svg>`}
+let jFilter='all';
+function adviceText(){
+  const days=[0,1,2].map(i=>dayKey(new Date(Date.now()-i*864e5)));const st=days.map(dayStats);
+  const prRate=(st[0].pr+st[1].pr+st[2].pr)/(passedPrayers().length+10);const azRate=st.reduce((a,s)=>a+(s.am?1:0)+(s.pm?1:0),0)/6;
+  const ar=myLang()==='ar';
+  if(prRate>=0.85&&azRate>=0.6)return['good',ar?'ما شاء الله تبارك الله، محافظ على صلاتك وأذكارك. الله يثبتك ويتقبل منك، كمّل على هذا الخير.':'MashaAllah, you keep your prayers and adhkar. May Allah accept from you.'];
+  const tips=[];if(prRate<0.85)tips.push(ar?'الصلاة على وقتها هي أول شي، والسفر له رخصة الجمع والقصر، فلا تفوّتها':'Keep the prayers on time; travel allows combining and shortening');
+  if(azRate<0.6)tips.push(ar?'أذكار الصباح والمساء حصن لك في سفرك، وما تاخذ إلا دقايق':'Morning and evening adhkar protect you and take only minutes');
+  return['tip',(ar?'نصيحة محب: ':'Friendly advice: ')+tips.join(ar?'. و':'. ')+(ar?'. والله يعينك ويوفقك.':'.')]}
+function renderJourney(){
+  const day=dayKey(),st=dayStats(day),doses=todayDoses(),tk=doses.filter(d=>isTaken(d.key)).length;
+  $('jDate').textContent=new Date().toLocaleDateString(myLang()==='ar'?'ar-SA-u-nu-latn-ca-gregory':myLang(),{weekday:'long',day:'numeric',month:'long'})+' · LIVE ●';
+  $('jRings').innerHTML=[[st.pr,5,'#22d3ee',t('j_prayers')],[(st.am?1:0)+(st.pm?1:0),2,'#a78bfa',t('j_athkar')],[tk,doses.length||0,'#22c55e',t('j_meds')]].map(([v,m,c,l])=>`<div class="ring">${ringSvg(v,m||1,c)}<div class="rv">${v}/${m||'—'}</div><div class="rl">${esc(l)}</div></div>`).join('');
+  const [kind,adv]=adviceText();$('jAdvice').innerHTML=quotaHtml()+`<div class="${kind==='good'?'glass info':'glass info'}" style="border-color:${kind==='good'?'#22c55e':'#f59e0b'}">${kind==='good'?'🌟':'🤍'} ${esc(adv)}</div>`;
+  const wk=[...Array(7)].map((_,i)=>dayKey(new Date(Date.now()-(6-i)*864e5)));
+  $('jBars').innerHTML=wk.map(d=>{const v=Object.keys(prayed[d]||{}).length;const dn=new Date(d+'T12:00').toLocaleDateString(myLang()==='ar'?'ar-SA-u-nu-latn':'en',{weekday:'short'});return `<div><span>${v}</span><i style="height:${v/5*80}%"></i><span>${esc(dn)}</span></div>`}).join('');
+  const all=act,cnt=k=>all.filter(x=>x.k===k).length;
+  const streak=(()=>{let n=0;for(let i=0;i<40;i++){const s=dayStats(dayKey(new Date(Date.now()-i*864e5)));if(s.am||s.pm)n++;else if(i>0)break}return n})();
+  $('jKpis').innerHTML=[['🕌',Object.values(prayed).reduce((a,o)=>a+Object.keys(o).length,0),t('k_prayers')],['🔥',streak,t('k_streak')],['📿',tb.total,t('k_tasbeeh')],['🚕',cnt('taxi'),t('k_taxi')],['🌍',cnt('translate'),t('k_translate')],['🗓️',cnt('plan'),t('k_plan')]].map(([i,v,l])=>`<div class="kpi">${i} <b>${v}</b><span class="small">${esc(l)}</span></div>`).join('');
+  const F=[['all',t('f_all')],['worship',t('f_worship')],['trip',t('f_trip')],['move',t('f_move')],['talk',t('f_talk')],['health',t('f_health')]];
+  $('jChips').innerHTML=F.map(([k,l])=>`<button class="${jFilter===k?'sel':''}" onclick="jFilter='${k}';renderJourney()">${esc(l)}</button>`).join('');
+  const L=all.slice().reverse().filter(x=>jFilter==='all'||(ACT_META[x.k]||['','trip'])[1]===jFilter).slice(0,60);
+  $('jTl').innerHTML=L.length?L.map(x=>`<div class="tl"><span>${(ACT_META[x.k]||['✅'])[0]}</span><span style="flex:1">✅ ${esc(t('done_'+x.k.replace(/_.*/,'')))}${x.d?' · '+esc(x.d):''}</span><span class="tm">${new Date(x.ts).toLocaleString(myLang()==='ar'?'ar-SA-u-nu-latn-ca-gregory':'en-GB',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}</span></div>`).join(''):`<p class="small">${esc(t('j_empty'))}</p>`;
+}
+function dailyReview(hm,fired){
+  if(fired.review)return;let at='21:30';if(prayer&&prayer.timings&&prayer.timings.Isha){const[h,m]=prayer.timings.Isha.split(':').map(Number);const x=Math.min(23*60+30,h*60+m+75);at=String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0')}
+  if(hm!==at)return;fired.review=true;const[kind,adv]=adviceText();sysNotify(kind==='good'?'🌟':'🤍',adv);showAlert(kind==='good'?'🌟':'🤍',adv,{say:adv,okText:t('open_journey'),onOk:()=>go('journey')})}
+
+/* ================= TRIP PLANNER ================= */
+const PL_Q={mood:['pq_relax','pq_active','pq_tired','pq_happy'],likes:['pq_food','pq_shop','pq_nature','pq_history','pq_mosque','pq_massage','pq_family'],pace:['pq_light','pq_mid'],budget:['pq_eco','pq_midb','pq_lux'],days:['1','2','3']};
+let plSel=S.get('plSel',{mood:'pq_relax',likes:['pq_food','pq_mosque'],pace:'pq_light',budget:'pq_midb',days:'1'}),plan=S.get('plan',null),plVoiceTxt='';
+function renderPlan(){
+  document.querySelectorAll('#planAsk .opt').forEach(box=>{const q=box.dataset.q,multi=!!box.dataset.multi;box.innerHTML=PL_Q[q].map(k=>{const on=multi?(plSel[q]||[]).includes(k):plSel[q]===k;return `<button class="${on?'sel':''}" onclick="plPick('${q}','${k}')">${esc(/^\d$/.test(k)?(k+' '+t('pl_day')):t(k))}</button>`}).join('')});
+  $('planAsk').style.display=plan&&!plan.editing?'none':'block';
+  if(plan&&!plan.editing)renderPlanOut();else $('planOut').innerHTML='';
+}
+function plPick(q,k){if(q==='likes'){const a=plSel.likes||[];plSel.likes=a.includes(k)?a.filter(x=>x!==k):a.concat(k)}else plSel[q]=k;S.set('plSel',plSel);renderPlan()}
+async function handlePlVoice(blob){const q=await transcribe(blob,myLang());if(!q)throw new Error(t('heard_nothing'));plVoiceTxt=q;$('plVoice').textContent='🎙️ '+q}
+async function makePlan(){
+  if(!hasAI()){showAlert('🔑',t('need_key'));return}
+  $('planOut').innerHTML=`<div class="glass info" style="text-align:center">⏳ ${esc(t('pl_making'))}</div>`;
+  if(!lastPos)await getPos();if(!wx)await loadWeather();
+  const prefs=`mood: ${t(plSel.mood)}; likes: ${(plSel.likes||[]).map(t).join(', ')}; pace: ${t(plSel.pace)}; budget: ${t(plSel.budget)}; days: ${plSel.days}; extra wishes: ${plVoiceTxt||'-'}`;
+  const pt=prayer?PNAMES.filter(p=>p[0]!=='Sunrise').map(p=>p[0]+' '+prayer.timings[p[0]]).join(', '):'';
+  try{
+    const out=await chat([{role:'system',content:`You are an expert local tour planner for an elderly Saudi Muslim traveller. Build a realistic, comfortable day-by-day schedule that matches his mood and wishes. Rules: start ${plSel.pace==='pq_light'?'after 9:00 with long rests and max 3 activities per day':'after 8:30 with 4-5 activities per day'}; little walking; leave free time at every prayer time (${pt}) and mention the nearest mosque/prayer room when useful; halal food; avoid midday heat outdoors if hot (weather: ${wx?wx.t+'°C now, max '+wx.max+'°C, rain '+wx.rain+'%':'unknown'}); plan rain alternatives if rain>=50%. Only real well-known places near his location. Each tip is a short predictive advice about weather/crowds/prices/scams in ${myLangName()}${myLang()==='ar'?' (simple Saudi Bedouin dialect)':''}. ${ctxInfo()}
+Return ONLY JSON {"summary":"one warm sentence in ${myLangName()}","days":[{"label":"day title in ${myLangName()}","items":[{"time":"HH:MM","title":"short title in ${myLangName()}","place":"place name (English/local)","maps":"google maps query in English with city","tip":"..."}]}]}`},{role:'user',content:prefs}],{temp:.5,json:true,max:2200});
+    const j=JSON.parse(out);const base=new Date();base.setHours(0,0,0,0);
+    (j.days||[]).forEach((d,i)=>{d.date=dayKey(new Date(base.getTime()+i*864e5));(d.items||[]).forEach((it,k)=>{it.id=i+'-'+k;it.done=false})});
+    plan={summary:j.summary||'',days:j.days||[],created:Date.now(),prefs:plSel};S.set('plan',plan);renderPlan();
+    speak((j.summary||'')+' '+t('pl_ready_say'),myLang(),true);
+  }catch(e){$('planOut').innerHTML=`<div class="err">${esc(e.message)}</div>`}
+}
+function renderPlanOut(){
+  $('planOut').innerHTML=`<div class="glass info">🧭 ${esc(plan.summary)}</div>`+plan.days.map(d=>`<h3>📅 ${esc(d.label)} <span class="small">${esc(d.date)}</span></h3>`+d.items.map(it=>`<div class="pitem ${it.done?'done':''}"><div class="ph"><span class="tm">${esc(it.time)}</span><span style="flex:1">${esc(it.title)}</span></div><div class="small">📍 ${esc(it.place||'')}</div>${it.tip?`<div class="small" style="margin-top:4px">💡 ${esc(it.tip)}</div>`:''}<div class="row" style="margin-top:8px"><a class="pill" style="text-align:center;text-decoration:none" href="${mapsDir(it.maps||it.place)}" target="_blank" rel="noopener">🗺️ ${esc(t('pl_go'))}</a><button class="pill" style="${it.done?'background:#16a34a;color:#fff':''}" onclick="planDone('${it.id}')">${it.done?'✅ '+esc(t('done_word')):'◻️ '+esc(t('pl_mark'))}</button></div></div>`).join('')).join('')+
+  `<button class="big green" onclick="enableAlerts()">🔔 ${esc(t('pl_alerts'))}</button><button class="big alt" onclick="plan.editing=true;renderPlan()">🔄 ${esc(t('pl_new'))}</button>`;
+}
+function planItem(id){for(const d of plan.days)for(const it of d.items)if(it.id===id)return[d,it];return[]}
+function planDone(id){const[d,it]=planItem(id);if(!it)return;it.done=!it.done;S.set('plan',plan);if(it.done){logDone('plan',it.title);askRate('plan',it.title,{})}renderPlanOut()}
+function planTick(hm,fired){if(!plan||plan.editing)return;const today=dayKey();plan.days.filter(d=>d.date===today).forEach(d=>d.items.forEach(it=>{if(it.done||!/^\d\d:\d\d$/.test(it.time))return;const[h,m]=it.time.split(':').map(Number);const x=h*60+m-15;const pre=String(Math.floor((x+1440)%1440/60)).padStart(2,'0')+':'+String((x+1440)%60).padStart(2,'0');const fk='pl_'+it.id;if(pre===hm&&!fired[fk]){fired[fk]=true;beep();const msg=t('pl_soon',{x:it.title})+(it.tip?' — '+it.tip:'');sysNotify('🗓️',msg);showAlert('🗓️',msg,{say:msg,okText:t('pl_go'),onOk:()=>openUrl(mapsDir(it.maps||it.place)),onLater:()=>{}})}}))}
+function planIcs(stamp){if(!plan||plan.editing)return[];const out=[];plan.days.forEach(d=>d.items.forEach(it=>{if(!/^\d\d:\d\d$/.test(it.time))return;const ymd=d.date.replace(/-/g,'');out.push(`BEGIN:VEVENT\r\nUID:khoy-plan-${it.id}-${plan.created}@khoy\r\nDTSTAMP:${stamp}\r\nDTSTART:${ymd}T${it.time.replace(':','')}00\r\nDURATION:PT1H\r\nSUMMARY:🗓️ ${it.title}\r\nLOCATION:${(it.place||'').replace(/[,;]/g,' ')}\r\nDESCRIPTION:${(it.tip||'').replace(/[\r\n]/g,' ')}\r\nBEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${it.title}\r\nTRIGGER:-PT15M\r\nEND:VALARM\r\nEND:VEVENT\r\n`)}));return out}
+
+/* ================= TEACH KHOY ================= */
+let teach=S.get('teach',[]);
+function teachCtx(){if(!teach.length)return'';return 'Things this user taught you (personal facts and preferences; follow them, but stay factually accurate about the world):\n'+teach.slice(-40).map(x=>'- '+x.t).join('\n')}
+function teachSave(txt,src){txt=(txt||'').trim();if(!txt)return;if(teach.some(x=>x.t===txt))return;teach.push({t:txt,ts:Date.now(),src:src||'text'});teach=teach.slice(-60);S.set('teach',teach);if(cur==='teach')renderTeach()}
+function renderTeach(){$('tcList').innerHTML=teach.length?teach.slice().reverse().map((x,i)=>`<div class="glass info small" style="display:flex;gap:8px;align-items:center;font-weight:600"><span style="flex:1">🧠 ${esc(x.t)}</span><button class="pill" style="flex:none;width:auto;padding:8px 12px" onclick="teachDel(${teach.length-1-i})">🗑️</button></div>`).join(''):`<p class="small">${esc(t('tc_empty'))}</p>`}
+function teachDel(i){teach.splice(i,1);S.set('teach',teach);renderTeach()}
+async function teachAdd(txt){
+  txt=(txt||'').trim();if(!txt)return;if(!hasAI()){showAlert('🔑',t('need_key'));return}
+  $('tcOut').innerHTML=`<div class="glass info">⏳ ${esc(t('tc_checking'))}</div>`;
+  try{
+    const j=JSON.parse(await chat([{role:'system',content:`A user is teaching his personal assistant something. Decide: kind = "personal" (about himself, his family, his preferences, his trip, how he wants answers) or "fact" (a claim about the world). For "fact", check if it is correct. Reply ONLY JSON {"kind":"personal|fact","ok":true|false,"save":"the instruction rewritten short and clear in ${myLangName()}","note":"if not ok: kind correction with the right info, in ${myLangName()}${myLang()==='ar'?' (simple Bedouin-friendly Arabic)':''}; else a short thank-you"}. ${ctxInfo()}`},{role:'user',content:txt}],{temp:0,json:true,max:300}));
+    if(j.ok!==false){teachSave(j.save||txt,'text');$('tcText').value='';$('tcOut').innerHTML=`<div class="glass info">✅ ${esc(j.note||t('tc_saved'))}</div>`;speak(j.note||t('tc_saved'),myLang(),true);askRate('teach',txt,{})}
+    else{$('tcOut').innerHTML=`<div class="err">⚠️ ${esc(j.note||'')}</div><button class="big alt" id="tcForce">${esc(t('tc_keep_anyway'))}</button>`;$('tcForce').onclick=()=>{teachSave(j.save||txt,'forced');$('tcOut').innerHTML=`<div class="glass info">✅ ${esc(t('tc_saved'))}</div>`};speak(j.note||'',myLang(),true)}
+  }catch(e){$('tcOut').innerHTML=`<div class="err">${esc(e.message)}</div>`}
+}
+async function handleTeach(blob){const q=await transcribe(blob,myLang());if(!q)throw new Error(t('heard_nothing'));$('tcText').value=q;await teachAdd(q)}
+
+/* ================= RATINGS & FEEDBACK -> developer (ntfy) ================= */
+const DEV_TOPIC='khoy-dev-8v2zp628tnx58h97',APP_VER='6';
+let rateCtx=null,rateTimer=null,lastVoiceRate=S.get('lvr',0);
+const RATE_Q={plan:'rq_plan',asst:'rq_asst',taxi:'rq_taxi',athkar:'rq_athkar',tasbeeh:'rq_tasbeeh',convo:'rq_convo',bargain:'rq_bargain',teach:'rq_teach',suggest:'rq_suggest'};
+function askRate(kind,detail,o={}){
+  if(cfg.rateOff)return;
+  rateCtx={kind,detail:String(detail||'').slice(0,300)};
+  $('rateBody').innerHTML=`<div class="rq">${esc(t(RATE_Q[kind]||'rq_asst'))}</div><div class="rbtns"><button onclick="rateGive(1)">👍</button><button onclick="rateGive(0)">👎</button></div>`;
+  $('rateBar').classList.add('on');clearTimeout(rateTimer);rateTimer=setTimeout(rateClose,o.voice?40000:20000);
+  if(o.voice&&!o.quiet&&Date.now()-lastVoiceRate>6*3600e3){lastVoiceRate=Date.now();S.set('lvr',lastVoiceRate);setTimeout(()=>speak(t('rate_say'),myLang(),true,true),700)}
+}
+function rateClose(){$('rateBar').classList.remove('on');clearTimeout(rateTimer);if(micState.active==='fb')cancelMic()}
+function rateGive(v){
+  clearTimeout(rateTimer);rateCtx.rating=v;
+  sendFeedback({rating:v});
+  $('rateBody').innerHTML=`<div class="rq">${esc(v?t('rate_thanks_up'):t('rate_thanks_down'))}</div>
+  <button class="mic g4" id="fbMic" style="min-height:auto;padding:14px" onclick="micTap('fb')"><span class="ic" style="font-size:1.6em">🎙️</span><span class="lb" data-t="fb_say">${esc(t('fb_say'))}</span></button>
+  <div style="display:flex;gap:8px;margin-top:8px"><input id="fbText" style="flex:1;margin:0" placeholder="${esc(t('fb_ph'))}"><button class="pill" style="flex:none;width:auto;padding:0 18px" onclick="fbSendText()">${esc(t('send'))}</button></div>`;
+  rateTimer=setTimeout(rateClose,45000);
+}
+function openFeedback(kind){rateCtx={kind:kind||'suggest',detail:''};$('rateBody').innerHTML=`<div class="rq">${esc(t('rq_suggest'))}</div>
+  <button class="mic g4" id="fbMic" style="min-height:auto;padding:14px" onclick="micTap('fb')"><span class="ic" style="font-size:1.6em">🎙️</span><span class="lb">${esc(t('fb_say'))}</span></button>
+  <div style="display:flex;gap:8px;margin-top:8px"><input id="fbText" style="flex:1;margin:0" placeholder="${esc(t('fb_ph'))}"><button class="pill" style="flex:none;width:auto;padding:0 18px" onclick="fbSendText()">${esc(t('send'))}</button></div>`;$('rateBar').classList.add('on');clearTimeout(rateTimer)}
+function fbSendText(){const v=($('fbText')||{}).value||'';if(!v.trim())return;fbDone(v.trim())}
+async function handleFb(blob){const q=await transcribe(blob,myLang());if(!q)throw new Error(t('heard_nothing'));fbDone(q)}
+function fbDone(text){sendFeedback({comment:text});$('rateBody').innerHTML=`<div class="rq">✅ ${esc(t('fb_sent'))}</div>`;speak(t('fb_sent'),myLang(),true,true);clearTimeout(rateTimer);rateTimer=setTimeout(rateClose,3500)}
+function sendFeedback(extra){
+  const c=country();const fb=Object.assign({app:'khoy',v:APP_VER,kind:rateCtx&&rateCtx.kind,detail:rateCtx&&rateCtx.detail,name:cfg.name||'',country:c?c[0]:'',lang:myLang(),ts:Date.now()},extra);
+  const log=S.get('fbLog',[]);log.push(fb);S.set('fbLog',log.slice(-50));
+  const title=(fb.comment?'💡 ':fb.rating?'👍 ':'👎 ')+'خوي — '+(fb.kind||'')+(fb.name?' — '+fb.name:'');
+  const msg=(fb.comment?('«'+fb.comment+'»\n'):'')+(fb.detail?('↳ '+fb.detail.slice(0,160)+'\n'):'')+(fb.country?('🌍 '+fb.country+' · '):'')+'v'+fb.v;
+  fetch('https://ntfy.sh/',{method:'POST',body:JSON.stringify({topic:DEV_TOPIC,title,message:msg,tags:[fb.comment?'bulb':(fb.rating?'+1':'-1')],priority:fb.comment?4:2})}).catch(()=>{});
+}
+function renderRadarLock(){const el=$('radarLock');if(!el)return;const c=country();const nm=(area&&area.name)||(c?(myLang()==='ar'?c[1]:c[2]):'');el.textContent=nm?('📍 '+nm+' · '+(myLang()==='ar'?'تم التحديد':'LOCKED')):(myLang()==='ar'?'📡 جاهز':'📡 READY')}
 
 /* ================= PRAYER ================= */
 const PNAMES=[['Fajr','الفجر','Fajr'],['Sunrise','الشروق','Sunrise'],['Dhuhr','الظهر','Dhuhr'],['Asr','العصر','Asr'],['Maghrib','المغرب','Maghrib'],['Isha','العشاء','Isha']];
@@ -1025,7 +1795,24 @@ const pName=p=>myLang()==='ar'?p[1]:p[2];
 let prayer=S.get('prayer',null);
 function dayKey(d=new Date()){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function fmt12(hhmm){let[h,m]=hhmm.split(':').map(Number);const s=myLang()==='ar'?(h<12?'ص':'م'):(h<12?'AM':'PM');h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+s}
-function getPos(){return new Promise(res=>{if(!navigator.geolocation)return res(null);navigator.geolocation.getCurrentPosition(p=>{const v={lat:p.coords.latitude,lng:p.coords.longitude};lastPos=v;S.set('pos',v);res(v)},()=>res(null),{timeout:10000,maximumAge:600000})})}
+function getPos(precise){return new Promise(res=>{
+  if(!navigator.geolocation)return res(null);
+  let best=null,done=false,w=null;
+  const finish=()=>{if(done)return;done=true;try{navigator.geolocation.clearWatch(w)}catch(e){}if(best){lastPos=best;S.set('pos',best);updateArea(best)}res(best||lastPos||null)};
+  w=navigator.geolocation.watchPosition(p=>{const v={lat:p.coords.latitude,lng:p.coords.longitude,acc:Math.round(p.coords.accuracy),ts:Date.now()};if(!best||v.acc<best.acc)best=v;if(v.acc<=(precise?20:60))finish()},()=>finish(),{enableHighAccuracy:true,maximumAge:precise?0:60000,timeout:15000});
+  setTimeout(finish,precise?9000:5000);
+})}
+let area=S.get('area',null);
+async function updateArea(p){
+  if(area&&area.lat&&hav(area,p)<0.15){renderLoc();return}
+  try{const j=await(await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${p.lat}&longitude=${p.lng}&localityLanguage=${myLang()==='ar'?'ar':'en'}`)).json();
+    const parts=[j.locality,j.city||j.principalSubdivision].filter(Boolean);
+    area={lat:p.lat,lng:p.lng,name:[...new Set(parts)].join('، '),country:j.countryName||'',cc:j.countryCode||''};S.set('area',area);
+  }catch(e){}
+  renderLoc();
+}
+function renderLoc(){const el=$('homeLoc');if(!el||!lastPos)return;el.style.display='block';
+  el.innerHTML=`📍 ${esc(t('you_are_in'))}: <b>${esc(area&&area.name||'…')}</b> <span class="small">(${esc(t('accuracy'))} ±${lastPos.acc||'?'} ${myLang()==='ar'?'م':'m'})</span>`+(cfg.shareLoc?`<br><span class="small">👨‍👩‍👦 ${esc(t('sharing_on'))}</span>`:'')}
 function methodFor(){if(cfg.method!=='auto')return cfg.method;const c=country();if(!c)return'3';return({SA:'4',EG:'5',TR:'13',US:'2',CA:'2',AE:'16',QA:'10',KW:'9',MY:'17',SG:'11',ID:'20',JO:'23',MA:'21',TN:'18'})[c[0]]||'3'}
 async function loadPrayer(force){
   if(!force&&prayer&&prayer.day===dayKey()){renderPrayer();renderHome();return}
@@ -1034,7 +1821,7 @@ async function loadPrayer(force){
   const url=pos?`https://api.aladhan.com/v1/timings/${ds}?latitude=${pos.lat}&longitude=${pos.lng}&method=${methodFor()}`
     :`https://api.aladhan.com/v1/timingsByCity/${ds}?city=${encodeURIComponent(c?c[2]:'Jeddah')}&country=${encodeURIComponent(c?c[0]:'SA')}&method=${methodFor()}`;
   try{const r=await fetch(url);const j=await r.json();const tm=j.data.timings,h=j.data.date.hijri;const timings={};PNAMES.forEach(([k])=>timings[k]=String(tm[k]).slice(0,5));
-    prayer={day:dayKey(),timings,hijri:`${h.day} ${h.month.ar} ${h.year}هـ`,hijriEn:`${h.day} ${h.month.en} ${h.year} AH`};S.set('prayer',prayer)}
+    prayer={pos:pos?{lat:pos.lat,lng:pos.lng}:null,day:dayKey(),timings,hijri:`${h.day} ${h.month.ar} ${h.year}هـ`,hijriEn:`${h.day} ${h.month.en} ${h.year} AH`};S.set('prayer',prayer)}
   catch(e){if(!prayer){$('homePrayer').textContent='🕌 '+t('prayer_fail');return}}
   renderPrayer();renderHome();
 }
@@ -1044,7 +1831,7 @@ function nextPrayer(){if(!prayer)return null;const now=new Date(),mins=now.getHo
 function leftText(n){const h=Math.floor(n/60),m=n%60;return(h?h+' '+t('hour')+' ':'')+m+' '+t('minute')}
 function renderPrayer(){if(!prayer){$('prayerHead').textContent='…';return}const n=nextPrayer();
   $('prayerHead').innerHTML=`📅 ${esc(myLang()==='ar'?prayer.hijri:prayer.hijriEn)}<br>⏳ ${esc(t('next_prayer'))}: ${esc(pName(n.p))} — ${esc(t('left'))} ${esc(leftText(n.left))}`;
-  $('prayerList').innerHTML=PNAMES.map(p=>`<div class="glass pt ${n.p[0]===p[0]?'next':''}"><span>${esc(pName(p))}</span><span>${fmt12(prayer.timings[p[0]])}</span></div>`).join('')}
+  $('prayerList').innerHTML=PNAMES.map(p=>`<div class="glass pt ${n.p[0]===p[0]?'next':''}"><span>${esc(pName(p))}</span><span>${fmt12(prayer.timings[p[0]])}</span>${p[0]==='Sunrise'?'<span style="width:64px"></span>':`<button class="pill" style="flex:none;width:auto;padding:6px 12px;${isPrayed(p[0])?'background:#16a34a;color:#fff':''}" onclick="markPrayed('${p[0]}')">${isPrayed(p[0])?'✅':'◻️'}</button>`}</div>`).join('')}
 
 /* ================= QURAN ================= */
 const SURAHS="الفاتحة،البقرة،آل عمران،النساء،المائدة،الأنعام،الأعراف،الأنفال،التوبة،يونس،هود،يوسف،الرعد،إبراهيم،الحجر،النحل،الإسراء،الكهف،مريم،طه،الأنبياء،الحج،المؤمنون،النور،الفرقان،الشعراء،النمل،القصص،العنكبوت،الروم،لقمان،السجدة،الأحزاب،سبأ،فاطر،يس،الصافات،ص،الزمر،غافر،فصلت،الشورى،الزخرف،الدخان،الجاثية،الأحقاف،محمد،الفتح،الحجرات،ق،الذاريات،الطور،النجم،القمر،الرحمن،الواقعة،الحديد،المجادلة،الحشر،الممتحنة،الصف،الجمعة،المنافقون،التغابن،الطلاق،التحريم،الملك،القلم،الحاقة،المعارج،نوح،الجن،المزمل،المدثر،القيامة،الإنسان،المرسلات،النبأ،النازعات،عبس،التكوير،الانفطار،المطففين،الانشقاق،البروج،الطارق،الأعلى،الغاشية،الفجر،البلد،الشمس،الليل،الضحى،الشرح،التين،العلق،القدر،البينة،الزلزلة،العاديات،القارعة،التكاثر,العصر،الهمزة،الفيل،قريش،الماعون،الكوثر،الكافرون،النصر،المسد،الإخلاص،الفلق،الناس".split(/[،,]/);
@@ -1086,17 +1873,20 @@ const AZ={
 };
 let azSet=null,azI=0,azC=0;
 function autoAzSet(){const h=new Date().getHours();return(h>=3&&h<14)?'m':'e'}
-function openAthkar(s){azSet=s;azI=0;azC=0;$('azM').classList.toggle('sel',s==='m');$('azE').classList.toggle('sel',s==='e');renderAz()}
+function openAthkar(s){azSet=s;azI=0;azC=0;$('azM').classList.toggle('sel',s==='m');$('azE').classList.toggle('sel',s==='e');renderAz();azPrefetch()}
+let azPf=false;
+async function azPrefetch(){if(azPf||!hasAI())return;azPf=true;const list=AZ[azSet].slice();for(let i=0;i<list.length;i++){const j=(azI+i)%list.length;try{await getTTS(list[j].t,'ar',true,true)}catch(e){}}azPf=false}
+async function azReadNow(){const b=$('azRead');const old=b.textContent;b.textContent='⏳ '+t('wait');try{await speak(AZ[azSet][azI].t,'ar',true,true)}finally{b.textContent=old}}
 function renderAz(){const d=AZ[azSet][azI];$('azProg').textContent=`${azI+1} / ${AZ[azSet].length}`;$('azText').textContent=d.t;$('azCount').textContent=azC>=d.n?t('done'):`${azC} / ${d.n}`}
 function azTap(){const d=AZ[azSet][azI];azC++;try{navigator.vibrate&&navigator.vibrate(30)}catch(e){}
-  if(azC>=d.n){renderAz();setTimeout(()=>{if(azI<AZ[azSet].length-1){azI++;azC=0;renderAz()}else $('azCount').textContent=t('az_done')},600)}else renderAz()}
+  if(azC>=d.n){renderAz();setTimeout(()=>{if(azI<AZ[azSet].length-1){azI++;azC=0;renderAz()}else{$('azCount').textContent=t('az_done');logDone('athkar_'+azSet,'');askRate('athkar',azSet,{voice:true})}},600)}else renderAz()}
 function azMove(d){azI=Math.min(AZ[azSet].length-1,Math.max(0,azI+d));azC=0;renderAz()}
 
 /* ================= MEDS ================= */
 let taken=S.get('taken',{});
 function todayDoses(){const o=[];meds.forEach((m,i)=>(m.times||[]).forEach(tt=>o.push({i,t:tt,key:i+'_'+tt,name:m.name,note:m.note})));return o.sort((a,b)=>a.t.localeCompare(b.t))}
 const isTaken=k=>!!(taken[dayKey()]||{})[k];
-function markTaken(k){const d=dayKey();taken[d]=taken[d]||{};taken[d][k]=true;Object.keys(taken).forEach(x=>{if(x<dayKey(new Date(Date.now()-7*864e5)))delete taken[x]});S.set('taken',taken);renderMeds();renderHome()}
+function markTaken(k){const md=todayDoses().find(x=>x.key===k);logDone('med',md?md.name:'');const d=dayKey();taken[d]=taken[d]||{};taken[d][k]=true;Object.keys(taken).forEach(x=>{if(x<dayKey(new Date(Date.now()-7*864e5)))delete taken[x]});S.set('taken',taken);renderMeds();renderHome()}
 function renderMeds(){const L=todayDoses();if(!L.length){$('medList').innerHTML=`<div class="glass info">${esc(t('meds_none'))}</div>`;return}
   $('medList').innerHTML=L.map(d=>{const done=isTaken(d.key);return`<div class="glass med ${done?'done':''}"><div class="n">💊 ${esc(d.name)}</div><div>⏰ ${fmt12(d.t)} ${d.note?(' — '+esc(d.note)):''}</div>${done?`<div style="font-weight:800;color:var(--ok)">${esc(t('taken_lbl'))}</div>`:`<button class="big green" onclick="markTaken('${d.key}')">${esc(t('taken'))}</button>`}</div>`}).join('')}
 function nextDose(){const n=new Date(),c=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');return todayDoses().find(d=>!isTaken(d.key)&&d.t>=c)||todayDoses().find(d=>!isTaken(d.key))}
@@ -1116,10 +1906,14 @@ function tick(){
   const n=new Date(),hm=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'),day=dayKey();
   if(fired.day!==day)fired={day};
   todayDoses().forEach(d=>{const fk='m_'+d.key,due=(d.t===hm&&!fired[fk])||(snoozed[d.key]&&Date.now()>=snoozed[d.key]);
-    if(due&&!isTaken(d.key)){fired[fk]=true;delete snoozed[d.key];beep();
+    if(due&&!isTaken(d.key)){fired[fk]=true;delete snoozed[d.key];beep();sysNotify('💊',t('med_time')+': '+d.name);
       showAlert('💊',t('med_time')+': '+d.name+(d.note?' — '+d.note:''),{okText:t('taken'),say:t('med_time')+' '+d.name,onOk:()=>markTaken(d.key),onLater:()=>{snoozed[d.key]=Date.now()+15*60000}})}});
-  if(prayer&&prayer.day===day){PNAMES.forEach(p=>{if(p[0]==='Sunrise')return;const fk='p_'+p[0];if(prayer.timings[p[0]]===hm&&!fired[fk]){fired[fk]=true;beep();showAlert('🕌',t('prayer_now')+' '+pName(p),{say:t('prayer_now')+' '+pName(p)})}})}
+  if(prayer&&prayer.day===day){PNAMES.forEach(p=>{if(p[0]==='Sunrise')return;const fk='p_'+p[0];if(prayer.timings[p[0]]===hm&&!fired[fk]){fired[fk]=true;beep();sysNotify('🕌 '+pName(p),t('prayer_now')+' '+pName(p));showAlert('🕌',t('prayer_now')+' '+pName(p),{say:t('prayer_now')+' '+pName(p),okText:t('prayed_btn'),onOk:()=>markPrayed(p[0]),onLater:()=>{}})}})}
   else loadPrayer(false);
+  if(prayer&&prayer.day===day&&cfg.preAdhan!==false){PNAMES.forEach(p=>{if(p[0]==='Sunrise')return;const[h,m]=prayer.timings[p[0]].split(':').map(Number);const tm=h*60+m-5;const pre=String(Math.floor((tm+1440)%1440/60)).padStart(2,'0')+':'+String((tm+1440)%60).padStart(2,'0');const fk='pre_'+p[0];if(pre===hm&&!fired[fk]){fired[fk]=true;beep();sysNotify('⏰',t('pre_adhan',{p:pName(p)}));showAlert('⏰',t('pre_adhan',{p:pName(p)}),{say:t('pre_adhan',{p:pName(p)})})}})}
+  const dt=dhikrTimes(),di=dt.indexOf(hm);if(di>=0&&!fired['dh_'+hm]){fired['dh_'+hm]=true;const dz=DHIKR_SHORT[di%DHIKR_SHORT.length];tick2(880,120);sysNotify('📿',dz);showAlert('📿',dz,{say:dz,okText:t('said_it'),onOk:()=>logDone('dhikr',dz,{silent:true})})}
+  planTick(hm,fired);dailyReview(hm,fired);
+  locHeartbeat();
   S.set('fired',fired);if(cur==='home')renderHome();
 }
 
@@ -1127,19 +1921,21 @@ function tick(){
 function renderHome(){
   const n=new Date();
   $('hello').textContent=(n.getHours()<12?t('gm'):t('ge'))+(cfg.name?(myLang()==='ar'?' يا ':', ')+cfg.name:'')+' 👋';
-  $('clock').textContent=fmt12(String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'));
+  if($('clock'))$('clock').textContent=fmt12(String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'));
   let dt='';try{dt=n.toLocaleDateString(myLang()==='ar'?'ar-SA-u-nu-latn-ca-gregory':myLang(),{weekday:'long',day:'numeric',month:'long'})}catch(e){}
-  $('today').textContent=dt+(prayer&&prayer.day===dayKey()?(' — '+(myLang()==='ar'?prayer.hijri:prayer.hijriEn)):'');
+  if($('today'))$('today').textContent=dt+(prayer&&prayer.day===dayKey()?(' — '+(myLang()==='ar'?prayer.hijri:prayer.hijriEn)):'');
   const c=country();$('destChip').textContent=c?(flag(c[0])+' '+(myLang()==='ar'?c[1]:c[2])):('🌍 '+t('choose_country'));
   const np=nextPrayer();if(np)$('homePrayer').innerHTML=`🕌 ${esc(t('next_prayer'))}: <b>${esc(pName(np.p))}</b> ${esc(t('at'))} ${fmt12(np.t)}<br><span class="small">${esc(t('left'))} ${esc(leftText(np.left))}</span>`;
   const d=nextDose();
-  if(!cfg.key){$('homeMed').style.display='block';$('homeMed').innerHTML='🔑 '+esc(t('need_key'))}
+  if(!hasAI()){$('homeMed').style.display='block';$('homeMed').innerHTML='🔑 '+esc(t('need_key'))}
   else if(d){$('homeMed').style.display='block';$('homeMed').innerHTML=`💊 ${esc(t('next_med'))}: <b>${esc(d.name)}</b> ${esc(t('at'))} ${fmt12(d.t)}`}
   else $('homeMed').style.display='none';
+  renderLoc();renderWx();renderHomePray();
+  $('homeAlertsCard').innerHTML=cfg.alertsSet?'':`<div class="glass info" style="text-align:center">🔔 ${esc(t('alerts_card'))}<button class="big green" onclick="enableAlerts()">${esc(t('alerts_btn'))}</button></div>`;
 }
 
 /* ================= SETTINGS ================= */
-function fillSettings(){
+function fillSettings(){$('sQuota').innerHTML=quotaHtml();
   const L=langOf(myLang());$('sUiLang').textContent=flag(L&&L[3])+' '+(L?(L[0]==='ar'?'العربية':L[2]):myLang());
   const c=country();$('sDest').textContent=c?(flag(c[0])+' '+(myLang()==='ar'?c[1]:c[2])):t('choose_country');
   $('sKey').value=cfg.key;$('sName').value=cfg.name;$('sAbout').value=cfg.about;$('sVoice').value=cfg.voice;$('sReciter').value=cfg.reciter;$('sMethod').value=cfg.method;
@@ -1147,6 +1943,7 @@ function fillSettings(){
   $('sHotelName').value=(cfg.hotel||{}).name||'';$('sHotelAddr').value=(cfg.hotel||{}).addr||'';
   $('famEdit').innerHTML='';(cfg.family||[]).forEach(f=>addFamRow(f));
   $('medEdit').innerHTML='';meds.forEach(m=>addMedRow(m));if(!meds.length)addMedRow();
+  $('sDhEvery').value=cfg.dhikrEvery||45;$('sDhFrom').value=cfg.dhikrFrom||'08:00';$('sDhTo').value=cfg.dhikrTo||'22:00';$('sPreAdhan').checked=cfg.preAdhan!==false;$('sShare').checked=!!cfg.shareLoc;$('sRate').checked=!cfg.rateOff;
   $('sMsg').innerHTML='';
 }
 function addFamRow(f={name:'',phone:''}){const d=document.createElement('div');d.className='famrow';
@@ -1162,7 +1959,8 @@ function saveSettings(){
   cfg.family=[...document.querySelectorAll('.famrow')].map(r=>({name:r.querySelector('.fN').value.trim(),phone:r.querySelector('.fP').value.replace(/[^\d]/g,'')})).filter(f=>f.phone);
   const bad=[];
   meds=[...document.querySelectorAll('.medrow')].map(r=>({name:r.querySelector('.mN').value.trim(),times:r.querySelector('.mT').value.split(/[,،]/).filter(x=>x.trim()).map(x=>{const v=normTime(x);if(!v)bad.push(x.trim());return v}).filter(Boolean),note:r.querySelector('.mO').value.trim()})).filter(m=>m.name&&m.times.length);
-  saveCfg();S.set('meds',meds);
+  cfg.dhikrEvery=Math.max(15,parseInt($('sDhEvery').value)||45);cfg.dhikrFrom=normTime($('sDhFrom').value)||'08:00';cfg.dhikrTo=normTime($('sDhTo').value)||'22:00';cfg.preAdhan=$('sPreAdhan').checked;cfg.shareLoc=$('sShare').checked;cfg.rateOff=!$('sRate').checked;
+  saveCfg();S.set('meds',meds);if(cfg.shareLoc){lastLocSent=0;locHeartbeat()}
   $('sMsg').innerHTML=bad.length?`<div class="err">${esc(t('bad_times'))} ${esc(bad.join(' ، '))}</div>`:`<div class="glass info">${esc(t('saved'))}</div>`;
   if(oldM!==cfg.method)loadPrayer(true);
 }
@@ -1177,7 +1975,7 @@ function exportICS(){
 /* ================= ONBOARDING ================= */
 let onbStep=0;
 function startOnboarding(){onbStep=0;$('onb').classList.add('on');renderOnb()}
-function onbDots(){return`<div class="dots">${[0,1,2,3].map(i=>`<i class="${i===onbStep?'on':''}"></i>`).join('')}</div>`}
+function onbDots(){return`<div class="dots">${[0,1,2,3,4].map(i=>`<i class="${i===onbStep?'on':''}"></i>`).join('')}</div>`}
 function renderOnb(){
   const o=$('onb');const c=country();
   if(onbStep===0){o.innerHTML=`${onbDots()}<div style="text-align:center"><div class="orbmini" style="width:110px;height:110px;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(var(--accentRGB),.9) 30%,var(--accent2) 70%,transparent 72%);box-shadow:0 0 40px rgba(var(--accentRGB),.6);animation:breathe 3s ease-in-out infinite"></div>
@@ -1187,21 +1985,40 @@ function renderOnb(){
     <button class="big" onclick="onbStep=1;renderOnb()">${esc(t('next_btn'))}</button>`}
   else if(onbStep===1){o.innerHTML=`${onbDots()}<h1>${esc(t('onb_name'))}</h1><input id="onbName" style="font-size:1.2em" placeholder="${esc(t('onb_name_ph'))}" value="${esc(cfg.name)}"><button class="big" onclick="cfg.name=$('onbName').value.trim();saveCfg();onbStep=2;renderOnb()">${esc(t('next_btn'))}</button>`}
   else if(onbStep===2){o.innerHTML=`${onbDots()}<h1>${esc(t('onb_dest'))}</h1><button class="pill sel" style="font-size:1.2em" onclick="pickCountry(renderOnb)">${c?(flag(c[0])+' '+esc(myLang()==='ar'?c[1]:c[2])):'🌍 '+esc(t('choose_country'))}</button><button class="big" onclick="onbStep=3;renderOnb()">${esc(t('next_btn'))}</button>`}
-  else{o.innerHTML=`${onbDots()}<h1>${esc(t('onb_key'))}</h1><p class="small" style="font-size:.95em">${esc(t('onb_key_help'))}</p><input id="onbKey" type="password" placeholder="sk-..." value="${esc(cfg.key)}"><a class="small" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com/api-keys</a>
+  else if(onbStep===3){const f=(cfg.family||[])[0]||{name:'',phone:''};o.innerHTML=`${onbDots()}<h1>👨‍👩‍👦 ${esc(t('onb_fam'))}</h1><p class="small" style="font-size:1em">${esc(t('onb_fam_help'))}</p>
+    <input id="onbFamName" placeholder="${esc(t('onb_fam_name'))}" value="${esc(f.name)}"><input id="onbFamPhone" inputmode="tel" style="direction:ltr" placeholder="+9665xxxxxxxx" value="${esc(f.phone)}">
+    <label style="display:flex;gap:8px;align-items:center;margin:10px 0"><input type="checkbox" id="onbShare" style="width:auto" checked> <span>${esc(t('onb_fam_ok'))}</span></label>
+    <button class="big green" onclick="onbFamSave(true)">💬 ${esc(t('onb_fam_send'))}</button><button class="big alt" onclick="onbStep=4;renderOnb()">${esc(t('later'))}</button>`}
+  else{if(KHOY_PROXY&&!cfg.key){finishOnb();return}o.innerHTML=`${onbDots()}<h1>${esc(t('onb_key'))}</h1><p class="small" style="font-size:.95em">${esc(t('onb_key_help'))}</p><input id="onbKey" type="password" placeholder="sk-..." value="${esc(cfg.key)}"><a class="small" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com/api-keys</a>
     <button class="big green" onclick="cfg.key=$('onbKey').value.trim();finishOnb()">${esc(t('start'))}</button><button class="big alt" onclick="finishOnb()">${esc(t('later'))}</button>`}
 }
 async function onbLang(code){await setUiLang(code);renderOnb()}
 function onbAfterPick(){const iv=setInterval(()=>{if(!$('picker').classList.contains('on')){clearInterval(iv);renderOnb()}},400)}
-function finishOnb(){cfg.onboarded=true;saveCfg();$('onb').classList.remove('on');renderAll();loadPrayer(true)}
+
+function onbFamSave(send){const n=$('onbFamName').value.trim(),ph=$('onbFamPhone').value.replace(/[^\d+]/g,'');
+  if(ph){cfg.family=[{name:n||t('family_word'),phone:ph}].concat((cfg.family||[]).slice(1))}
+  cfg.shareLoc=$('onbShare').checked;saveCfg();
+  if(send&&ph)openUrl('https://wa.me/'+ph.replace(/\D/g,'')+'?text='+encodeURIComponent(famInviteText()));
+  onbStep=4;renderOnb()}
+function famInviteText(){return (myLang()==='ar'?`السلام عليكم، هذا رابط تطمّن فيه علي وتشوف آخر مكان لي في رحلتي (${cfg.name||''}) عن طريق تطبيق خوي:\n`:`Hi, follow my trip location safely with the Khoy app:\n`)+familyLink()}
+function famQuick(){
+  const go2=()=>{const f=(cfg.family||[])[0];openUrl((f&&f.phone)?('https://wa.me/'+f.phone.replace(/\D/g,'')+'?text='+encodeURIComponent(famInviteText())):('https://wa.me/?text='+encodeURIComponent(famInviteText())))};
+  if(cfg.shareLoc){go2();return}
+  showAlert('👨‍👩‍👦',t('fam_quick_ask'),{okText:t('fam_quick_ok'),onOk:()=>{cfg.shareLoc=true;saveCfg();lastLocSent=0;locHeartbeat();renderLoc();go2()},onLater:()=>{}})}
+function finishOnb(){cfg.onboarded=true;saveCfg();$('onb').classList.remove('on');renderAll();loadPrayer(true);startApp()}
 
 /* ================= INIT ================= */
-const HANDLERS={asst:handleAsst,me:handleMe,them:handleThem,pick:handlePick,nav:handleNav,cur:handleCur};
+const HANDLERS={pl:handlePlVoice,tc:handleTeach,fb:handleFb,bg:handleBg,asst:handleAsst,me:handleMe,them:handleThem,pick:handlePick,nav:handleNav,cur:handleCur};
 function renderAll(){applyI18n();renderHome();renderQuran();if(cur==='translate')renderTranslate();if(cur==='sos')renderSOS();if(cur==='settings')fillSettings();if(cur==='prayer')renderPrayer();Object.keys(MIC_IDS).forEach(w=>{if($(MIC_IDS[w]))setMicUI(w,'idle')})}
+['translate','taxi','prayer','athkar','camera','nav','qibla','tasbeeh','bargain','teach','plan','journey'].forEach(id=>{const top=document.querySelector('#'+id+' .top');if(top){const b=document.createElement('button');b.className='back';b.style.marginInlineStart='auto';b.dataset.t='help';b.onclick=()=>guideSpeak(id,true);top.appendChild(b)}});
 applyTheme();applyFont();renderAll();
 loadPrayer(false);
 setInterval(tick,20000);setTimeout(tick,1500);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)tick()});
-if(!cfg.onboarded)startOnboarding();
+if(/^#import-/.test(location.hash)){if(importSettings(location.hash)){history.replaceState(null,'',location.pathname)}}
+if(!openFamilyFromHash()){if(!cfg.onboarded)startOnboarding();else{renderRadarLock();$('splash').classList.add('on')}}
+window.addEventListener('hashchange',openFamilyFromHash);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){lastLocSent=0;locHeartbeat()}});
 </script>
 </body>
 </html>
