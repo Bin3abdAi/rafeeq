@@ -9,8 +9,14 @@
 <meta name="apple-mobile-web-app-title" content="خوي Bin3abdAi">
 <meta name="theme-color" content="#0b1220">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-512.png">
-<link rel="icon" href="icon-512.png">
+<link rel="apple-touch-icon" href="icon-512.png?v=2">
+<meta property="og:type" content="website">
+<meta property="og:title" content="خوي Bin3abdAi — رفيقك ومنبّهك للصلاة والأذكار">
+<meta property="og:description" content="ترجمة بالصوت، عداد التكسي، مرشد سياحي. «الدّال على الخير كفاعله»">
+<meta property="og:image" content="https://bin3abdai.github.io/rafeeq/og.jpg">
+<meta property="og:url" content="https://bin3abdai.github.io/rafeeq/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icon-512.png?v=2">
 <title>خوي Bin3abdAi</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -181,6 +187,7 @@ a{color:var(--accent)}
 .hchips .chip{padding:6px 9px;font-size:.82em;min-width:0;white-space:nowrap}
 @media (max-width:430px){.bm:not(.bmxl) .bm-en{display:none}.bm:not(.bmxl) .bm-logo{width:34px;height:34px}}
 #destChip{max-width:124px;overflow:hidden;text-overflow:ellipsis}
+.bubble .mdh{font-weight:800;margin:6px 0 2px}.bubble .mdl{margin:4px 0;padding-inline-start:20px}.bubble .mdl li{margin:2px 0}.bubble code{background:rgba(148,163,184,.18);padding:1px 6px;border-radius:6px;font-size:.92em}
 /* radar splash */
 .radar{position:relative;width:230px;height:230px;display:grid;place-items:center;border-radius:50%;
  background:repeating-radial-gradient(circle,transparent 0 37px,rgba(var(--accentRGB),.22) 38px 39px),radial-gradient(circle,rgba(var(--accentRGB),.10),transparent 70%);
@@ -1006,23 +1013,33 @@ function hashKey(s){let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|
 const ttsMem=new Map(),ttsPending=new Map();
 async function ttsFetch(text,lang,fast){
   const body={model:MODEL_TTS,voice:cfg.voice,input:text.slice(0,3500),response_format:'mp3'};
-  body.instructions= lang==='ar'?'تكلّم بلهجة سعودية عامية بسيطة، بصوت هادي وناعم ومنخفض، وبإيقاع مريح غير مستعجل، وبنبرة مبتسمة ودودة ومحترمة. انطق الكلمات العربية بوضوح ودقة.':'Speak softly and calmly, low and relaxed pace, with a warm friendly smile in the voice. Pronounce clearly.';
+  const LN=(langOf(lang)||[0,0,lang])[2];
+  body.instructions= lang==='ar'?'تكلّم بلهجة سعودية عامية بسيطة، بصوت هادي وناعم ومنخفض، وبإيقاع مريح غير مستعجل، وبنبرة مبتسمة ودودة ومحترمة. انطق الكلمات العربية بوضوح ودقة، والأسماء الأجنبية بنطقها الأصلي.'
+    :`Speak in ${LN} exactly like a polite native speaker, with correct native pronunciation, tones and accent. Calm, clear, friendly pace. Read numbers and prices naturally in ${LN}.`;
   const r=await oai('/audio/speech',{method:'POST',headers:{'Authorization':'Bearer '+cfg.key,'Content-Type':'application/json'},body:JSON.stringify(body)});
   if(!r.ok)return null;return await r.arrayBuffer();
 }
 async function getTTS(text,lang,fast,cache){
   if(!hasAI())return null;
   if(!cache)return ttsFetch(text,lang,fast);
-  const k=hashKey(cfg.voice+'|'+(fast?1:0)+'|'+text);
+  const k=hashKey('v2|'+lang+'|'+cfg.voice+'|'+text);
   if(ttsMem.has(k))return ttsMem.get(k);
   if(ttsPending.has(k))return ttsPending.get(k);
   const pr=(async()=>{let ab=await idbGet(k);if(!ab){ab=await ttsFetch(text,lang,fast);if(ab)idbPut(k,ab)}if(ab)ttsMem.set(k,ab);ttsPending.delete(k);return ab})();
   ttsPending.set(k,pr);return pr;
 }
+function md(t){let h=esc(String(t||'').trim());
+  h=h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/(^|[\s(])\*(?!\s)([^*\n]+?)\*(?=[\s).,!?،؟]|$)/g,'$1<i>$2</i>').replace(/`([^`]+)`/g,'<code>$1</code>');
+  const out=[];let list=null;
+  for(const line of h.split(/\n/)){const m=line.match(/^\s*(?:[-•*]|\d+[.)])\s+(.*)/);const hd=line.match(/^\s*#{1,3}\s+(.*)/);
+    if(m){if(!list){list=[];out.push(list)}list.push(m[1]);continue}list=null;
+    if(hd)out.push('<div class="mdh">'+hd[1]+'</div>');else if(line.trim())out.push('<div>'+line+'</div>')}
+  return out.map(x=>Array.isArray(x)?'<ul class="mdl">'+x.map(i=>'<li>'+i+'</li>').join('')+'</ul>':x).join('')}
+function voc(name){name=(name||'').trim();if(!name)return'';return /^(يا|ي(شيخ|بو|ا?خوي|ابوي|عمي|الغالي))/.test(name)?name:'يا '+name}
 function ttsClean(text,lang){
   let x=String(text).replace(/\[\[[^\]]*\]\]/g,'').replace(/https?:\/\/\S+/g,'')
-    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}\u{2B00}-\u{2BFF}]/gu,'').replace(/[*_#`•|]/g,' ');
-  if(lang==='ar'){x=x.replace(/Bin3abdAi/gi,'بن عابد إي آي').replace(/(\d+)\s*%/g,'$1 بالمية').replace(/°C?/g,' درجة').replace(/\bSAR\b/g,'ريال').replace(/\bTHB\b/g,'بات').replace(/\bUSD\b/g,'دولار')}
+    .replace(/<[^>]*>/g,' ').replace(/\*\*|__|~~/g,'').replace(/\n\s*(?:[-•*]|\d+[.)])\s+/g,'، ').replace(/^\s*(?:[-•*]|\d+[.)])\s+/,'').replace(/\n+/g,'. ').replace(/([.،])\s*[.،]+/g,'$1').replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}\u{2B00}-\u{2BFF}]/gu,'').replace(/[*_#`•|]/g,' ');
+  if(lang==='ar'){x=x.replace(/(^|[\s،,!؟.])يشيخ/g,'$1يا شيخ').replace(/Bin3abdAi/gi,'بن عابد إي آي').replace(/(\d+)\s*%/g,'$1 بالمية').replace(/°C?/g,' درجة').replace(/\bSAR\b/g,'ريال').replace(/\bTHB\b/g,'بات').replace(/\bUSD\b/g,'دولار')}
   else x=x.replace(/Bin3abdAi/gi,'Bin Abed A I');
   return x.replace(/[\u{1F3FB}-\u{1F3FF}]/gu,'').replace(/\s+([.،,!؟?])/g,'$1').replace(/\s{2,}/g,' ').trim();
 }
@@ -1097,6 +1114,14 @@ async function transcribe(blob,lang){
   if(!r.ok)throw new Error('STT '+r.status+': '+(await r.text()).slice(0,160));
   const j=await r.json();return(j.text||'').trim();
 }
+async function transcribeDetect(blob,hint){
+  if(blob.size<1500)throw new Error(t('heard_nothing'));
+  const ty=blob.type,ext=(ty.includes('mp4')||ty.includes('aac'))?'m4a':(ty.includes('ogg')?'ogg':'webm');
+  const fd=new FormData();fd.append('file',blob,'voice.'+ext);fd.append('model','whisper-1');fd.append('response_format','verbose_json');if(hint)fd.append('prompt',hint);
+  try{const r=await oai('/audio/transcriptions',{method:'POST',body:fd});if(r.ok){const j=await r.json();return{text:(j.text||'').trim(),lang:WHISPER_LANG[(j.language||'').toLowerCase()]||''}}}catch(e){}
+  return{text:await transcribe(blob,''),lang:''};
+}
+const WHISPER_LANG={arabic:'ar',english:'en',thai:'th',filipino:'tl',tagalog:'tl',turkish:'tr',malay:'ms',indonesian:'id',urdu:'ur',hindi:'hi',bengali:'bn',persian:'fa',french:'fr',german:'de',spanish:'es',italian:'it',portuguese:'pt',russian:'ru',chinese:'zh',japanese:'ja',korean:'ko',vietnamese:'vi',greek:'el',dutch:'nl',swahili:'sw',amharic:'am',somali:'so',nepali:'ne',sinhala:'si',tamil:'ta',burmese:'my',khmer:'km',lao:'lo',georgian:'ka',azerbaijani:'az',uzbek:'uz',kazakh:'kk',ukrainian:'uk',polish:'pl',romanian:'ro',czech:'cs',hungarian:'hu',swedish:'sv',norwegian:'no',danish:'da',finnish:'fi',hebrew:'he',bosnian:'bs',albanian:'sq',serbian:'sr',croatian:'hr'};
 async function chat(messages,o={}){
   const body={model:o.model||MODEL_CHAT,messages,temperature:o.temp??.5};
   if(o.json)body.response_format={type:'json_object'};
@@ -1126,7 +1151,7 @@ function sysAsst(){
 You are both a warm companion and an expert tour guide and local information desk for wherever the user is: sights, halal food, mosques, transport (Grab/taxi/metro), fair prices in local currency with the equivalent in the home currency, customs, weather patterns, safety and scams, emergency numbers.
 Rules:
 - ${replyStyle()}
-- Your answer is read aloud: 2 to 5 short sentences, no lists, no markdown, no emojis.${myLang()==='ar'?'\n- IMPORTANT: write ONLY in Saudi colloquial Arabic (عامية سعودية)، never Modern Standard Arabic. Example of the wanted style: «التكسي من وسط بانكوك يجيك تقريباً بين مية ومتين بات حسب المشوار، وخلّه يشغّل العداد. قل لي وين رايح وأحسبها لك 😉». Light, cheerful and polite.':''}
+- Your answer is shown on screen AND read aloud: keep it 2 to 5 short sentences. You MAY use light Markdown when it helps reading: **bold** for key info (prices, times, place names) and a short bullet list (max 4 items) for options or steps. No tables, no headings, no links. Emojis: at most one.${myLang()==='ar'?'\n- IMPORTANT: write ONLY in Saudi colloquial Arabic (عامية سعودية)، never Modern Standard Arabic. Example of the wanted style: «التكسي من وسط بانكوك يجيك تقريباً بين مية ومتين بات حسب المشوار، وخلّه يشغّل العداد. قل لي وين رايح وأحسبها لك 😉». Light, cheerful and polite.':''}
 - For elderly users suggest comfortable places with little walking; remind about heat and water when relevant.
 - When you mention a place, add its English or local name in brackets so it can be shown to a driver.
 - If the user wants to go somewhere or asks where something is, add at the very end on its own line: [[MAP: <best Google Maps search query in English, include city>]]
@@ -1139,7 +1164,7 @@ ${ctxInfo()}`;
 }
 function setAState(s){const el=$('astate');if(el)el.textContent={listening:t('listening'),thinking:t('thinking'),speaking:t('speaking'),ready:t('ready')}[s]||'';orb.mode=s}
 function renderAsst(){
-  $('asstLog').innerHTML=asstHist.slice(-2).reverse().map(m=>`<div class="bubble ${m.role==='user'?'me':'ai'}">${m.role==='user'?'🧓 ':'🤖 '}${esc(m.content.replace(/\[\[(MAP|GO|LEARN):[^\]]*\]\]/g,'').trim())}</div>`).join('');
+  $('asstLog').innerHTML=asstHist.slice(-2).reverse().map(m=>`<div class="bubble ${m.role==='user'?'me':'ai'}">${m.role==='user'?'🧓 ':'🤖 '}${m.role==='user'?esc(m.content):md(m.content.replace(/\[\[(MAP|GO|LEARN):[^\]]*\]\]/g,''))}</div>`).join('');
 }
 function clearAsst(){asstHist=[];S.set('asst',asstHist);$('asstMap').innerHTML='';renderAsst()}
 async function runAsst(q){
@@ -1194,13 +1219,13 @@ async function greet(){
   let txt;
   if(myLang()==='ar'){
     const place=(area&&area.name)?area.name.split('،')[0]:(c?c[1]:'');const pick=a=>a[Math.floor(Math.random()*a.length)];
-    const hi=(h<12?pick(['صباح الخير والسرور','صباحك فل وياسمين','صباح النور']):pick(['مساء الخير','مساك الله بالخير','مساء الورد']))+(name?(' يا '+name):'');
+    const hi=(h<12?pick(['صباح الخير والسرور','صباحك فل وياسمين','صباح النور']):pick(['مساء الخير','مساك الله بالخير','مساء الورد']))+(name?(' '+voc(name)):'');
     const today=dayKey(),first=S.get('introDay','')!==today;S.set('introDay',today);
     const hot=wx&&wx.max>=33,rainy=wx&&wx.rain>=50;
     const wxLine=wx?(' والجو الحين '+wx.t+' درجة'+(hot?' يعني حر، تعطّر وتطيّب قبل ما تروح المسجد، وإذا لديك الإمكانية اشترِ كرتون موية باردة وحطها في المسجد 💧':(rainy?'، ويمكن تمطر، خذ معك شمسية ☔ وتعطّر وتطيّب قبل ما تروح المسجد':'، جو حلو 👌 تعطّر وتطيّب قبل ما تروح المسجد'))):'';
     const prLine=n?(' و ترى الصلاة الجاية '+pName(n.p)+' بعد '+leftText(n.left)+'.'):'';
     if(first){
-      txt='أرحب '+(name?('يا '+name):'يا شيخ')+'! معاك ولد عابد، خويك في السفر من بعد الله سبحانه، في كل مكان وزمان بإذن الله. '+
+      txt='أرحب '+(name?voc(name):'يا شيخ')+'! معاك ولد عابد، خويك في السفر من بعد الله سبحانه، في كل مكان وزمان بإذن الله. '+
         'تبغى ترجمة؟ تكسي وسعره؟ إلا إذا الفلوس حصلتها طايحة وما فرقت 🤷🏻‍♂️. '+
         'ولا علاجات، ولا وين تبغى تروح؟ كلو شغّال ما يبغالك، وبضغطة زر يا حيّ ☺️🤞🏼 '+
         'بس وقت الصلاة، صلاة ودين وعبادة ويطيح الكلام،'+prLine.replace(/^ و/,' و')+wxLine+'.';
@@ -1305,8 +1330,8 @@ async function handleMe(blob){
   await speak(out,to,true);
 }
 async function handleThem(blob){
-  const src=await transcribe(blob,'');if(!src)throw new Error(t('heard_nothing'));
-  const r=await detectAndTranslate(src);
+  const det=await transcribeDetect(blob,'');const src=det.text;if(!src)throw new Error(t('heard_nothing'));
+  const r=await detectAndTranslate(src);if(det.lang)r.lang=det.lang;
   if(r.lang&&r.lang!==myLang()){S.set('lastLang',r.lang);if(!langOf(r.lang)){customLangs.push([r.lang,r.lang,r.lang.toUpperCase(),'']);S.set('customLangs',customLangs)}}
   const L=langOf(r.lang);
   trCard(t('they_said')+(L?' ('+langName(L)+')':''),src,'',r.tr,myLang());
@@ -1409,7 +1434,7 @@ async function camRun(mode){
       body:JSON.stringify({model:MODEL_VISION,temperature:.2,max_tokens:700,messages:[{role:'system',content:`You help an elderly traveller. ${replyStyle()} Use short clear sentences, no markdown symbols. ${ctxInfo()}`},{role:'user',content:[{type:'text',text:P},{type:'image_url',image_url:{url:camData,detail:'high'}}]}]})});
     if(!r.ok)throw new Error('Vision '+r.status);
     const a=(await r.json()).choices[0].message.content.trim();
-    $('camOut').innerHTML=`<div class="bubble ai">${esc(a)}</div><button class="big alt" id="camSay">${esc(t('replay'))}</button>`;
+    $('camOut').innerHTML=`<div class="bubble ai">${md(a)}</div><button class="big alt" id="camSay">${esc(t('replay'))}</button>`;
     $('camSay').onclick=()=>speak(a,myLang());
     speak(a,myLang());
   }catch(e){$('camOut').innerHTML=`<div class="err">${esc(t('err_retry'))}<br><span class="small">${esc(e.message)}</span></div>`}
@@ -1663,10 +1688,10 @@ async function convoLoop(){
     const blob=await recordUntilSilence();if(!convo.on)break;if(!blob)continue;
     try{
       convoUI('🔄 '+t('translating'));
-      const text=await transcribe(blob,'');if(!text)continue;
+      const det=await transcribeDetect(blob,'');const text=det.text;if(!text)continue;
       const tgt=resolveTarget(),TL=langOf(tgt);
       const out=await chat([{role:'system',content:`Live interpreter between a ${myLangName()} speaker and a ${TL?TL[2]:'foreign'} speaker. Detect the language of the text. If it is ${myLangName()}, translate it into natural polite ${TL?TL[2]:'English'}${tgt==='th'?' (use ครับ)':''}. Otherwise translate it into ${myLangName()}${myLang()==='ar'?' (simple Saudi Bedouin-friendly Arabic)':''}. Keep names, numbers, prices exact. Reply ONLY JSON {"lang":"<ISO 639-1>","translation":"..."}`},{role:'user',content:text}],{temp:0,json:true,max:500});
-      const j=JSON.parse(out);const lang=(j.lang||'').slice(0,3);const toMine=lang!==myLang();
+      const j=JSON.parse(out);const lang=(det.lang||j.lang||'').slice(0,3);const toMine=lang!==myLang();
       if(toMine&&lang){S.set('lastLang',lang)}
       const to=toMine?myLang():tgt;const L=langOf(toMine?lang:myLang());
       trCard((toMine?t('they_said'):t('said'))+(L?' ('+langName(L)+')':''),text,'',j.translation||'',to);
@@ -1731,7 +1756,7 @@ async function famSafety(){
   if(!famData.length)return;if(!hasAI()){showAlert('🔑',t('need_key'));return}
   const L=famData[0];$('famSafetyOut').innerHTML=`<div class="glass info">⏳</div>`;
   try{const a=await chat([{role:'system',content:`You give brief, factual, non-stigmatizing travel-safety notes for a family member of an elderly Saudi tourist. Location: "${L.area}" (${L.lat},${L.lng}), country ${L.cc}, local time of last update ${new Date(L.ts).toLocaleTimeString()}. Mention only well-known, general facts: whether it is a busy tourist/nightlife area, common tourist scams nearby, traffic, flooding, late-night caution, and nearest kinds of help (tourist police number). If you are not sure about this specific area, say so and give general advice. Never label residents or ethnic groups. Answer in ${myLangName()} in 3-5 short bullet-like sentences.`}],{temp:.3});
-    $('famSafetyOut').innerHTML=`<div class="bubble ai">${esc(a)}</div><p class="small">${esc(t('fam_safety_note'))}</p>`}catch(e){$('famSafetyOut').innerHTML=`<div class="err">${esc(e.message)}</div>`}
+    $('famSafetyOut').innerHTML=`<div class="bubble ai">${md(a)}</div><p class="small">${esc(t('fam_safety_note'))}</p>`}catch(e){$('famSafetyOut').innerHTML=`<div class="err">${esc(e.message)}</div>`}
 }
 function openFamilyFromHash(){const m=location.hash.match(/^#family-([a-z0-9-]{8,})$/);if(!m)return false;famTopic=m[1];$('splash').classList.remove('on');$('onb').classList.remove('on');go('family');famRefresh();clearInterval(famTimer);famTimer=setInterval(()=>{if(cur==='family')famRefresh()},60000);return true}
 
@@ -2137,7 +2162,7 @@ function tick(){
 /* ================= HOME ================= */
 function renderHome(){
   const n=new Date();
-  $('hello').textContent=(n.getHours()<12?t('gm'):t('ge'))+(cfg.name?(myLang()==='ar'?' يا ':', ')+cfg.name:'')+' 👋';
+  $('hello').textContent=(n.getHours()<12?t('gm'):t('ge'))+(cfg.name?(myLang()==='ar'?' '+voc(cfg.name):', '+cfg.name):'')+' 👋';
   if($('clock'))$('clock').textContent=fmt12(String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'));
   let dt='';try{dt=n.toLocaleDateString(myLang()==='ar'?'ar-SA-u-nu-latn-ca-gregory':myLang(),{weekday:'long',day:'numeric',month:'long'})}catch(e){}
   if($('today'))$('today').textContent=dt+(prayer&&prayer.day===dayKey()?(' — '+(myLang()==='ar'?prayer.hijri:prayer.hijriEn)):'');
